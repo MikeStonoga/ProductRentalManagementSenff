@@ -4,5 +4,10 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+      <ProjectReference Include="..\PRM.InterfaceAdapters.Controllers\PRM.InterfaceAdapters.Controllers.csproj" />
+    </ItemGroup>
+
 
 </Project>
