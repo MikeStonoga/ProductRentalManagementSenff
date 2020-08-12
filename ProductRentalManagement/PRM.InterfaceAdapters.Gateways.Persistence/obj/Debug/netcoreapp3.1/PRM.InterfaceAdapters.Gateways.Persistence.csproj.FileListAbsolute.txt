@@ -1,0 +1,12 @@
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\bin\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.deps.json
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\bin\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\bin\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\bin\Debug\netcoreapp3.1\PRM.Domain.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\bin\Debug\netcoreapp3.1\PRM.Domain.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.csprojAssemblyReference.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.AssemblyInfoInputs.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.AssemblyInfo.cs
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.csproj.CopyComplete
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.InterfaceAdapters.Gateways.Persistence\obj\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.pdb

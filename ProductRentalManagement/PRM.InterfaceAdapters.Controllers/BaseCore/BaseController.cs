@@ -74,7 +74,16 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         {
             var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetAll();
             var wasSuccessfullyExecuted = useCaseResult.Success;
-
+            if (!wasSuccessfullyExecuted)
+            {
+                var failureResult = new GetAllResponse<TEntity, TEntityOutput>
+                {
+                    Items = new List<TEntityOutput>(),
+                    TotalCount = 0
+                };
+                return ApiResponses.FailureResponse(failureResult, useCaseResult.Message);
+            }
+            
             var entityOutputs = useCaseResult.Result.Items.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
             
             var getAllOutput = new GetAllResponse<TEntity, TEntityOutput>
@@ -83,9 +92,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
                 TotalCount = useCaseResult.Result.TotalCount
             };
             
-            return wasSuccessfullyExecuted
-                ? ApiResponses.SuccessfullyExecutedResponse(getAllOutput)
-                : ApiResponses.FailureResponse(getAllOutput, useCaseResult.Message);
+            return ApiResponses.SuccessfullyExecutedResponse(getAllOutput);
         }
     }
 

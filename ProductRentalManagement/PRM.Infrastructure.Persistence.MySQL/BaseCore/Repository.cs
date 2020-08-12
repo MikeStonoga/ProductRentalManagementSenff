@@ -8,6 +8,8 @@ using PRM.Domain.BaseCore.Enums;
 using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
+using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Enums;
+using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Extensions;
 
 namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
 {
@@ -15,76 +17,183 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     {
     }
     
-    public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : FullAuditedEntity
+    public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : FullAuditedEntity, new()
     {
-        private readonly PrmDbContext _db;
+        private readonly PrmDbContext _database;
 
-        public ReadOnlyRepository(PrmDbContext db)
+        public ReadOnlyRepository(PrmDbContext database)
         {
-            _db = db;
+            _database = database;
         }
 
         public async Task<PersistenceResponse<TEntity>> GetById(Guid id)
         {
-            var entity = await _db.Set<TEntity>().FindAsync(id);
-            
-            return new PersistenceResponse<TEntity>
+            try
             {
-                Success = true,
-                ErrorCodeName = "Success",
-                Message = "Success",
-                Response = entity
-            };
+                var entity = await _database.Set<TEntity>().FindAsync(id);
+
+                return entity.IsDeleted 
+                    ? PersistenceResponseStatus.Success.GetFailureResponse<PersistenceResponseStatus, TEntity>("WasDeleted") 
+                    : PersistenceResponseStatus.Success.GetSuccessResponse(entity);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+            }
         }
 
         public async Task<PersistenceResponse<List<TEntity>>> GetByIds(List<Guid> ids)
         {
-            var entities = await _db.Set<TEntity>()
-                .Where(e => ids.Contains(e.Id))
-                .ToListAsync();;
-            
-            return new PersistenceResponse<List<TEntity>>
+            try
             {
-                Success = true,
-                ErrorCodeName = "Success",
-                Message = "Success",
-                Response = entities
-            };
+                var entities = await _database.Set<TEntity>()
+                    .Where(e => ids.Contains(e.Id) && !e.IsDeleted)
+                    .ToListAsync();;
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(entities);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, List<TEntity>>();
+            }
         }
 
         public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
         {
-            var all = await _db.Set<TEntity>().ToListAsync();
-
-            return new PersistenceResponse<GetAllResponse<TEntity>>
+            try
             {
-                Success = true,
-                ErrorCodeName = "Success",
-                Message = "Success",
-                Response = new GetAllResponse<TEntity>
+                var all = await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                
+                var getAllResponse = new GetAllResponse<TEntity>
                 {
                     Items = all,
                     TotalCount = all.Count
-                }
-            };
+                };
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(getAllResponse);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>();
+            }
+            
         }
     }
     
-    public interface IRepository<TEntity> : IManipulationPersistenceGateway<TEntity> where TEntity : FullAuditedEntity
+    public interface IRepository<TEntity> :  IManipulationPersistenceGateway<TEntity> where TEntity : FullAuditedEntity
     {
     }
 
     public class Repository<TEntity> : IRepository<TEntity> 
-        where TEntity : FullAuditedEntity
+        where TEntity : FullAuditedEntity, new()
     {
 
         private readonly IReadOnlyRepository<TEntity> _readOnlyRepository;
+        private readonly PrmDbContext _database;
+        public Repository(PrmDbContext database, IReadOnlyRepository<TEntity> readOnlyRepository)
+        {
+            _readOnlyRepository = readOnlyRepository;
+            _database = database;
+        }
 
         public Repository(IReadOnlyRepository<TEntity> readOnlyRepository)
         {
             _readOnlyRepository = readOnlyRepository;
         }
+        
 
+        public async Task<PersistenceResponse<TEntity>> Create(TEntity entity)
+        {
+            try
+            {
+                entity.CreationTime = DateTime.Now;
+                await _database.AddAsync(entity);
+                await _database.SaveChangesAsync();
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(entity);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+            }
+        }
+
+        public async Task<PersistenceResponse<TEntity>> Update(TEntity entity)
+        {
+            try
+            {
+                entity.LastModificationTime = DateTime.Now;
+                
+                var entityToUpdate = await _database.FindAsync<TEntity>(entity.Id);
+                
+                if (entityToUpdate.IsDeleted) return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>("AlreadyWasDeleted");
+                
+                entityToUpdate = entity;
+                await _database.SaveChangesAsync();
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(entityToUpdate);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+            }
+        }
+
+        public async Task<PersistenceResponse<DeletionResponses>> Delete(Guid id)
+        {
+            try
+            {
+                var entity = await _database.FindAsync<TEntity>(id);
+
+                if (entity.IsDeleted)
+                {
+                    return new PersistenceResponse<DeletionResponses>
+                    {
+                        Message = "AlreadyWasDeleted",
+                        Success = false,
+                        Response = DeletionResponses.DeletionFailure,
+                        ErrorCodeName = DeletionResponses.DeletionFailure.ToString()
+                    };
+                }
+
+                
+                entity.DeletionTime = DateTime.Now;
+                entity.IsDeleted = true;
+                await _database.SaveChangesAsync();
+
+                return new PersistenceResponse<DeletionResponses>
+                {
+                    Message = "Success",
+                    Success = true,
+                    Response = DeletionResponses.DeleteSuccessfully,
+                    ErrorCodeName = DeletionResponses.DeleteSuccessfully.ToString()
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                
+                return new PersistenceResponse<DeletionResponses>
+                {
+                    Message = "PersistenceFailure",
+                    Success = false,
+                    Response = DeletionResponses.DeletionFailure,
+                    ErrorCodeName = DeletionResponses.DeletionFailure.ToString()
+                };
+            }
+        }
+
+        
+        
+        
+        
+        
+        
         public async Task<PersistenceResponse<TEntity>> GetById(Guid id)
         {
             return await _readOnlyRepository.GetById(id);
@@ -98,21 +207,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
         {
             return await _readOnlyRepository.GetAll();
-        }
-
-        public Task<PersistenceResponse<TEntity>> Create(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PersistenceResponse<TEntity>> Update(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PersistenceResponse<DeletionResponses>> Delete(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
     

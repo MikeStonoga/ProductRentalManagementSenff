@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "PRM.UseCases/1.0.0": {
+        "dependencies": {
+          "PRM.Domain": "1.0.0",
+          "PRM.InterfaceAdapters.Gateways.Persistence": "1.0.0"
+        },
+        "runtime": {
+          "PRM.UseCases.dll": {}
+        }
+      },
+      "PRM.Domain/1.0.0": {
+        "runtime": {
+          "PRM.Domain.dll": {}
+        }
+      },
+      "PRM.InterfaceAdapters.Gateways.Persistence/1.0.0": {
+        "dependencies": {
+          "PRM.Domain": "1.0.0"
+        },
+        "runtime": {
+          "PRM.InterfaceAdapters.Gateways.Persistence.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PRM.UseCases/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PRM.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PRM.InterfaceAdapters.Gateways.Persistence/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
