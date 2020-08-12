@@ -1,0 +1,86 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "PRM.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PRM.Domain/1.0.0": {
+      "type": "project",
+      "path": "../PRM.Domain/PRM.Domain.csproj",
+      "msbuildProject": "../PRM.Domain/PRM.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "PRM.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mikes\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.Authentication\\PRM.Infrastructure.Authentication.csproj",
+      "projectName": "PRM.Infrastructure.Authentication",
+      "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.Authentication\\PRM.Infrastructure.Authentication.csproj",
+      "packagesPath": "C:\\Users\\mikes\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.Authentication\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\mikes\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {
+            "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj": {
+              "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

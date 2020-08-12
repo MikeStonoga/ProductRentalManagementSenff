@@ -1,0 +1,169 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "PRM.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        }
+      },
+      "PRM.InterfaceAdapters.Controllers/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "PRM.Domain": "1.0.0",
+          "PRM.InterfaceAdapters.Presenters": "1.0.0",
+          "PRM.UseCases": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PRM.InterfaceAdapters.Controllers.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.InterfaceAdapters.Controllers.dll": {}
+        }
+      },
+      "PRM.InterfaceAdapters.Gateways.Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "PRM.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PRM.InterfaceAdapters.Gateways.Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.InterfaceAdapters.Gateways.Persistence.dll": {}
+        }
+      },
+      "PRM.InterfaceAdapters.Presenters/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "PRM.Domain": "1.0.0",
+          "PRM.UseCases": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PRM.InterfaceAdapters.Presenters.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.InterfaceAdapters.Presenters.dll": {}
+        }
+      },
+      "PRM.UseCases/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "PRM.Domain": "1.0.0",
+          "PRM.InterfaceAdapters.Gateways.Persistence": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PRM.UseCases.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.UseCases.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PRM.Domain/1.0.0": {
+      "type": "project",
+      "path": "../PRM.Domain/PRM.Domain.csproj",
+      "msbuildProject": "../PRM.Domain/PRM.Domain.csproj"
+    },
+    "PRM.InterfaceAdapters.Controllers/1.0.0": {
+      "type": "project",
+      "path": "../PRM.InterfaceAdapters.Controllers/PRM.InterfaceAdapters.Controllers.csproj",
+      "msbuildProject": "../PRM.InterfaceAdapters.Controllers/PRM.InterfaceAdapters.Controllers.csproj"
+    },
+    "PRM.InterfaceAdapters.Gateways.Persistence/1.0.0": {
+      "type": "project",
+      "path": "../PRM.InterfaceAdapters.Gateways.Persistence/PRM.InterfaceAdapters.Gateways.Persistence.csproj",
+      "msbuildProject": "../PRM.InterfaceAdapters.Gateways.Persistence/PRM.InterfaceAdapters.Gateways.Persistence.csproj"
+    },
+    "PRM.InterfaceAdapters.Presenters/1.0.0": {
+      "type": "project",
+      "path": "../PRM.InterfaceAdapters.Presenters/PRM.InterfaceAdapters.Presenters.csproj",
+      "msbuildProject": "../PRM.InterfaceAdapters.Presenters/PRM.InterfaceAdapters.Presenters.csproj"
+    },
+    "PRM.UseCases/1.0.0": {
+      "type": "project",
+      "path": "../PRM.UseCases/PRM.UseCases.csproj",
+      "msbuildProject": "../PRM.UseCases/PRM.UseCases.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "PRM.Domain >= 1.0.0",
+      "PRM.InterfaceAdapters.Controllers >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mikes\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.ApplicationDelivery.WebApiHost\\PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj",
+      "projectName": "PRM.Infrastructure.ApplicationDelivery.WebApiHost",
+      "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.ApplicationDelivery.WebApiHost\\PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj",
+      "packagesPath": "C:\\Users\\mikes\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Infrastructure.ApplicationDelivery.WebApiHost\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\mikes\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {
+            "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj": {
+              "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj"
+            },
+            "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.InterfaceAdapters.Controllers\\PRM.InterfaceAdapters.Controllers.csproj": {
+              "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\PRM.InterfaceAdapters.Controllers\\PRM.InterfaceAdapters.Controllers.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
