@@ -15,8 +15,7 @@ namespace PRM.Domain.Products
         public List<Rent> Rents { get; set; }
         public RentStatus Status { get; set; }
         public bool IsAvailable => Status == RentStatus.Available;
-        
-        
+
         public DomainResponseDto<RentResult> RentProduct(RentRequirement rentRequirement)
         {
             if (!IsAvailable) return GetAlreadyRentedProductResponse();
