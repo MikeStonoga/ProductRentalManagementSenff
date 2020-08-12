@@ -33,12 +33,10 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
                 .AddTransient(typeof(IReadOnlyPersistenceGateway<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IManipulationPersistenceGateway<>), typeof(Repository<>));
-
-            var connection = Configuration["MySqlConnection:MySqlConnectionString"];
             
             services.AddDbContext<PrmDbContext>(options =>
-                options.UseMySql(connection));
-                
+                options.UseMySql("Server=127.0.0.1; Port=3306;DataBase=prm;Uid=root;Pwd=''"));
+
             services.AddControllers();
         }
 

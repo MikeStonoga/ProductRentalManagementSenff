@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore
 {
@@ -6,7 +7,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore
     {
         public PrmDbContext CreateDbContext(string[] args)
         {
-            throw new System.NotImplementedException();
+            var optionsBuilder = new DbContextOptionsBuilder<PrmDbContext>();
+            optionsBuilder.UseMySql("Server=127.0.0.1; Port=3306; DataBase=prm;Uid=root;Pwd=''");
+
+            return new PrmDbContext(optionsBuilder.Options);
         }
     }
 }

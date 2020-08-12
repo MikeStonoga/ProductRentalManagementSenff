@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Enums;
+using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
 
@@ -14,19 +17,56 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     
     public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : FullAuditedEntity
     {
-        public Task<PersistenceResponse<TEntity>> GetById(Guid id)
+        private readonly PrmDbContext _db;
+
+        public ReadOnlyRepository(PrmDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public Task<PersistenceResponse<List<TEntity>>> GetByIds(List<Guid> ids)
+        public async Task<PersistenceResponse<TEntity>> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _db.Set<TEntity>().FindAsync(id);
+            
+            return new PersistenceResponse<TEntity>
+            {
+                Success = true,
+                ErrorCodeName = "Success",
+                Message = "Success",
+                Response = entity
+            };
         }
 
-        public Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
+        public async Task<PersistenceResponse<List<TEntity>>> GetByIds(List<Guid> ids)
         {
-            throw new NotImplementedException();
+            var entities = await _db.Set<TEntity>()
+                .Where(e => ids.Contains(e.Id))
+                .ToListAsync();;
+            
+            return new PersistenceResponse<List<TEntity>>
+            {
+                Success = true,
+                ErrorCodeName = "Success",
+                Message = "Success",
+                Response = entities
+            };
+        }
+
+        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
+        {
+            var all = await _db.Set<TEntity>().ToListAsync();
+
+            return new PersistenceResponse<GetAllResponse<TEntity>>
+            {
+                Success = true,
+                ErrorCodeName = "Success",
+                Message = "Success",
+                Response = new GetAllResponse<TEntity>
+                {
+                    Items = all,
+                    TotalCount = all.Count
+                }
+            };
         }
     }
     
