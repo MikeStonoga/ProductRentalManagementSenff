@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rbRVCtSK7yuprspPn2BhIFpKgpZzBjT0VHVyOVHvSH+Tpa7RloEm4gWhDrvaEKyGVRPQThUFsIpOLg9lFMBafQ==",
+  "dgSpecHash": "vJfrciZPL9+xF36wpn/EGu0HGbTlQZ7oxU+lExDgz2U0aYIpPY34rynSoIcWseW65eUT/2eJUsJH+fd0AjJeOg==",
   "success": true,
   "projectFilePath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Infrastructure.Persistence.MySQL\\PRM.Infrastructure.Persistence.MySQL.csproj",
   "expectedPackageFiles": [

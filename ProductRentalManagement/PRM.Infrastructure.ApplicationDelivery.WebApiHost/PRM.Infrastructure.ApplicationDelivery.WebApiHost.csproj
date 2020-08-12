@@ -6,7 +6,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+      <ProjectReference Include="..\PRM.Infrastructure.Persistence.MySQL\PRM.Infrastructure.Persistence.MySQL.csproj" />
       <ProjectReference Include="..\PRM.InterfaceAdapters.Controllers\PRM.InterfaceAdapters.Controllers.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Products\Dtos" />
     </ItemGroup>
 
 

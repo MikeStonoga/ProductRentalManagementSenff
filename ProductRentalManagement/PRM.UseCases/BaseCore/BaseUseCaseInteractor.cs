@@ -24,13 +24,12 @@ namespace PRM.UseCases.BaseCore
         Task<UseCaseResult<DeletionResponses>> Delete(Guid id);
     }
 
-    public class BaseUseCaseReadOnlyInteractor<TEntity, TIEntityReadOnlyPersistenceGateway> : IBaseUseCaseReadOnlyInteractor<TEntity>
+    public class BaseUseCaseReadOnlyInteractor<TEntity> : IBaseUseCaseReadOnlyInteractor<TEntity>
         where TEntity : FullAuditedEntity
-        where TIEntityReadOnlyPersistenceGateway : IBaseReadOnlyPersistenceGateway<TEntity>
     {
-        private readonly TIEntityReadOnlyPersistenceGateway _baseReadOnlyPersistenceGateway;
+        private readonly IReadOnlyPersistenceGateway<TEntity> _baseReadOnlyPersistenceGateway;
 
-        public BaseUseCaseReadOnlyInteractor(TIEntityReadOnlyPersistenceGateway baseReadOnlyPersistenceGateway)
+        public BaseUseCaseReadOnlyInteractor(IReadOnlyPersistenceGateway<TEntity> baseReadOnlyPersistenceGateway)
         {
             _baseReadOnlyPersistenceGateway = baseReadOnlyPersistenceGateway;
         }
@@ -65,15 +64,14 @@ namespace PRM.UseCases.BaseCore
         }
     }
     
-    public class BaseUseCaseManipulationInteractor<TEntity, TIEntityUseCasesReadOnlyInteractor, TIEntityManipulationPersistenceGateway> : BaseUseCaseReadOnlyInteractor<TEntity, TIEntityManipulationPersistenceGateway>, IBaseUseCaseManipulationInteractor<TEntity>
+    public class BaseUseCaseManipulationInteractor<TEntity, TIEntityUseCasesReadOnlyInteractor> : BaseUseCaseReadOnlyInteractor<TEntity>, IBaseUseCaseManipulationInteractor<TEntity>
         where TEntity : FullAuditedEntity
-        where TIEntityManipulationPersistenceGateway : IBaseManipulationPersistenceGateway<TEntity>
         where TIEntityUseCasesReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
     {
         protected readonly TIEntityUseCasesReadOnlyInteractor UseCasesReadOnlyInteractor;
-        private readonly TIEntityManipulationPersistenceGateway _basePersistenceGateway;
+        private readonly IManipulationPersistenceGateway<TEntity> _basePersistenceGateway;
         
-        public BaseUseCaseManipulationInteractor(TIEntityManipulationPersistenceGateway basePersistenceGateway, TIEntityUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(basePersistenceGateway)
+        public BaseUseCaseManipulationInteractor(IManipulationPersistenceGateway<TEntity> basePersistenceGateway, TIEntityUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(basePersistenceGateway)
         {
             _basePersistenceGateway = basePersistenceGateway;
             UseCasesReadOnlyInteractor = useCasesReadOnlyInteractor;

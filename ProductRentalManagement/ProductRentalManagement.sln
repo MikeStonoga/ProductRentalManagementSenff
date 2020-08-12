@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.InterfaceAdapters.Gatew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.InterfaceAdapters.Controllers", "PRM.InterfaceAdapters.Controllers\PRM.InterfaceAdapters.Controllers.csproj", "{EC60C54C-37AF-4CAD-8D77-C0E4E71AA4F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.InterfaceAdapters.Presenters", "PRM.InterfaceAdapters.Presenters\PRM.InterfaceAdapters.Presenters.csproj", "{36C9FFBE-A628-4D49-8192-D612284CDEC0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.Infrastructure.Persistence.MySQL", "PRM.Infrastructure.Persistence.MySQL\PRM.Infrastructure.Persistence.MySQL.csproj", "{FAA41DFE-F46E-47D9-BE8C-513610D57E2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.Infrastructure.ApplicationDelivery.WebApiHost", "PRM.Infrastructure.ApplicationDelivery.WebApiHost\PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj", "{BCAED0A9-906B-478B-8A50-ABD658E4B83A}"
@@ -40,10 +38,6 @@ Global
 		{EC60C54C-37AF-4CAD-8D77-C0E4E71AA4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC60C54C-37AF-4CAD-8D77-C0E4E71AA4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC60C54C-37AF-4CAD-8D77-C0E4E71AA4F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36C9FFBE-A628-4D49-8192-D612284CDEC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36C9FFBE-A628-4D49-8192-D612284CDEC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36C9FFBE-A628-4D49-8192-D612284CDEC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36C9FFBE-A628-4D49-8192-D612284CDEC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAA41DFE-F46E-47D9-BE8C-513610D57E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FAA41DFE-F46E-47D9-BE8C-513610D57E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAA41DFE-F46E-47D9-BE8C-513610D57E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU

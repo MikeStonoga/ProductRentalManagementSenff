@@ -1,4 +1,4 @@
-﻿dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations add "MIGRATION NAME HERE" --context "PRMDbContext"
-dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations remove --context "PRMDbContext"
-dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ database update --context "PRMDbContext"
+﻿dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations add "MIGRATION NAME HERE" --context "PrmDbContext"
+dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations remove --context "PrmDbContext"
+dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ database update --context "PrmDbContext"
 

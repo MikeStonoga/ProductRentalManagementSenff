@@ -1,0 +1,14 @@
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.deps.json
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.Domain.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.Domain.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\bin\Debug\netcoreapp3.1\PRM.InterfaceAdapters.Gateways.Persistence.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.csprojAssemblyReference.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.AssemblyInfoInputs.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.AssemblyInfo.cs
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.csproj.CoreCompileInputs.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.csproj.CopyComplete
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.MySQL\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.MySQL.pdb

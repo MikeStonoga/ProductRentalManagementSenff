@@ -25,20 +25,6 @@
           "bin/placeholder/PRM.InterfaceAdapters.Gateways.Persistence.dll": {}
         }
       },
-      "PRM.InterfaceAdapters.Presenters/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "PRM.Domain": "1.0.0",
-          "PRM.UseCases": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/PRM.InterfaceAdapters.Presenters.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/PRM.InterfaceAdapters.Presenters.dll": {}
-        }
-      },
       "PRM.UseCases/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -66,11 +52,6 @@
       "path": "../PRM.InterfaceAdapters.Gateways.Persistence/PRM.InterfaceAdapters.Gateways.Persistence.csproj",
       "msbuildProject": "../PRM.InterfaceAdapters.Gateways.Persistence/PRM.InterfaceAdapters.Gateways.Persistence.csproj"
     },
-    "PRM.InterfaceAdapters.Presenters/1.0.0": {
-      "type": "project",
-      "path": "../PRM.InterfaceAdapters.Presenters/PRM.InterfaceAdapters.Presenters.csproj",
-      "msbuildProject": "../PRM.InterfaceAdapters.Presenters/PRM.InterfaceAdapters.Presenters.csproj"
-    },
     "PRM.UseCases/1.0.0": {
       "type": "project",
       "path": "../PRM.UseCases/PRM.UseCases.csproj",
@@ -80,7 +61,6 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "PRM.Domain >= 1.0.0",
-      "PRM.InterfaceAdapters.Presenters >= 1.0.0",
       "PRM.UseCases >= 1.0.0"
     ]
   },
@@ -110,9 +90,6 @@
           "projectReferences": {
             "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj": {
               "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj"
-            },
-            "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.InterfaceAdapters.Presenters\\PRM.InterfaceAdapters.Presenters.csproj": {
-              "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.InterfaceAdapters.Presenters\\PRM.InterfaceAdapters.Presenters.csproj"
             },
             "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.UseCases\\PRM.UseCases.csproj": {
               "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.UseCases\\PRM.UseCases.csproj"

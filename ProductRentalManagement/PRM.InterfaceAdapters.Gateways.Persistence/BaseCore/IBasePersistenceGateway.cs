@@ -7,7 +7,7 @@ using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
 
 namespace PRM.InterfaceAdapters.Gateways.Persistence.BaseCore
 {
-    public interface IBaseReadOnlyPersistenceGateway<TEntity>
+    public interface IReadOnlyPersistenceGateway<TEntity>
         where TEntity : FullAuditedEntity
     {
         Task<PersistenceResponse<TEntity>> GetById(Guid id);
@@ -15,7 +15,7 @@ namespace PRM.InterfaceAdapters.Gateways.Persistence.BaseCore
         Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll();
     }
     
-    public interface IBaseManipulationPersistenceGateway<TEntity> : IBaseReadOnlyPersistenceGateway<TEntity>
+    public interface IManipulationPersistenceGateway<TEntity> : IReadOnlyPersistenceGateway<TEntity>
         where TEntity : FullAuditedEntity
     {
         Task<PersistenceResponse<TEntity>> Create(TEntity entity);

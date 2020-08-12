@@ -6,7 +6,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
-      <ProjectReference Include="..\PRM.InterfaceAdapters.Presenters\PRM.InterfaceAdapters.Presenters.csproj" />
       <ProjectReference Include="..\PRM.UseCases\PRM.UseCases.csproj" />
     </ItemGroup>
 

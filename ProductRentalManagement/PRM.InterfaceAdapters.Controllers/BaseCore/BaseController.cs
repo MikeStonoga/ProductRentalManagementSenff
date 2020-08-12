@@ -1,100 +1,111 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Enums;
 using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
-using PRM.InterfaceAdapters.Presenters.BaseCore;
-using PRM.InterfaceAdapters.Presenters.BaseCore.Dtos;
 using PRM.UseCases.BaseCore;
 
 namespace PRM.InterfaceAdapters.Controllers.BaseCore
 {
-    public interface IBaseReadOnlyController<TEntity, TEntityView>
+    public interface IBaseReadOnlyController<TEntity, TEntityOutput>
         where TEntity : FullAuditedEntity
-        where TEntityView : FullAuditedEntityView<TEntity>
+        where TEntityOutput : TEntity
     {
-        Task<ApiResponse<TEntityView>> GetById(Guid id);
-        Task<ApiResponse<List<TEntityView>>> GetByIds(List<Guid> ids);
-        Task<ApiResponse<GetAllViewsResponse<TEntity, TEntityView>>> GetAll();
+        Task<ApiResponse<TEntityOutput>> GetById(Guid id);
+        Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids);
+        Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll();
+        
     }
     
-    public interface IBaseManipulationController<TEntity, TEntityManipulationInput, TEntityView> : IBaseReadOnlyController<TEntity, TEntityView> 
-        where TEntity : FullAuditedEntity
-        where TEntityView : FullAuditedEntityView<TEntity>
+    public class GetAllResponse<TEntity, TEntityOutput> where TEntityOutput : TEntity where TEntity : FullAuditedEntity
     {
-        Task<ApiResponse<TEntityView>> Create(TEntityManipulationInput input);
-        Task<ApiResponse<TEntityView>> Update(TEntityManipulationInput input);
+        public List<TEntityOutput> Items { get; set; }
+        public int TotalCount { get; set; }
+    }
+    
+    public interface IBaseManipulationController<TEntity, TEntityInput, TEntityOutput> : IBaseReadOnlyController<TEntity, TEntityOutput> 
+        where TEntity : FullAuditedEntity
+        where TEntityOutput : TEntity
+    {
+        Task<ApiResponse<TEntityOutput>> Create(TEntityInput input);
+        Task<ApiResponse<TEntityOutput>> Update(TEntityInput input);
         Task<ApiResponse<DeletionResponses>> Delete(Guid id);
     }
 
-    public abstract class BaseReadOnlyController<TEntity, TEntityView, TIEntityReadOnlyPresenter, TIEntityUseCaseReadOnlyInteractor> : IBaseReadOnlyController<TEntity, TEntityView> 
+    public abstract class BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor> : IBaseReadOnlyController<TEntity, TEntityOutput> 
         where TEntity : FullAuditedEntity
-        where TEntityView : FullAuditedEntityView<TEntity>
-        where TIEntityReadOnlyPresenter : IBaseReadOnlyPresenter<TEntity, TEntityView>
+        where TEntityOutput : TEntity, new()
         where TIEntityUseCaseReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
     {
 
         private readonly TIEntityUseCaseReadOnlyInteractor _baseConsoleUseCaseManipulationReadOnlyInteractor;
-        private readonly TIEntityReadOnlyPresenter _baseConsoleManipulationReadOnlyReadOnlyPresenter;
 
-        protected BaseReadOnlyController(TIEntityUseCaseReadOnlyInteractor baseConsoleUseCaseManipulationReadOnlyInteractor, TIEntityReadOnlyPresenter baseConsoleManipulationReadOnlyReadOnlyPresenter)
+        protected BaseReadOnlyController(TIEntityUseCaseReadOnlyInteractor baseConsoleUseCaseManipulationReadOnlyInteractor)
         {
             _baseConsoleUseCaseManipulationReadOnlyInteractor = baseConsoleUseCaseManipulationReadOnlyInteractor;
-            _baseConsoleManipulationReadOnlyReadOnlyPresenter = baseConsoleManipulationReadOnlyReadOnlyPresenter;
         }
 
-        public async Task<ApiResponse<TEntityView>> GetById(Guid id)
+        public async Task<ApiResponse<TEntityOutput>> GetById(Guid id)
         {
             var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetById(id);
-            var presenterResponse = _baseConsoleManipulationReadOnlyReadOnlyPresenter.GetView(useCaseResult);
-            return GetApiResponse(presenterResponse);
-        }
-        
-        protected ApiResponse<TResult> GetApiResponse<TResult>(PresenterResult<TResult> presenterResponse)
-        {
-            var wasSuccessfullyExecuted = presenterResponse.Success;
-            
-            return wasSuccessfullyExecuted
-                ? ApiResponses.SuccessfullyExecutedResponse(presenterResponse.View)
-                : ApiResponses.FailureResponse(presenterResponse.View, presenterResponse.Message);
+            var wasSuccessfullyExecuted = useCaseResult.Success;
+            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+
+            var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
+            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
-        public async Task<ApiResponse<List<TEntityView>>> GetByIds(List<Guid> ids)
+
+        public async Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids)
         {
             var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetByIds(ids);
-            var presenterResponse = _baseConsoleManipulationReadOnlyReadOnlyPresenter.GetViews(useCaseResult);
-            return GetApiResponse(presenterResponse);
+            var wasSuccessfullyExecuted = useCaseResult.Success;
+
+            var entityOutputs = useCaseResult.Result.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
+
+            return wasSuccessfullyExecuted
+                ? ApiResponses.SuccessfullyExecutedResponse(entityOutputs)
+                : ApiResponses.FailureResponse(entityOutputs, useCaseResult.Message);
         }
 
-        public async Task<ApiResponse<GetAllViewsResponse<TEntity, TEntityView>>> GetAll()
+        public async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
         {
             var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetAll();
-            var presenterResponse = _baseConsoleManipulationReadOnlyReadOnlyPresenter.GetAllViews(useCaseResult);
-            return GetApiResponse(presenterResponse);
+            var wasSuccessfullyExecuted = useCaseResult.Success;
+
+            var entityOutputs = useCaseResult.Result.Items.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
+            
+            var getAllOutput = new GetAllResponse<TEntity, TEntityOutput>
+            {
+                Items = entityOutputs,
+                TotalCount = useCaseResult.Result.TotalCount
+            };
+            
+            return wasSuccessfullyExecuted
+                ? ApiResponses.SuccessfullyExecutedResponse(getAllOutput)
+                : ApiResponses.FailureResponse(getAllOutput, useCaseResult.Message);
         }
     }
 
-    public abstract class BaseManipulationController<TEntity, TEntityManipulationInput, TEntityView, TIEntityManipulationPresenter, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController> : BaseReadOnlyController<TEntity, TEntityView, TIEntityManipulationPresenter, TIEntityUseCaseManipulationInteractor>,  IBaseManipulationController<TEntity, TEntityManipulationInput, TEntityView>
+    public abstract class BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseManipulationInteractor>,  IBaseManipulationController<TEntity, TEntityInput, TEntityOutput>
         where TEntity : FullAuditedEntity
-        where TEntityView : FullAuditedEntityView<TEntity>
-        where TEntityManipulationInput : TEntity, IAmManipulationInput<TEntity>
-        where TIEntityManipulationPresenter : IBaseManipulationPresenter<TEntity, TEntityView>
+        where TEntityOutput : TEntity, new()
+        where TEntityInput : TEntity, IAmManipulationInput<TEntity>
         where TIEntityUseCaseManipulationInteractor : IBaseUseCaseManipulationInteractor<TEntity>
-        where TIEntityReadOnlyController : IBaseReadOnlyController<TEntity, TEntityView>
+        where TIEntityReadOnlyController : IBaseReadOnlyController<TEntity, TEntityOutput>
     {
         private readonly TIEntityUseCaseManipulationInteractor _baseConsoleUseCaseManipulationInteractor;
-        private readonly TIEntityManipulationPresenter _baseConsoleManipulationPresenter;
         protected readonly TIEntityReadOnlyController ReadOnlyController;
 
-        protected BaseManipulationController(TIEntityUseCaseManipulationInteractor baseConsoleUseCaseManipulationInteractor, TIEntityManipulationPresenter baseConsoleManipulationPresenter, TIEntityReadOnlyController readOnlyController) : base(baseConsoleUseCaseManipulationInteractor, baseConsoleManipulationPresenter)
+        protected BaseManipulationController(TIEntityUseCaseManipulationInteractor baseConsoleUseCaseManipulationInteractor, TIEntityReadOnlyController readOnlyController) : base(baseConsoleUseCaseManipulationInteractor)
         {
             _baseConsoleUseCaseManipulationInteractor = baseConsoleUseCaseManipulationInteractor;
-            _baseConsoleManipulationPresenter = baseConsoleManipulationPresenter;
             ReadOnlyController = readOnlyController;
         }
         
-        public async Task<ApiResponse<TEntityView>> Create(TEntityManipulationInput input)
+        public async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input)
         {
             var entity = input.MapToEntity();
             
@@ -105,11 +116,15 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.CreatorId = input.CreatorId;
             
             var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Create(entity);
-            var presenterResponse = _baseConsoleManipulationPresenter.GetView(useCaseResult);
-            return GetApiResponse(presenterResponse);
+            
+            var wasSuccessfullyExecuted = useCaseResult.Success;
+            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+
+            var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
+            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
-        public async Task<ApiResponse<TEntityView>> Update(TEntityManipulationInput input)
+        public async Task<ApiResponse<TEntityOutput>> Update(TEntityInput input)
         {
             var entity = input.MapToEntity();
             
@@ -122,15 +137,18 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.LastModifierId = input.LastModifierId;
             
             var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Update(entity);
-            var presenterResponse = _baseConsoleManipulationPresenter.GetView(useCaseResult);
-            return GetApiResponse(presenterResponse);
+            
+            var wasSuccessfullyExecuted = useCaseResult.Success;
+            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+
+            var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
+            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
         public async Task<ApiResponse<DeletionResponses>> Delete(Guid id)
         {
             var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Delete(id);
-            var presenterResponse = _baseConsoleManipulationPresenter.GetDeletionView(useCaseResult);
-            return GetApiResponse(presenterResponse);
+            return !useCaseResult.Success ? DeletionResponses.DeletionFailure.GetFailureResult(useCaseResult.Result) : DeletionResponses.DeleteSuccessfully.GetSuccessResult(useCaseResult.Result);
         }
     }
 }

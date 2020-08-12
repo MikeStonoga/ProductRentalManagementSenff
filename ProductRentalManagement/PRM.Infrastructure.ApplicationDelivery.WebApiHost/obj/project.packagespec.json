@@ -18,6 +18,9 @@
           "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj": {
             "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj"
           },
+          "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Infrastructure.Persistence.MySQL\\PRM.Infrastructure.Persistence.MySQL.csproj": {
+            "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Infrastructure.Persistence.MySQL\\PRM.Infrastructure.Persistence.MySQL.csproj"
+          },
           "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.InterfaceAdapters.Controllers\\PRM.InterfaceAdapters.Controllers.csproj": {
             "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.InterfaceAdapters.Controllers\\PRM.InterfaceAdapters.Controllers.csproj"
           }
