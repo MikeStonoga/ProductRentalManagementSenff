@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.Infrastructure.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.Tests", "PRM.Tests\PRM.Tests.csproj", "{96DBB6C5-AFF0-45C6-859E-74C15292AAB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRM.Infrastructure.Authentication", "PRM.Infrastructure.Authentication\PRM.Infrastructure.Authentication.csproj", "{CA644757-9B28-4249-937E-B726FFC91501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +56,9 @@ Global
 		{96DBB6C5-AFF0-45C6-859E-74C15292AAB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96DBB6C5-AFF0-45C6-859E-74C15292AAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96DBB6C5-AFF0-45C6-859E-74C15292AAB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA644757-9B28-4249-937E-B726FFC91501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA644757-9B28-4249-937E-B726FFC91501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA644757-9B28-4249-937E-B726FFC91501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA644757-9B28-4249-937E-B726FFC91501}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

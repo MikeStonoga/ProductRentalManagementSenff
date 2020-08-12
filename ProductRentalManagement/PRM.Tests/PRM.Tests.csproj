@@ -13,4 +13,12 @@
         <PackageReference Include="coverlet.collector" Version="1.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Products\Rents" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

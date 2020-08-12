@@ -4,4 +4,13 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+      <ProjectReference Include="..\PRM.InterfaceAdapters.Gateways.Persistence\PRM.InterfaceAdapters.Gateways.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="BaseCore\Dtos" />
+    </ItemGroup>
+
 </Project>
