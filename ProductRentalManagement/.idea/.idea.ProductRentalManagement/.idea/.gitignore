@@ -72,11 +72,8 @@ fabric.properties
 
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-[Bb]in/
-[Oo]bj/
+/obj/*
+/bin/*
 
 # For syntax see: https://stackoverflow.com/a/14422549/12124
 /.idea/*
