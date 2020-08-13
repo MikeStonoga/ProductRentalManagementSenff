@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="be1546bd-02c8-45d7-a117-fcb2a827ac9b" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/RentProductDtos/RentProductOutput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/Products/RentProduct/RentProduct.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/RentProductDtos/RentProductInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/Products/FinishRent/FinishRent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/FinishRentDtos/FinishRentOutput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/FinishRentDtos/FinishRentInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E0136A62-7166-4D20-9E0F-34CE7F593D87/21/EntityFrameworkQueryableExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/BaseCore/Extensions/ApiResponses.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/Migrations/20200813082533_Adding_Product_Entity.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/BaseCore/BaseController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Products/Rents/Dtos/RentResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Products/Rents/Dtos/RentRequirement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9CD23B5E-3B0C-4F80-A807-33BCFD1D82E1/25F/AsyncMethodBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Products/Rents/Dtos/RentFinishedResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Products/Rents/Rent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/F/CallSiteValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/BaseCore/Extensions/DomainValidationDefaultResponses.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/BaseCore/Enums/DeletionResponses.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/1E/ServiceProviderEngine.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9CD23B5E-3B0C-4F80-A807-33BCFD1D82E1/262/AsyncValueTaskMethodBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/9/ServiceCollectionContainerBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/DB5C90CB-A10C-4BF1-A233-F8E597A889B9/C/CallSiteFactory.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Products/Product.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/BaseCore/Person.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/6/DefaultServiceProviderFactory.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1328EA85-1FA4-4D66-86F8-33AE66320398/C/ServiceFactoryAdapter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/ProductOutput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Domain/Users/User.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/BaseCore/IAmManipulationInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Products/ProductController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/ProductInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/ProductController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/Rents/RentView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/ProductPresenter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/ProductView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/A/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/Products/GetProductRentPrice/GetProductRentPrice.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/EntityFrameworkCore/PrmDbContextDesignTime.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1328EA85-1FA4-4D66-86F8-33AE66320398/3/HostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/EntityFrameworkCore/PrmDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/Enums/PersistenceResponseStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/GetProductRentPriceDtos/GetProductRentPriceInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/Extensions/PersistenceResponses.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Tests/Products/Domain/ProductTests/FinishProductRentTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/Products/ProductUseCasesInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/199D11C9-6FFC-4A68-B1DA-C2CA6FFA8B90/3/GenericWebHostBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/199D11C9-6FFC-4A68-B1DA-C2CA6FFA8B90/B/ConfigureServicesBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/010DDDF7-91EB-4118-9F7D-B20AA3CFCAEE/8/ServiceCollection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68D43461-E869-422C-9F52-9604D7705021/6/ServiceDescriptor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/68D43461-E869-422C-9F52-9604D7705021/5/ServiceCollectionServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/Dtos/GetAllResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/PersistenceResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/IBasePersistenceGateway.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/BaseCore/Extensions/WebControllerExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/BaseCore/Extensions/UseCasesResponses.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/BaseCore/Repository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/BaseCore/Enums/UseCaseResults.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Properties/launchSettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/BaseCore/UseCaseResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/BaseCore/BaseController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/BaseCore/BaseUseCaseInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.UseCases/BaseCore/BaseUseCase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/Migrations/PrmDbContextModelSnapshot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Startup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/DB5C90CB-A10C-4BF1-A233-F8E597A889B9/8/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/Migrations/20200812151734_Initial_Migration.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/ISubjectPersistenceGateway.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/Products/IProductPersistenceGateway.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/ProductPresenter.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/Rents/RentView.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/ProductManipulationInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Presenters/Products/ProductView.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Products/ProductPresenter.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/BaseCore/IAmWebManipulationInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/ProductInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Products/Dtos/ProductInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Products/Dtos/ProductOutput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/ProductInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/ProductOutput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/PRM.InterfaceAdapters.Controllers.csproj" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Properties/launchSettings.json" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/Repository.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/Products/ProductRepository.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/EntityFrameworkCore/EFScripts.txt" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/appsettings.json" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/PRM.Infrastructure.Persistence.MySQL.csproj" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/EntityFrameworkCore/PrmDbContextDesignTime.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/Enums/PersistenceResponseStatus.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/Extensions/PersistenceResponses.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/GetProductRentPriceDtos/GetProductRentPriceInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/Products/GetProductRentPrice/GetProductRentPrice.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/Products/RentProduct/RentProduct.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/BaseCore/Extensions/UseCasesResponses.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/BaseCore/Enums/UseCaseResults.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/RentProductDtos/RentProductInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.Domain/BaseCore/Extensions/DomainValidationDefaultResponses.cs" />
+        <option value="$PROJECT_DIR$/PRM.Tests/Products/Domain/ProductTests/FinishProductRentTest.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/BaseCore/Extensions/ApiResponses.cs" />
+        <option value="$PROJECT_DIR$/PRM.Domain/Products/Rents/Rent.cs" />
+        <option value="$PROJECT_DIR$/PRM.Domain/Products/Rents/Dtos/RentFinishedResult.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/FinishRentDtos/FinishRentOutput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/FinishRentDtos/FinishRentInput.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/Dtos/RentProductDtos/RentProductOutput.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Startup.cs" />
+        <option value="$PROJECT_DIR$/PRM.Domain/Products/Product.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/Products/FinishRent/FinishRent.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/EntityFrameworkCore/PrmDbContext.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/Products/ProductUseCasesInteractor.cs" />
+        <option value="$PROJECT_DIR$/PRM.UseCases/BaseCore/BaseUseCaseInteractor.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/BaseCore/BaseController.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/BaseCore/BaseController.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/Products/ProductController.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Controllers/Products/ProductController.cs" />
+        <option value="$PROJECT_DIR$/PRM.Infrastructure.Persistence.MySQL/BaseCore/Repository.cs" />
+        <option value="$PROJECT_DIR$/PRM.InterfaceAdapters.Gateways.Persistence/BaseCore/IBasePersistenceGateway.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1fygsrw6WZpNPkN8ypAq5t2lwYl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3501006" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.3002012" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Background" />
+  </component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (2)">
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="PRM.Infrastructure.ApplicationDelivery.WebApiHost" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (1)" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (2)" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="PRM.Infrastructure.ApplicationDelivery.WebApiHost" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (3)" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (4)" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (5)" type="LaunchSettings" factoryName=".NET Launch Settings Profile" temporary="true">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/PRM.Infrastructure.ApplicationDelivery.WebApiHost/PRM.Infrastructure.ApplicationDelivery.WebApiHost.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value=".NETCoreApp,Version=v3.1" />
+      <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (1)" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (2)" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (3)" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (4)" />
+      <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (5)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (2)" />
+        <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (5)" />
+        <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (4)" />
+        <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (3)" />
+        <item itemvalue=".NET Launch Settings Profile.PRM.Infrastructure.ApplicationDelivery.WebApiHost: IIS Express (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\mikes\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be1546bd-02c8-45d7-a117-fcb2a827ac9b" name="Default Changelist" comment="" />
+      <created>1597195955619</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1597195955619</updated>
+      <workItem from="1597195961413" duration="55448000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="734" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597224932839">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="734" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597224932839" />
+    <state width="1567" height="702" key="DebuggerActiveHint" timestamp="1597308413383">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="1567" height="702" key="DebuggerActiveHint/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597308413383" />
+    <state width="2516" height="212" key="GridCell.Tab.0.bottom" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.0.bottom/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.0.center" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.0.center/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.0.left" timestamp="1597311500683">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.0.left/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500683" />
+    <state width="2516" height="212" key="GridCell.Tab.0.right" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.0.right/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.1.bottom" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.1.bottom/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.1.center" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.1.center/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.1.left" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.1.left/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.1.right" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.1.right/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.2.bottom" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.2.bottom/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.2.center" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.2.center/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.2.left" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.2.left/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.2.right" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.2.right/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.3.bottom" timestamp="1597311500685">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.3.bottom/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500685" />
+    <state width="2516" height="212" key="GridCell.Tab.3.center" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.3.center/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.3.left" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.3.left/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.3.right" timestamp="1597311500684">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.3.right/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500684" />
+    <state width="2516" height="212" key="GridCell.Tab.4.bottom" timestamp="1597311500685">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.4.bottom/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500685" />
+    <state width="2516" height="212" key="GridCell.Tab.4.center" timestamp="1597311500685">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.4.center/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500685" />
+    <state width="2516" height="212" key="GridCell.Tab.4.left" timestamp="1597311500685">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.4.left/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500685" />
+    <state width="2516" height="212" key="GridCell.Tab.4.right" timestamp="1597311500685">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="2516" height="212" key="GridCell.Tab.4.right/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597311500685" />
+    <state x="1020" y="210" key="RiderGenerateDialog" timestamp="1597275744828">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="1020" y="210" key="RiderGenerateDialog/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597275744828" />
+    <state x="781" y="165" key="SettingsEditor" timestamp="1597312944809">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="781" y="165" key="SettingsEditor/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597312944809" />
+    <state x="92" y="92" width="2376" height="856" key="VCS.FileHistoryDialog" timestamp="1597307861697">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="92" y="92" width="2376" height="856" key="VCS.FileHistoryDialog/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597307861697" />
+    <state width="1288" height="528" key="XDebugger.FullValuePopup" timestamp="1597228754842">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state width="1288" height="528" key="XDebugger.FullValuePopup/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597228754842" />
+    <state x="834" y="250" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1597274353280">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="834" y="250" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597274353280" />
+    <state x="874" y="253" width="811" height="534" key="find.popup" timestamp="1597284907277">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="874" y="253" width="811" height="534" key="find.popup/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597284907277" />
+    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1597284611356">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup/547.1080.1366.728/0.0.2560.1040@0.0.2560.1040" timestamp="1597284611356" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo typeName="PRM.Domain.Products.Product" fieldName="Rents" />
+        <PinnedItemInfo typeName="Microsoft.Extensions.DependencyInjection.ServiceLookup.ConstantCallSite" fieldName="ImplementationType" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>
