@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+ using System.Linq.Expressions;
+ using System.Threading.Tasks;
 using PRM.Domain.BaseCore;
  using PRM.Domain.BaseCore.Enums;
  using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
@@ -14,7 +15,7 @@ namespace PRM.UseCases.BaseCore
     {
         Task<UseCaseResult<TEntity>> GetById(Guid id);
         Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids);
-        Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll();
+        Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null);
     }
     public interface IBaseUseCaseManipulationInteractor<TEntity> : IBaseUseCaseReadOnlyInteractor<TEntity>
         where TEntity : Entity
@@ -47,7 +48,7 @@ namespace PRM.UseCases.BaseCore
             var wasSuccessfullyExecuted = persistenceResponse.Success;
             
             return wasSuccessfullyExecuted
-                ? UseCasesResponses.UseCaseSuccessfullyExecutedResponse(persistenceResponse.Response)
+                ? UseCasesResponses.SuccessfullyExecutedResponse(persistenceResponse.Response)
                 : UseCasesResponses.PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
         }
 
@@ -57,9 +58,9 @@ namespace PRM.UseCases.BaseCore
             return GetUseCaseResult(persistenceResponse);
         }
 
-        public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll()
+        public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null)
         {
-            var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetAll();
+            var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetAll(includePredicate);
             return GetUseCaseResult(persistenceResponse);
         }
     }

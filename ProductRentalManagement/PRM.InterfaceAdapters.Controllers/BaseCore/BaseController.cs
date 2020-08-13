@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+ using System.Linq.Expressions;
+ using System.Threading.Tasks;
 using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Enums;
 using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
@@ -70,9 +71,14 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
                 : ApiResponses.FailureResponse(entityOutputs, useCaseResult.Message);
         }
 
-        public async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
+        public virtual async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
         {
-            var useCaseResult = await UseCaseReadOnlyInteractor.GetAll();
+            return await GetAll(null);
+        }
+        
+        protected async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null)
+        {
+            var useCaseResult = await UseCaseReadOnlyInteractor.GetAll(includePredicate);
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted)
             {

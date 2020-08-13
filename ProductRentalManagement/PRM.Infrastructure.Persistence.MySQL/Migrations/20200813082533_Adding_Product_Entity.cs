@@ -49,6 +49,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     DailyLateFee = table.Column<decimal>(nullable: false),
+                    WasProductDamaged = table.Column<bool>(nullable: false),
+                    DamageFee = table.Column<decimal>(nullable: false),
                     ProductId1 = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

@@ -4,6 +4,7 @@ using PRM.Domain.Products.Rents.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
+using PRM.UseCases.Products.FinishRent;
 using PRM.UseCases.Products.GetProductRentPrice;
 using PRM.UseCases.Products.RentProduct;
 
@@ -26,8 +27,9 @@ namespace PRM.UseCases.Products
         public async Task<UseCaseResult<decimal>> GetProductRentPrice(GetProductRentPriceRequirement rentPriceRequirement)
         {
             var productRentPrice = await _getProductRentPrice.Execute(rentPriceRequirement);
+            
             return productRentPrice.Success 
-                ? UseCasesResponses.UseCaseSuccessfullyExecutedResponse(productRentPrice.Result, productRentPrice.Message) 
+                ? UseCasesResponses.SuccessfullyExecutedResponse(productRentPrice.Result, productRentPrice.Message) 
                 : UseCasesResponses.PersistenceErrorResponse(productRentPrice.Result, productRentPrice.Message);
         }
     }
@@ -35,15 +37,19 @@ namespace PRM.UseCases.Products
     public interface IProductUseCasesManipulationInteractor : IBaseUseCaseManipulationInteractor<Product>, IProductUseCasesReadOnlyInteractor
     {
         Task<UseCaseResult<RentResult>> RentProduct(RentRequirement rentProductRequirement);
+        Task<UseCaseResult<RentFinishedResult>> FinishRent(FinishRentRequirement rentProductRequirement);
+
     }
 
     public class ProductUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<Product, IProductUseCasesReadOnlyInteractor>, IProductUseCasesManipulationInteractor
     {
         private readonly IRentProduct _rentProduct;
+        private readonly IFinishRent _finishRent;
 
-        public ProductUseCasesManipulationInteractor(IManipulationPersistenceGateway<Product> basePersistenceGateway, IProductUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor, IRentProduct rentProduct) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
+        public ProductUseCasesManipulationInteractor(IManipulationPersistenceGateway<Product> basePersistenceGateway, IProductUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor, IRentProduct rentProduct, IFinishRent finishRent) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
         {
             _rentProduct = rentProduct;
+            _finishRent = finishRent;
         }
 
         public async Task<UseCaseResult<RentResult>> RentProduct(RentRequirement rentProductRequirement)
@@ -51,12 +57,19 @@ namespace PRM.UseCases.Products
             var rentProductResponse = await _rentProduct.Execute(rentProductRequirement);
             
             return rentProductResponse.Success
-                ? UseCasesResponses.UseCaseSuccessfullyExecutedResponse(rentProductResponse.Result, rentProductResponse.Message)
-                : UseCasesResponses.UseCaseExecutionFailureResponse<RentResult>(rentProductResponse.Message);
+                ? UseCasesResponses.SuccessfullyExecutedResponse(rentProductResponse.Result, rentProductResponse.Message)
+                : UseCasesResponses.ExecutionFailureResponse<RentResult>(rentProductResponse.Message);
         }
-        
-        
-        
+
+        public async Task<UseCaseResult<RentFinishedResult>> FinishRent(FinishRentRequirement rentProductRequirement)
+        {
+            var finishRentResponse = await _finishRent.Execute(rentProductRequirement);
+
+            return finishRentResponse.Success
+                ? UseCasesResponses.SuccessfullyExecutedResponse(finishRentResponse.Result)
+                : UseCasesResponses.ExecutionFailureResponse<RentFinishedResult>(finishRentResponse.Message);
+        }
+
 
         public async Task<UseCaseResult<decimal>> GetProductRentPrice(GetProductRentPriceRequirement rentPriceRequirement)
         {

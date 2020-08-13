@@ -20,11 +20,10 @@ namespace PRM.Domain.Products
         {
             if (!IsAvailable) return DomainValidationsExtensions.GetFailureResponse<RentResult>("AlreadyRentedProduct");
             
-            var isRewardRenting = rentRequirement.StartDate < DateTime.Now.AddMinutes(-1);
-            if (isRewardRenting) return DomainValidationsExtensions.GetFailureResponse<RentResult>("CannotRentReward");
-            
+            var isBackwardRenting = rentRequirement.StartDate < DateTime.Now.AddMinutes(-1);
+            if (isBackwardRenting) return DomainValidationsExtensions.GetFailureResponse<RentResult>("CannotRentReward");
+
             var rent = new Rent(rentRequirement);
-            rent.CreationTime = DateTime.Now;
             
             Rents ??= new List<Rent>();
             Rents.Add(rent);
@@ -33,12 +32,18 @@ namespace PRM.Domain.Products
             return new RentResult(rent, Description).GetSuccessResponse("Rented");
         }
         
-        public DomainResponseDto<RentFinishedDto> FinishProductRent(Guid rentId)
+        public DomainResponseDto<RentFinishedResult> FinishProductRent(FinishRentRequirement finishRentRequirement)
         {
-            var rentToFinish = Rents.Find(rent => rentId == rent.Id);
-            
+            var rentToFinish = Rents.Find(rent => finishRentRequirement.RentId == rent.Id);
+
             var rentFounded = rentToFinish != null;
-            if (!rentFounded) return new RentFinishedDto().GetFailureResponse("RentNotFound");
+            if (!rentFounded) return new RentFinishedResult().GetFailureResponse("RentNotFound");
+
+            if (finishRentRequirement.DamageFee != 0M)
+            {
+                rentToFinish.WasProductDamaged = true;
+                rentToFinish.DamageFee = finishRentRequirement.DamageFee;
+            }
             
             var finishedRent = rentToFinish.FinishRent();
             Status = RentStatus.Available;
@@ -47,7 +52,13 @@ namespace PRM.Domain.Products
         
         public decimal CalculateProductRentPrice(RentRequirement rentRequirement)
         {
-            return new Rent(rentRequirement).PriceWithoutLateFee;
+            return new Rent(rentRequirement).PriceWithoutFees;
         }
+    }
+
+    public class FinishRentRequirement
+    {
+        public Guid RentId { get; set; }
+        public decimal DamageFee { get; set; }
     }
 }

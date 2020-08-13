@@ -5,12 +5,12 @@
 {
     public static class UseCasesResponses
     {
-        public static UseCaseResult<TResult> UseCaseSuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
+        public static UseCaseResult<TResult> SuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
         {
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
-        public static UseCaseResult<TResult> UseCaseExecutionFailureResponse<TResult>(string message = "") where TResult : new()
+        public static UseCaseResult<TResult> ExecutionFailureResponse<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();
             return UseCaseResults.UseCaseFailureExecution.GetFailureResult(result, message);

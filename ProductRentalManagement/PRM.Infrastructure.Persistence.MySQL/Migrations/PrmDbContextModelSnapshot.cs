@@ -24,6 +24,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -68,6 +69,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -80,6 +82,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("DailyPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("DamageFee")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid?>("DeleterId")
@@ -114,6 +119,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
+
+                    b.Property<bool>("WasProductDamaged")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

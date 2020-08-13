@@ -4,6 +4,11 @@ namespace PRM.InterfaceAdapters.Controllers.Products.Dtos.RentProductDtos
 {
     public class RentProductOutput : RentResult
     {
+        public RentProductOutput()
+        {
+            
+        }
+        
         public RentProductOutput(RentResult result)
         {
             ProductId = result.ProductId;

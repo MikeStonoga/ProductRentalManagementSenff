@@ -32,7 +32,7 @@ namespace PRM.UseCases.Products.RentProduct
             var updateProductResponse = await _products.Update(productToRent.Response);
             return !updateProductResponse.Success 
                 ? UseCasesResponses.PersistenceErrorResponse<RentResult>(updateProductResponse.Message)
-                : UseCasesResponses.UseCaseSuccessfullyExecutedResponse(rentProductResponse.Result, rentProductResponse.Message);
+                : UseCasesResponses.SuccessfullyExecutedResponse(rentProductResponse.Result, rentProductResponse.Message);
             
         }
     }

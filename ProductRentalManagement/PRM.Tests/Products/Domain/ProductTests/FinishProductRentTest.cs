@@ -44,9 +44,14 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 CreationTime = DateTime.Now,
                 CreatorId = Guid.Parse("8b373509-c0af-4043-a6b9-cca7c3fdb7ae")
             };
-            
+
+            var finishRentRequirement = new FinishRentRequirement
+            {
+                RentId = rentId,
+                DamageFee = 0
+            };
             // Act
-            var finishProductRentResponse = product.FinishProductRent(rentId);
+            var finishProductRentResponse = product.FinishProductRent(finishRentRequirement);
 
             // Assert
             Assert.True(finishProductRentResponse.Success);
@@ -84,8 +89,14 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 CreatorId = Guid.Parse("8b373509-c0af-4043-a6b9-cca7c3fdb7ae")
             };
             
+            var finishRentRequirement = new FinishRentRequirement
+            {
+                RentId = rentId,
+                DamageFee = 0
+            };
+            
             // Act
-            var finishProductRentResponse = product.FinishProductRent(rentId);
+            var finishProductRentResponse = product.FinishProductRent(finishRentRequirement);
 
             // Assert
             Assert.False(finishProductRentResponse.Success);

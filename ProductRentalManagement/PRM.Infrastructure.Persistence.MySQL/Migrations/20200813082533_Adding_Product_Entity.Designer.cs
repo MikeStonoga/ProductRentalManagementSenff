@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200812153031_Adding_Product_Entity")]
+    [Migration("20200813082533_Adding_Product_Entity")]
     partial class Adding_Product_Entity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -70,6 +71,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -82,6 +84,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("DailyPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("DamageFee")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid?>("DeleterId")
@@ -116,6 +121,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
+
+                    b.Property<bool>("WasProductDamaged")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

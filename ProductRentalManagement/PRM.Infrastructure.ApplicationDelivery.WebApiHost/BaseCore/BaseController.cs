@@ -44,9 +44,9 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
         }
 
         [HttpGet]
-        public new async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
+        public override async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
         {
-            return await base.GetAll();
+            return await base.GetAll(null);
         }
         
    

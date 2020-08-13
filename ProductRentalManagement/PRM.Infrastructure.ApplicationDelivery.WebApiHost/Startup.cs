@@ -10,6 +10,7 @@ using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
 using PRM.InterfaceAdapters.Controllers.Products;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.Products;
+using PRM.UseCases.Products.FinishRent;
 using PRM.UseCases.Products.GetProductRentPrice;
 using PRM.UseCases.Products.RentProduct;
 
@@ -33,6 +34,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
                 .AddTransient<IProductUseCasesReadOnlyInteractor, ProductUseCasesReadOnlyInteractor>()
                 .AddTransient<IGetProductRentPrice, GetProductRentPrice>()
                 .AddTransient<IRentProduct, RentProduct>()
+                .AddTransient<IFinishRent, FinishRent>()
                 .AddTransient<IProductUseCasesManipulationInteractor, ProductUseCasesManipulationInteractor>()
                 .AddTransient(typeof(IReadOnlyPersistenceGateway<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>))

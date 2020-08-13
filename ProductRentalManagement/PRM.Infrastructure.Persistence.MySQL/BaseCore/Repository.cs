@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PRM.Domain.BaseCore;
@@ -80,6 +81,46 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>();
             }
             
+        }
+
+        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate)
+        {
+            try
+            {
+                var all = includePredicate != null
+                    ? await _database.Set<TEntity>().Include(includePredicate).Where(e => !e.IsDeleted).ToListAsync()
+                    : await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                
+                var getAllResponse = new GetAllResponse<TEntity>
+                {
+                    Items = all,
+                    TotalCount = all.Count
+                };
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(getAllResponse);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>();
+            }
+        }
+        
+        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate = null)
+        {
+            try
+            {
+                var first = includePredicate != null 
+                    ? await _database.Set<TEntity>().Include(includePredicate).FirstAsync(predicate) 
+                    : await _database.Set<TEntity>().FirstAsync(predicate);
+                
+                return PersistenceResponseStatus.Success.GetSuccessResponse(first);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+            }
         }
     }
     
@@ -206,6 +247,21 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
         {
             return await _readOnlyRepository.GetAll();
+        }
+        
+        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate)
+        {
+            return await _readOnlyRepository.GetAll(includePredicate);
+        }
+
+        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _readOnlyRepository.First(predicate);
+        }
+
+        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate)
+        {
+            return await _readOnlyRepository.First(predicate, includePredicate);
         }
     }
 }

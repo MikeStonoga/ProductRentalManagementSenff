@@ -14,6 +14,12 @@
         {
             return ExecutionStatus.Failure.GetFailureResult(result, message);
         }
+        
+        public static ApiResponse<TResult> FailureResponse<TResult>(string message = "") where TResult : new()
+        {
+            var result = new TResult();
+            return ExecutionStatus.Failure.GetFailureResult(result, message);
+        }
 
         public static ApiResponse<TResult> GetSuccessResult<TEnum, TResult>(this TEnum resultEnum, TResult result, string message = "") 
             where TEnum : Enum 
