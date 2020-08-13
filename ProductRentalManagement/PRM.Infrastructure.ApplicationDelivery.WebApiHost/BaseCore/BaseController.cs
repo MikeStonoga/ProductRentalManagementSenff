@@ -17,16 +17,20 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     
     [ApiController]
     [Route("[controller]/[action]")]
-    public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>
+    public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity, new()
         where TIEntityUseCaseReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
+        where TIEntityReadOnlyController : IBaseReadOnlyController<TEntity, TEntityOutput>
     {
-        
-        public BaseReadOnlyWebController(TIEntityUseCaseReadOnlyInteractor baseConsoleUseCaseReadOnlyInteractor) : base(baseConsoleUseCaseReadOnlyInteractor)
-        {
-        }
 
+        protected TIEntityReadOnlyController ReadOnlyController; 
+        
+        public BaseReadOnlyWebController(TIEntityUseCaseReadOnlyInteractor useCaseReadOnlyInteractor, TIEntityReadOnlyController readOnlyController) : base(useCaseReadOnlyInteractor)
+        {
+            ReadOnlyController = readOnlyController;
+        }
+        
         [HttpGet("{id}")]
         public new async Task<ApiResponse<TEntityOutput>> GetById([FromQuery] Guid id)
         {
@@ -44,7 +48,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
         {
             return await base.GetAll();
         }
-
+        
    
     }
     
@@ -57,16 +61,22 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
 
     [ApiController]
     [Route("[controller]/[action]")]
-    public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>
+    public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity, new()
         where TEntityInput : TEntity, IAmManipulationInput<TEntity>, new()
         where TIEntityUseCaseManipulationInteractor : IBaseUseCaseManipulationInteractor<TEntity>
-        where TIEntityReadOnlyController : IBaseReadOnlyWebController<TEntity, TEntityOutput>
+        where TIEntityManipulationController : IBaseManipulationController<TEntity, TEntityInput, TEntityOutput>
     {
-        public BaseManipulationWebController(TIEntityUseCaseManipulationInteractor baseConsoleUseCaseManipulationInteractor, TIEntityReadOnlyController readOnlyController) : base(baseConsoleUseCaseManipulationInteractor, readOnlyController)
+        protected readonly TIEntityManipulationController ManipulationController;
+        
+        public BaseManipulationWebController(TIEntityUseCaseManipulationInteractor useCaseInteractor, TIEntityManipulationController manipulationController) : base(useCaseInteractor, manipulationController)
         {
+            ManipulationController = manipulationController;
         }
+        
+        
+
 
         [HttpPost]
         public new async Task<ApiResponse<TEntityOutput>> Create([FromBody] TEntityInput input)

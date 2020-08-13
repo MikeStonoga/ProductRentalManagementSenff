@@ -7,9 +7,11 @@ using Microsoft.Extensions.Hosting;
 using PRM.Infrastructure.ApplicationDelivery.WebApiHost.Products;
 using PRM.Infrastructure.Persistence.MySQL.BaseCore;
 using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
+using PRM.InterfaceAdapters.Controllers.Products;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.Products;
 using PRM.UseCases.Products.GetProductRentPrice;
+using PRM.UseCases.Products.RentProduct;
 
 namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
 {
@@ -26,9 +28,11 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddTransient<IProductReadOnlyWebController, ProductReadOnlyController>()
+                .AddTransient<IProductReadOnlyController, ProductReadOnlyController>()
+                .AddTransient<IProductManipulationController, ProductManipulationController>()
                 .AddTransient<IProductUseCasesReadOnlyInteractor, ProductUseCasesReadOnlyInteractor>()
                 .AddTransient<IGetProductRentPrice, GetProductRentPrice>()
+                .AddTransient<IRentProduct, RentProduct>()
                 .AddTransient<IProductUseCasesManipulationInteractor, ProductUseCasesManipulationInteractor>()
                 .AddTransient(typeof(IReadOnlyPersistenceGateway<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>))

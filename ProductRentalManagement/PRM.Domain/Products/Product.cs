@@ -18,20 +18,21 @@ namespace PRM.Domain.Products
 
         public DomainResponseDto<RentResult> RentProduct(RentRequirement rentRequirement)
         {
-            if (!IsAvailable) return GetAlreadyRentedProductResponse();
-
+            if (!IsAvailable) return DomainValidationsExtensions.GetFailureResponse<RentResult>("AlreadyRentedProduct");
+            
+            var isRewardRenting = rentRequirement.StartDate < DateTime.Now.AddMinutes(-1);
+            if (isRewardRenting) return DomainValidationsExtensions.GetFailureResponse<RentResult>("CannotRentReward");
+            
             var rent = new Rent(rentRequirement);
+            rent.CreationTime = DateTime.Now;
+            
+            Rents ??= new List<Rent>();
             Rents.Add(rent);
+            
             Status = RentStatus.Unavailable;
             return new RentResult(rent, Description).GetSuccessResponse("Rented");
         }
-
-        private DomainResponseDto<RentResult> GetAlreadyRentedProductResponse()
-        {
-            return new RentResult{ProductId = Id, ProductDescription = Description}.GetFailureResponse("AlreadyRentedProduct");
-        }
-
-
+        
         public DomainResponseDto<RentFinishedDto> FinishProductRent(Guid rentId)
         {
             var rentToFinish = Rents.Find(rent => rentId == rent.Id);

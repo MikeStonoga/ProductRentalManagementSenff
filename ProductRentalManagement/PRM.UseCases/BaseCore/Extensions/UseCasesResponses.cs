@@ -10,13 +10,31 @@
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
+        public static UseCaseResult<TResult> UseCaseExecutionFailureResponse<TResult>(string message = "") where TResult : new()
+        {
+            var result = new TResult();
+            return UseCaseResults.UseCaseFailureExecution.GetFailureResult(result, message);
+        }
+        
         public static UseCaseResult<TResult> ValidationErrorResponse<TResult>(TResult result, string message = "")
         {
             return UseCaseResults.ValidationError.GetFailureResult(result, message);
         }
         
+        public static UseCaseResult<TResult> ValidationErrorResponse<TResult>(string message = "") where TResult : new()
+        {
+            var result = new TResult();
+            return UseCaseResults.PersistenceError.GetFailureResult(result, message);
+        }
+        
         public static UseCaseResult<TResult> PersistenceErrorResponse<TResult>(TResult result, string message = "")
         {
+            return UseCaseResults.PersistenceError.GetFailureResult(result, message);
+        }
+        
+        public static UseCaseResult<TResult> PersistenceErrorResponse<TResult>(string message = "") where TResult : new()
+        {
+            var result = new TResult();
             return UseCaseResults.PersistenceError.GetFailureResult(result, message);
         }
 

@@ -3,7 +3,8 @@
     public enum UseCaseResults
     {
         UseCaseSuccessfullyExecuted = 0,
-        ValidationError = 1,
-        PersistenceError = 2
+        UseCaseFailureExecution = 1,
+        ValidationError = 2,
+        PersistenceError = 3,
     }
 }

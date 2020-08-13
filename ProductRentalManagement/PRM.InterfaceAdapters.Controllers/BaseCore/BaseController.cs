@@ -40,16 +40,16 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         where TIEntityUseCaseReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
     {
 
-        private readonly TIEntityUseCaseReadOnlyInteractor _baseConsoleUseCaseManipulationReadOnlyInteractor;
+        protected readonly TIEntityUseCaseReadOnlyInteractor UseCaseReadOnlyInteractor;
 
-        protected BaseReadOnlyController(TIEntityUseCaseReadOnlyInteractor baseConsoleUseCaseManipulationReadOnlyInteractor)
+        protected BaseReadOnlyController(TIEntityUseCaseReadOnlyInteractor useCaseReadOnlyInteractor)
         {
-            _baseConsoleUseCaseManipulationReadOnlyInteractor = baseConsoleUseCaseManipulationReadOnlyInteractor;
+            UseCaseReadOnlyInteractor = useCaseReadOnlyInteractor;
         }
 
         public async Task<ApiResponse<TEntityOutput>> GetById(Guid id)
         {
-            var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetById(id);
+            var useCaseResult = await UseCaseReadOnlyInteractor.GetById(id);
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
 
@@ -60,7 +60,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
 
         public async Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids)
         {
-            var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetByIds(ids);
+            var useCaseResult = await UseCaseReadOnlyInteractor.GetByIds(ids);
             var wasSuccessfullyExecuted = useCaseResult.Success;
 
             var entityOutputs = useCaseResult.Result.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
@@ -72,7 +72,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
 
         public async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
         {
-            var useCaseResult = await _baseConsoleUseCaseManipulationReadOnlyInteractor.GetAll();
+            var useCaseResult = await UseCaseReadOnlyInteractor.GetAll();
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted)
             {
@@ -103,12 +103,12 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         where TIEntityUseCaseManipulationInteractor : IBaseUseCaseManipulationInteractor<TEntity>
         where TIEntityReadOnlyController : IBaseReadOnlyController<TEntity, TEntityOutput>
     {
-        private readonly TIEntityUseCaseManipulationInteractor _baseConsoleUseCaseManipulationInteractor;
+        protected readonly TIEntityUseCaseManipulationInteractor UseCaseInteractor;
         protected readonly TIEntityReadOnlyController ReadOnlyController;
 
-        protected BaseManipulationController(TIEntityUseCaseManipulationInteractor baseConsoleUseCaseManipulationInteractor, TIEntityReadOnlyController readOnlyController) : base(baseConsoleUseCaseManipulationInteractor)
+        protected BaseManipulationController(TIEntityUseCaseManipulationInteractor useCaseInteractor, TIEntityReadOnlyController readOnlyController) : base(useCaseInteractor)
         {
-            _baseConsoleUseCaseManipulationInteractor = baseConsoleUseCaseManipulationInteractor;
+            UseCaseInteractor = useCaseInteractor;
             ReadOnlyController = readOnlyController;
         }
         
@@ -122,7 +122,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.CreationTime = input.CreationTime;
             entity.CreatorId = input.CreatorId;
             
-            var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Create(entity);
+            var useCaseResult = await UseCaseInteractor.Create(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
@@ -143,7 +143,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.LastModificationTime = input.LastModificationTime;
             entity.LastModifierId = input.LastModifierId;
             
-            var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Update(entity);
+            var useCaseResult = await UseCaseInteractor.Update(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
@@ -154,7 +154,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
 
         public async Task<ApiResponse<DeletionResponses>> Delete(Guid id)
         {
-            var useCaseResult = await _baseConsoleUseCaseManipulationInteractor.Delete(id);
+            var useCaseResult = await UseCaseInteractor.Delete(id);
             return !useCaseResult.Success ? DeletionResponses.DeletionFailure.GetFailureResult(useCaseResult.Result) : DeletionResponses.DeleteSuccessfully.GetSuccessResult(useCaseResult.Result);
         }
     }

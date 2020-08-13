@@ -24,5 +24,17 @@ namespace PRM.Domain.BaseCore.Extensions
 
             };
         }
+        
+        public static DomainResponseDto<TResult> GetFailureResponse<TResult>(string message) where TResult : new()
+        {
+            var result = new TResult();
+            return new DomainResponseDto<TResult>
+            {
+                Success = false,
+                Message = message,
+                Result = result
+
+            };
+        }
     }
 }

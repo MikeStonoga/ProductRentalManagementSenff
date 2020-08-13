@@ -129,7 +129,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 entity.LastModificationTime = DateTime.Now;
                 
                 var entityToUpdate = await _database.FindAsync<TEntity>(entity.Id);
-                
                 if (entityToUpdate.IsDeleted) return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>("AlreadyWasDeleted");
                 
                 entityToUpdate = entity;
@@ -209,5 +208,4 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             return await _readOnlyRepository.GetAll();
         }
     }
-    
 }

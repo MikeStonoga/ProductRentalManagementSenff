@@ -13,19 +13,18 @@ namespace PRM.UseCases.Products.GetProductRentPrice
     
     public class GetProductRentPrice : BaseUseCase<GetProductRentPriceRequirement, decimal>, IGetProductRentPrice
     {
-        private readonly IReadOnlyPersistenceGateway<Product> _productReadOnlyPersistenceGateway;
+        private readonly IReadOnlyPersistenceGateway<Product> _products;
 
-        public GetProductRentPrice(IReadOnlyPersistenceGateway<Product> productReadOnlyPersistenceGateway)
+        public GetProductRentPrice(IReadOnlyPersistenceGateway<Product> products)
         {
-            _productReadOnlyPersistenceGateway = productReadOnlyPersistenceGateway;
+            _products = products;
         }
 
         public override async Task<UseCaseResult<decimal>> Execute(GetProductRentPriceRequirement requirement)
         {
-            var productToGetRentPrice = await _productReadOnlyPersistenceGateway.GetById(requirement.ProductId);
+            var productToGetRentPrice = await _products.GetById(requirement.ProductId);
             if (!productToGetRentPrice.Success) return UseCasesResponses.PersistenceErrorResponse(0M, "ProductNotFound");
-            
-            
+
             return new UseCaseResult<decimal>
             {
                 Success = true,
