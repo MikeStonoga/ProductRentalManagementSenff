@@ -23,5 +23,6 @@ namespace PRM.InterfaceAdapters.Gateways.Persistence.BaseCore
         Task<PersistenceResponse<TEntity>> Create(TEntity entity);
         Task<PersistenceResponse<TEntity>> Update(TEntity entity);
         Task<PersistenceResponse<DeletionResponses>> Delete(Guid id);
+        
     }
 }
