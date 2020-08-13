@@ -1,9 +1,0 @@
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\bin\Debug\netcoreapp3.1\PRM.Domain.deps.json
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\bin\Debug\netcoreapp3.1\PRM.Domain.dll
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\bin\Debug\netcoreapp3.1\PRM.Domain.pdb
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.csprojAssemblyReference.cache
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.AssemblyInfoInputs.cache
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.AssemblyInfo.cs
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.csproj.CoreCompileInputs.cache
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.dll
-C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Domain\obj\Debug\netcoreapp3.1\PRM.Domain.pdb
