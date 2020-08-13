@@ -6,7 +6,15 @@ namespace PRM.Infrastructure.Authentication.Users.Dtos
     {
         public User MapToEntity()
         {
-            throw new System.NotImplementedException();
+            return new User
+            {
+                Email = Email,
+                Login = Login,
+                Name = Name,
+                Password = Password,
+                Role = Role,
+                PersonImage = PersonImage,
+            };
         }
     }
 }

@@ -23,7 +23,7 @@ namespace PRM.Infrastructure.Authentication.Authentication
             var userRepositoryResponse = await _users.First(user => user.Login == input.Login && user.Password == input.Password );
             if (!userRepositoryResponse.Success) return NotFound(new {message = "Invalid Login / Password"});
 
-            var token = TokenService.GenerateToken(input);
+            var token = TokenService.GenerateToken(userRepositoryResponse.Response);
 
             input.Password = "";
 
