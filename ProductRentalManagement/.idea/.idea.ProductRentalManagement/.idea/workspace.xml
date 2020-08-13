@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be1546bd-02c8-45d7-a117-fcb2a827ac9b" name="Default Changelist" comment="" />
+    <list default="true" id="be1546bd-02c8-45d7-a117-fcb2a827ac9b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ProductRentalManagement/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ProductRentalManagement/.idea/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -303,7 +305,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1597195955619</updated>
-      <workItem from="1597195961413" duration="55793000" />
+      <workItem from="1597195961413" duration="56156000" />
     </task>
     <servers />
   </component>

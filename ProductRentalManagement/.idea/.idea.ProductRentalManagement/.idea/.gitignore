@@ -72,8 +72,8 @@ fabric.properties
 
 
 # Build results
-/obj/*
-/bin/*
+ProductRentalManagement/obj/*
+ProductRentalManagement/bin/*
 
 # For syntax see: https://stackoverflow.com/a/14422549/12124
 /.idea/*
