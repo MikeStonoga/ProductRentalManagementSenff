@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using PRM.Infrastructure.Authentication.Infrastructure.Persistence;
 
-namespace PRM.Infrastructure.Persistence.MySQL.Migrations
+namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(PrmDbContext))]
-    [Migration("20200812151734_Initial_Migration")]
-    partial class Initial_Migration
+    [DbContext(typeof(AuthenticationDbContext))]
+    [Migration("20200813152858_Initial_Migrations")]
+    partial class Initial_Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

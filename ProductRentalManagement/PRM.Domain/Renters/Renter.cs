@@ -1,8 +1,8 @@
 ﻿using PRM.Domain.BaseCore;
 
-namespace PRM.Domain.Users
+namespace PRM.Domain.Renters
 {
-    public class User : AuthenticablePerson
+    public class Renter : Person
     {
         public string GovernmentRegistrationDocumentCode { get; set; }
     }

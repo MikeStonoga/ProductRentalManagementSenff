@@ -3,17 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PRM.Infrastructure.Authentication;
+using PRM.Infrastructure.Authentication.Infrastructure.Persistence;
+using PRM.Infrastructure.Authentication.Users.Controllers;
+using PRM.Infrastructure.Authentication.Users.UseCases;
 using PRM.Infrastructure.Persistence.MySQL;
 using PRM.Infrastructure.Persistence.MySQL.BaseCore;
-using PRM.InterfaceAdapters.Controllers.Products;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
-using PRM.UseCases.Products;
-using PRM.UseCases.Products.FinishRent;
-using PRM.UseCases.Products.GetProductRentPrice;
-using PRM.UseCases.Products.RentProduct;
 
-namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
+namespace PRM.Infrastructure.Authentication
 {
     public class Startup
     {
@@ -27,21 +24,16 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.UseMySql<AuthenticationDbContext>(databaseName: "authentication");
+
             services
-                .AddTransient<IProductReadOnlyController, ProductReadOnlyController>()
-                .AddTransient<IProductManipulationController, ProductManipulationController>()
-                .AddTransient<IProductUseCasesReadOnlyInteractor, ProductUseCasesReadOnlyInteractor>()
-                .AddTransient<IGetProductRentPrice, GetProductRentPrice>()
-                .AddTransient<IRentProduct, RentProduct>()
-                .AddTransient<IFinishRent, FinishRent>()
-                .AddTransient<IProductUseCasesManipulationInteractor, ProductUseCasesManipulationInteractor>()
+                .AddTransient<IUserReadOnlyController, UserReadOnlyController>()
+                .AddTransient<IUserUseCasesReadOnlyInteractor, UserUseCasesReadOnlyInteractor>()
+                .AddTransient<IUserUseCasesManipulationInteractor, UserUseCasesManipulationInteractor>()
                 .AddTransient(typeof(IReadOnlyPersistenceGateway<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IManipulationPersistenceGateway<>), typeof(Repository<>));
-
-            services.UseMySql<PrmDbContext>(databaseName: "prm");
             services.AddControllers();
-            AuthenticationSettingsExtensions.AddAuthentication(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +48,6 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
 
             app.UseRouting();
             
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

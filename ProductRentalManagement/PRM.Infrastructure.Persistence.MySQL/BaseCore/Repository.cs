@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Enums;
-using PRM.Infrastructure.Persistence.MySQL.EntityFrameworkCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Enums;
@@ -20,9 +20,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     
     public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : FullAuditedEntity, new()
     {
-        private readonly PrmDbContext _database;
+        private readonly ICurrentDbContext _database;
 
-        public ReadOnlyRepository(PrmDbContext database)
+        public ReadOnlyRepository(ICurrentDbContext database)
         {
             _database = database;
         }
@@ -31,7 +31,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var entity = await _database.Set<TEntity>().FindAsync(id);
+                var entity = await _database.Context.Set<TEntity>().FindAsync(id);
 
                 return entity.IsDeleted 
                     ? PersistenceResponseStatus.Success.GetFailureResponse<PersistenceResponseStatus, TEntity>("WasDeleted") 
@@ -48,7 +48,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var entities = await _database.Set<TEntity>()
+                var entities = await _database.Context.Set<TEntity>()
                     .Where(e => ids.Contains(e.Id) && !e.IsDeleted)
                     .ToListAsync();;
 
@@ -65,7 +65,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var all = await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                var all = await _database.Context.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
                 {
@@ -88,8 +88,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             try
             {
                 var all = includePredicate != null
-                    ? await _database.Set<TEntity>().Include(includePredicate).Where(e => !e.IsDeleted).ToListAsync()
-                    : await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                    ? await _database.Context.Set<TEntity>().Include(includePredicate).Where(e => !e.IsDeleted).ToListAsync()
+                    : await _database.Context.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
                 {
@@ -111,8 +111,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             try
             {
                 var first = includePredicate != null 
-                    ? await _database.Set<TEntity>().Include(includePredicate).FirstAsync(predicate) 
-                    : await _database.Set<TEntity>().FirstAsync(predicate);
+                    ? await _database.Context.Set<TEntity>().Include(includePredicate).FirstAsync(predicate) 
+                    : await _database.Context.Set<TEntity>().FirstAsync(predicate);
                 
                 return PersistenceResponseStatus.Success.GetSuccessResponse(first);
             }
@@ -133,8 +133,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     {
 
         private readonly IReadOnlyRepository<TEntity> _readOnlyRepository;
-        private readonly PrmDbContext _database;
-        public Repository(PrmDbContext database, IReadOnlyRepository<TEntity> readOnlyRepository)
+        private readonly ICurrentDbContext _database;
+        public Repository(ICurrentDbContext database, IReadOnlyRepository<TEntity> readOnlyRepository)
         {
             _readOnlyRepository = readOnlyRepository;
             _database = database;
@@ -151,8 +151,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             try
             {
                 entity.CreationTime = DateTime.Now;
-                await _database.AddAsync(entity);
-                await _database.SaveChangesAsync();
+                await _database.Context.AddAsync(entity);
+                await _database.Context.SaveChangesAsync();
 
                 return PersistenceResponseStatus.Success.GetSuccessResponse(entity);
             }
@@ -169,11 +169,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             {
                 entity.LastModificationTime = DateTime.Now;
                 
-                var entityToUpdate = await _database.FindAsync<TEntity>(entity.Id);
+                var entityToUpdate = await _database.Context.FindAsync<TEntity>(entity.Id);
                 if (entityToUpdate.IsDeleted) return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>("AlreadyWasDeleted");
                 
                 entityToUpdate = entity;
-                await _database.SaveChangesAsync();
+                await _database.Context.SaveChangesAsync();
 
                 return PersistenceResponseStatus.Success.GetSuccessResponse(entityToUpdate);
             }
@@ -188,7 +188,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var entity = await _database.FindAsync<TEntity>(id);
+                var entity = await _database.Context.FindAsync<TEntity>(id);
 
                 if (entity.IsDeleted)
                 {
@@ -204,7 +204,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 
                 entity.DeletionTime = DateTime.Now;
                 entity.IsDeleted = true;
-                await _database.SaveChangesAsync();
+                await _database.Context.SaveChangesAsync();
 
                 return new PersistenceResponse<DeletionResponses>
                 {

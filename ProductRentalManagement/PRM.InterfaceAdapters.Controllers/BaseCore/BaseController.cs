@@ -48,7 +48,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             UseCaseReadOnlyInteractor = useCaseReadOnlyInteractor;
         }
 
-        public async Task<ApiResponse<TEntityOutput>> GetById(Guid id)
+        public virtual async Task<ApiResponse<TEntityOutput>> GetById(Guid id)
         {
             var useCaseResult = await UseCaseReadOnlyInteractor.GetById(id);
             var wasSuccessfullyExecuted = useCaseResult.Success;
@@ -59,7 +59,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         }
 
 
-        public async Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids)
+        public virtual async Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids)
         {
             var useCaseResult = await UseCaseReadOnlyInteractor.GetByIds(ids);
             var wasSuccessfullyExecuted = useCaseResult.Success;

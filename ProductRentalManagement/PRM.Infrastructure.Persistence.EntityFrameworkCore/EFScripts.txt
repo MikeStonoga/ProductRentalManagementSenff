@@ -2,3 +2,6 @@
 dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations remove --context "PrmDbContext"
 dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ database update --context "PrmDbContext"
 
+dotnet ef migrations add "MIGRATION NAME HERE" --context "AuthenticationDbContext" -o .\Infrastructure\Persistence\Migrations\
+dotnet ef migrations remove --context "AuthenticationDbContext" -o .\Infrastructure\Persistence\Migrations\
+dotnet ef database update --context "AuthenticationDbContext"
