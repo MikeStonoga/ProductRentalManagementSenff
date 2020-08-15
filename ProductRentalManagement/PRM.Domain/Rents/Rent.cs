@@ -92,7 +92,7 @@ namespace PRM.Domain.Rents
             return this.GetSuccessResponse("Rented");
         }
 
-        public DomainResponseDto<RentFinishedResult> FinishRent(List<Product> rentedProducts, decimal damageFee = 0)
+        public DomainResponseDto<RentFinishedResult> FinishRent(decimal damageFee = 0)
         {
             if (damageFee != 0M)
             {
@@ -112,7 +112,7 @@ namespace PRM.Domain.Rents
                 ValueToPay = CurrentRentPaymentValue
             };
 
-            foreach (var product in rentedProducts)
+            foreach (var product in Products)
             {
                 product.MarkAsAvailable();
             }
