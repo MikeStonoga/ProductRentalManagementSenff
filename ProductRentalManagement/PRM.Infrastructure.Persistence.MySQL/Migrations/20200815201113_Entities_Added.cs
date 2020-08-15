@@ -139,6 +139,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     ProductRentalHistoryId = table.Column<Guid>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false, defaultValue: 0),
+                    RentDailyPrice = table.Column<decimal>(nullable: false),
+                    RentDailyLateFee = table.Column<decimal>(nullable: false),
                     RentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

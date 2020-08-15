@@ -4,7 +4,6 @@ using PRM.Domain.Products;
 using PRM.Domain.Products.Enums;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
-using PRM.Domain.Rents.Enums;
 using PRM.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace PRM.Infrastructure.Persistence.MySQL
@@ -43,10 +42,12 @@ namespace PRM.Infrastructure.Persistence.MySQL
 
             modelBuilder.Entity<ProductRentalHistory>().HasKey(history => history.Id);
             
-            modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Product>().HasKey(product => product.Id);
             modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.Code).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.Status).HasDefaultValue(ProductStatus.Available);
+            modelBuilder.Entity<Product>().Property(p => p.RentDailyPrice).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.RentDailyLateFee).IsRequired();
         }
     }
     

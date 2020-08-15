@@ -20,7 +20,9 @@ namespace PRM.InterfaceAdapters.Controllers.Products.Dtos
                 DeletionTime = DeletionTime,
                 IsDeleted = IsDeleted,
                 LastModificationTime = LastModificationTime,
-                LastModifierId = LastModifierId
+                LastModifierId = LastModifierId,
+                RentDailyPrice = RentDailyPrice,
+                RentDailyLateFee = RentDailyLateFee,
             };
         }
     }

@@ -58,6 +58,12 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<Guid?>("ProductRentalHistoryId")
                         .HasColumnType("char(36)");
 
+                    b.Property<decimal>("RentDailyLateFee")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("RentDailyPrice")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<Guid?>("RentId")
                         .HasColumnType("char(36)");
 

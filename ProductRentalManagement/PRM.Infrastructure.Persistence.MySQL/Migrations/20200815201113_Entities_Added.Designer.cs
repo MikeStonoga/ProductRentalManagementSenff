@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200815180828_Entities_Added")]
+    [Migration("20200815201113_Entities_Added")]
     partial class Entities_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,12 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<Guid?>("ProductRentalHistoryId")
                         .HasColumnType("char(36)");
+
+                    b.Property<decimal>("RentDailyLateFee")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("RentDailyPrice")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid?>("RentId")
                         .HasColumnType("char(36)");
