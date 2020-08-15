@@ -10,10 +10,13 @@ namespace PRM.Infrastructure.Authentication.Users.Dtos
             {
                 Email = Email,
                 Login = Login,
+                Phone = Phone,
                 Name = Name,
                 Password = Password,
                 Role = Role,
                 PersonImage = PersonImage,
+                CreatorId = CreatorId,
+                LastModifierId = LastModifierId
             };
         }
     }

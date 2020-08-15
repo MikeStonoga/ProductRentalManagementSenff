@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRM.Infrastructure.Persistence.MySQL;
 
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    partial class PrmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200815134130_Entities_Added")]
+    partial class Entities_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

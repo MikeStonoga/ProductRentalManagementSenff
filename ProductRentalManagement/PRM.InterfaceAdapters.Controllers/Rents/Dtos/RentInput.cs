@@ -1,16 +1,14 @@
-﻿using PRM.Domain.Products;
+﻿using PRM.Domain.Rents;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 
-namespace PRM.InterfaceAdapters.Controllers.Products.Dtos
+namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
 {
-    public class ProductInput : Product, IAmManipulationInput<Product>
+    public class RentInput : Rent, IAmManipulationInput<Rent>
     {
-        public Product MapToEntity()
+        public Rent MapToEntity()
         {
-            return new Product
+            return new Rent
             {
-                Description = Description,
-                Status = Status,
                 Id = Id,
                 Code = Code,
                 Name = Name,

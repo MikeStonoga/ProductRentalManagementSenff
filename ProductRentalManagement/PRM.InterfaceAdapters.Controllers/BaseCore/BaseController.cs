@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
  using System.Linq.Expressions;
  using System.Threading.Tasks;
-using PRM.Domain.BaseCore;
+ using Microsoft.AspNetCore.Mvc;
+ using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Enums;
-using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
+ using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
 using PRM.UseCases.BaseCore;
 
 namespace PRM.InterfaceAdapters.Controllers.BaseCore
@@ -35,7 +36,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         Task<ApiResponse<DeletionResponses>> Delete(Guid id);
     }
 
-    public abstract class BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor> : IBaseReadOnlyController<TEntity, TEntityOutput> 
+    public abstract class BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor> : ControllerBase, IBaseReadOnlyController<TEntity, TEntityOutput> 
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity, new()
         where TIEntityUseCaseReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
@@ -100,6 +101,17 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             
             return ApiResponses.SuccessfullyExecutedResponse(getAllOutput);
         }
+        
+        protected async Task<ApiResponse<TOutput>> GetUseCaseExecutionResponse<TUseCaseRequirement, TUseCaseResult, TInput, TOutput>(Func<TUseCaseRequirement, Task<UseCaseResult<TUseCaseResult>>> useCase, TInput input)
+            where TInput : TUseCaseRequirement 
+            where TOutput : class, TUseCaseResult, new()
+        {
+            var useCaseResponse = await useCase(input);
+            if (!useCaseResponse.Success) return ApiResponses.FailureResponse<TOutput>(useCaseResponse.Message);
+            
+            var output = Activator.CreateInstance(typeof(TOutput), useCaseResponse.Result) as TOutput;
+            return ApiResponses.SuccessfullyExecutedResponse(output, useCaseResponse.Message);
+        }
     }
 
     public abstract class BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseManipulationInteractor>,  IBaseManipulationController<TEntity, TEntityInput, TEntityOutput>
@@ -118,7 +130,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             ReadOnlyController = readOnlyController;
         }
         
-        public async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input)
+        public virtual async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input)
         {
             var entity = input.MapToEntity();
             
@@ -137,7 +149,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
-        public async Task<ApiResponse<TEntityOutput>> Update(TEntityInput input)
+        public virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput input)
         {
             var entity = input.MapToEntity();
             
@@ -158,7 +170,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
-        public async Task<ApiResponse<DeletionResponses>> Delete(Guid id)
+        public virtual async Task<ApiResponse<DeletionResponses>> Delete(Guid id)
         {
             var useCaseResult = await UseCaseInteractor.Delete(id);
             return !useCaseResult.Success ? DeletionResponses.DeletionFailure.GetFailureResult(useCaseResult.Result) : DeletionResponses.DeleteSuccessfully.GetSuccessResult(useCaseResult.Result);

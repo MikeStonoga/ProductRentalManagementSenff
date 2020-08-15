@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.BaseCore.Enums;
 using PRM.Infrastructure.Authentication.Users.Dtos;
@@ -24,8 +26,8 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
         }
     }
     
-    
     [ApiController]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public class UserController : BaseManipulationController<User, UserInput, UserOutput, IUserUseCasesManipulationInteractor, IUserReadOnlyController>, IUserController
     {
@@ -55,12 +57,16 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
         public new async Task<ApiResponse<UserOutput>> Create([FromBody] UserInput input)
         {
             input.Id = Guid.NewGuid();
+            var userId = User.Claims.ToList()[2];
+            input.CreatorId = Guid.Parse(userId.Value);
             return await base.Create(input);
         }
 
         [HttpPut]
         public new async Task<ApiResponse<UserOutput>> Update([FromBody] UserInput input)
         {
+            var userId = User.Claims.ToList()[2];
+            input.LastModifierId = Guid.Parse(userId.Value);
             return await base.Update(input);
         }
 

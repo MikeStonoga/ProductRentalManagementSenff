@@ -13,7 +13,6 @@ namespace PRM.InterfaceAdapters.Controllers.Products.Dtos
         public ProductOutput(Product product)
         {
             Description = product.Description;
-            Rents = product.Rents;
             Status = product.Status;
             Id = product.Id;
             Code = product.Code;

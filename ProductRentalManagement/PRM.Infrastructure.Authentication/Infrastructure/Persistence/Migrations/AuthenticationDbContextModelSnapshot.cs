@@ -23,7 +23,11 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -39,6 +43,7 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsDeleted")
@@ -51,16 +56,22 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<byte[]>("PersonImage")
                         .HasColumnType("longblob");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");

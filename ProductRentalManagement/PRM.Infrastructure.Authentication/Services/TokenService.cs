@@ -9,7 +9,12 @@ namespace PRM.Infrastructure.Authentication.Services
 {
     public static class TokenService
     {
-        public static string GenerateToken(User user)
+        public static string GenerateAuthenticationToken(User user)
+        {
+            return user.GenerateToken(DateTime.UtcNow.AddHours(2));
+        }
+
+        private static string GenerateToken(this User user, DateTime? expirationDate = null)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -18,9 +23,10 @@ namespace PRM.Infrastructure.Authentication.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Role, user.Role.ToString()), 
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.PrimarySid, user.Id.ToString()), 
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = expirationDate,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

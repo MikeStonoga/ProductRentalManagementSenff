@@ -1,4 +1,6 @@
-﻿namespace PRM.Domain.Products.Rents.Dtos
+﻿using System;
+
+namespace PRM.Domain.Rents.Dtos
 {
     public class RentFinishedResult : Rent
     {

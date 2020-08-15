@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace PRM.Domain.Products.Rents.Dtos
+namespace PRM.Domain.Rents.Dtos
 {
     public class RentRequirement
     {
-        public Guid ProductId { get; set; }
+        public List<Guid> ProductsIds { get; set; } 
         public Guid RenterId { get; set; }
         public decimal DailyPrice { get; set; }
         public DateTime StartDate { get; set; }

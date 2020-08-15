@@ -1,8 +1,9 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Rents;
 using PRM.Domain.Products.Rents.Enums;
+using PRM.Domain.Rents;
 using Xunit;
 
 namespace PRM.Tests.Products.Domain.ProductTests
@@ -28,7 +29,7 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 Code = "1",
                 Name = "Product1",
                 Description = "ModelA",
-                Rents = new List<Rent>
+                ProductRentId = new List<Rent>
                 {
                     new Rent
                     {
@@ -47,7 +48,7 @@ namespace PRM.Tests.Products.Domain.ProductTests
 
             var finishRentRequirement = new FinishRentRequirement
             {
-                RentId = rentId,
+                ProductRentId = rentId,
                 DamageFee = 0
             };
             // Act
@@ -72,7 +73,7 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 Code = "1",
                 Name = "Product1",
                 Description = "ModelA",
-                Rents = new List<Rent>
+                ProductRentId = new List<Rent>
                 {
                     new Rent
                     {
@@ -91,7 +92,7 @@ namespace PRM.Tests.Products.Domain.ProductTests
             
             var finishRentRequirement = new FinishRentRequirement
             {
-                RentId = rentId,
+                ProductRentId = rentId,
                 DamageFee = 0
             };
             
@@ -104,4 +105,4 @@ namespace PRM.Tests.Products.Domain.ProductTests
             Assert.Equal(0, finishProductRentResponse.Result.ValueToPay);
         }
     }
-}
+}*/

@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using PRM.Domain.Products;
+using PRM.Domain.Renters;
 
-namespace PRM.Domain.Products.Rents.Dtos
+namespace PRM.Domain.Rents.Dtos
 {
-    public class RentResult
+    public class RentProductsResult
     {
-        public string ProductDescription { get; set; }
-
-        public Guid ProductId { get; set; }
-        public Guid UserId { get; set; }
+        public List<Product> Products { get; set; }
+        public Guid RenterId { get; set; }
         public decimal DailyPrice { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal DailyLateFee { get; set; }
+        
+        public RenterRentalHistory RenterRentalHistory { get; set; }
+        public List<ProductRentalHistory> ProductRentalHistories { get; set; }
         
         public string Name { get; set; }
         public Guid? LastModifierId { get; set; }
@@ -20,19 +24,20 @@ namespace PRM.Domain.Products.Rents.Dtos
         public DateTime CreationTime { get; set; }
         public decimal CurrentRentPaymentValue { get; set; }
 
-        public RentResult()
+        public RentProductsResult()
         {
             
         }
         
-        public RentResult(Rent rent, string productDescription)
+        public RentProductsResult(Rent rent)
         {
-            ProductDescription = productDescription;
-            ProductId = rent.ProductId;
+            Products = rent.Products;
+            RenterId = rent.RenterId;
+            ProductRentalHistories = rent.ProductRentalHistories;
+            RenterRentalHistory = rent.RenterRentalHistory;
             DailyPrice = rent.DailyPrice;
             EndDate = rent.EndDate;
             StartDate = rent.StartDate;
-            UserId = rent.UserId;
             DailyLateFee = rent.DailyLateFee;
             Name = rent.Name;
             CreationTime = rent.CreationTime;
@@ -41,6 +46,5 @@ namespace PRM.Domain.Products.Rents.Dtos
             LastModifierId = rent.LastModifierId;
             CurrentRentPaymentValue = rent.CurrentRentPaymentValue;
         }
-
     }
 }

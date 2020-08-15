@@ -1,4 +1,5 @@
-﻿using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
+﻿using System.Threading.Tasks;
+using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 
 namespace PRM.Infrastructure.Authentication.Users.UseCases
@@ -22,12 +23,24 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
 
     public class UserUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<User, IUserUseCasesReadOnlyInteractor>, IUserUseCasesManipulationInteractor
     {
-
-        public UserUseCasesManipulationInteractor(IManipulationPersistenceGateway<User> basePersistenceGateway, IUserUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
+        private readonly IManipulationPersistenceGateway<User> _persistenceGateway;
+        public UserUseCasesManipulationInteractor(IManipulationPersistenceGateway<User> persistenceGateway, IUserUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor) : base(persistenceGateway, subjectUseCasesReadOnlyInteractor)
         {
-
+            _persistenceGateway = persistenceGateway;
         }
-
-
+        
+        public override async Task<UseCaseResult<User>> Create(User entity)
+        {
+            var loginValidationResponse = await _persistenceGateway.First(user => user.Login == entity.Login);
+            if (loginValidationResponse.Success)
+            {
+                loginValidationResponse.Success = false;
+                loginValidationResponse.Message = "AlreadyHasLogin";
+                return GetUseCaseResult(loginValidationResponse);
+            }
+            
+            var persistenceResponse = await _persistenceGateway.Create(entity);
+            return GetUseCaseResult(persistenceResponse);
+        }
     }
 }

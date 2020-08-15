@@ -1,4 +1,4 @@
-﻿namespace PRM.Domain.Products.Rents.Enums
+﻿namespace PRM.Domain.Rents.Enums
 {
     public enum RentStatus
     {

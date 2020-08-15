@@ -11,9 +11,5 @@
       <ProjectReference Include="..\PRM.InterfaceAdapters.Controllers\PRM.InterfaceAdapters.Controllers.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Products\Dtos" />
-    </ItemGroup>
-
 
 </Project>

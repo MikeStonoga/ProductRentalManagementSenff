@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PRM.Infrastructure.Authentication.Services;
 using PRM.Infrastructure.Authentication.Users;
@@ -18,15 +20,16 @@ namespace PRM.Infrastructure.Authentication.Authentication
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<dynamic>>Authenticate([FromBody] User input)
         {
             var userRepositoryResponse = await _users.First(user => user.Login == input.Login && user.Password == input.Password );
             if (!userRepositoryResponse.Success) return NotFound(new {message = "Invalid Login / Password"});
 
-            var token = TokenService.GenerateToken(userRepositoryResponse.Response);
+            var token = TokenService.GenerateAuthenticationToken(userRepositoryResponse.Response);
 
             input.Password = "";
-
+            
             return new
             {
                 user = input,

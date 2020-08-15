@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+ using Microsoft.AspNetCore.Authorization;
+ using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.BaseCore;
  using PRM.Domain.BaseCore.Enums;
  using PRM.InterfaceAdapters.Controllers.BaseCore;
@@ -16,6 +17,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
     
     [ApiController]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>
         where TEntity : FullAuditedEntity
@@ -60,6 +62,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
 
     [ApiController]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>
         where TEntity : FullAuditedEntity

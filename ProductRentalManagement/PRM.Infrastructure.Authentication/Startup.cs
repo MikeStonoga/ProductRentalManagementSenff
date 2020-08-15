@@ -34,6 +34,7 @@ namespace PRM.Infrastructure.Authentication
                 .AddTransient(typeof(IReadOnlyRepository<>), typeof(ReadOnlyRepository<>))
                 .AddTransient(typeof(IManipulationPersistenceGateway<>), typeof(Repository<>));
             services.AddControllers();
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +48,8 @@ namespace PRM.Infrastructure.Authentication
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

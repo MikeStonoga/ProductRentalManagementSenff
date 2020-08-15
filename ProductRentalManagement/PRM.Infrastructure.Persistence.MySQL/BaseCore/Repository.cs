@@ -40,7 +40,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.Message);
             }
         }
 
@@ -57,7 +57,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, List<TEntity>>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, List<TEntity>>(e.Message);
             }
         }
 
@@ -78,11 +78,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>(e.Message);
             }
-            
         }
-
+        
         public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate)
         {
             try
@@ -102,7 +101,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>(e.Message);
             }
         }
         
@@ -151,6 +150,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             try
             {
                 entity.CreationTime = DateTime.Now;
+                // TODO: CREATOR ID
                 await _database.Context.AddAsync(entity);
                 await _database.Context.SaveChangesAsync();
 
@@ -159,7 +159,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + e.InnerException.Message : e.Message);
             }
         }
 
@@ -180,7 +180,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>();
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + e.InnerException.Message : e.Message);
             }
         }
 
@@ -217,10 +217,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                
                 return new PersistenceResponse<DeletionResponses>
                 {
-                    Message = "PersistenceFailure",
+                    Message = e.Message,
                     Success = false,
                     Response = DeletionResponses.DeletionFailure,
                     ErrorCodeName = DeletionResponses.DeletionFailure.ToString()

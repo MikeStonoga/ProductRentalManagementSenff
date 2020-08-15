@@ -13,6 +13,7 @@
             Name = user.Name;
             Code = user.Code;
             Email = user.Email;
+            Phone = user.Phone;
             Login = user.Login;
             Password = user.Password;
             Role = user.Role;

@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PRM.Domain.Products;
-using PRM.Domain.Products.Rents;
+using PRM.Domain.Renters;
+using PRM.Domain.Rents;
 using PRM.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace PRM.Infrastructure.Persistence.MySQL
@@ -12,6 +15,7 @@ namespace PRM.Infrastructure.Persistence.MySQL
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Rent> Rents { get; set; }
+        public DbSet<Renter> Renters { get; set; }
         
         public PrmDbContext(DbContextOptions<PrmDbContext> options) : base(options)
         {
@@ -21,22 +25,25 @@ namespace PRM.Infrastructure.Persistence.MySQL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Renter>().HasKey(renter => renter.Id);
+
+            modelBuilder.Entity<RenterRentalHistory>().HasKey(history => history.Id);
+            
+            modelBuilder.Entity<Rent>().HasKey(rent => rent.Id);
+
+            modelBuilder.Entity<ProductRentalHistory>().HasKey(history => history.Id);
             
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
-            modelBuilder.Entity<Product>().HasMany<Rent>();
-            modelBuilder.Entity<Product>().Property(p => p.Code).ValueGeneratedOnAdd();
             
-            modelBuilder.Entity<Rent>()
-                .HasOne<Product>()
-                .WithMany(r => r.Rents)
-                .HasForeignKey(p => p.ProductId);
-            modelBuilder.Entity<Rent>().Property(r => r.Code).ValueGeneratedOnAdd();
+            
+            
         }
     }
     
     public class PrmDbContextDesignTime : BaseDbContextDesignTime<PrmDbContext>
     {
-        public PrmDbContextDesignTime() : base(Settings.ConnectionString,"prm")
+        public PrmDbContextDesignTime() : base(MySqlSettings.ConnectionString,"prm")
         {
         }
     }

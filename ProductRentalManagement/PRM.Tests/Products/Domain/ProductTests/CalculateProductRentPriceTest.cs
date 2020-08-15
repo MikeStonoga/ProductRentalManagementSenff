@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Rents.Dtos;
 using Xunit;
@@ -33,4 +33,4 @@ namespace PRM.Tests.Products.Domain.ProductTests
             Assert.Equal(5.0M, productRentPrice);
         }
     }
-}
+}*/

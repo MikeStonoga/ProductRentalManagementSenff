@@ -1,9 +1,11 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Rents;
 using PRM.Domain.Products.Rents.Dtos;
 using PRM.Domain.Products.Rents.Enums;
+using PRM.Domain.Renters;
+using PRM.Domain.Rents;
 using Xunit;
 
 namespace PRM.Tests.Products.Domain.ProductTests
@@ -27,21 +29,24 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 Code = "1",
                 Name = "Product1",
                 Description = "ModelA",
-                Rents = new List<Rent>(),
+                ProductRentId = new List<Rent>(),
                 Status = RentStatus.Available,
                 CreationTime = DateTime.Now,
                 CreatorId = Guid.Parse("8b373509-c0af-4043-a6b9-cca7c3fdb7ae")
             };
 
             var renterId = Guid.Parse("740316e1-7fa3-4099-b496-6c72a83f6499");
-            
+            var renter = new Renter
+            {
+                Id = renterId
+            };
             var rentRequirement = new RentRequirement
             {
                 DailyPrice = 0.5M,
                 StartDate = new DateTime(2020, 08, 10),
                 EndDate = new DateTime(2020, 08, 12),
                 ProductId = productId,
-                RenterId = renterId,
+                Renter = renter,
                 DailyLateFee = 0.2M,
                 Name = "Student Rent"
             };
@@ -65,13 +70,17 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 Code = "1",
                 Name = "Product1",
                 Description = "ModelA",
-                Rents = new List<Rent>(),
+                ProductRentId = new List<Rent>(),
                 Status = RentStatus.Unavailable,
                 CreationTime = DateTime.Now,
                 CreatorId = Guid.Parse("8b373509-c0af-4043-a6b9-cca7c3fdb7ae")
             };
 
             var renterId = Guid.Parse("740316e1-7fa3-4099-b496-6c72a83f6499");
+            var renter = new Renter
+            {
+                Id = renterId
+            };
             
             var rentRequirement = new RentRequirement
             {
@@ -79,7 +88,7 @@ namespace PRM.Tests.Products.Domain.ProductTests
                 StartDate = new DateTime(2020, 08, 10),
                 EndDate = new DateTime(2020, 08, 12),
                 ProductId = productId,
-                RenterId = renterId,
+                Renter = renter,
                 DailyLateFee = 0.2M,
                 Name = "Student Rent"
             };
@@ -93,4 +102,4 @@ namespace PRM.Tests.Products.Domain.ProductTests
             Assert.Equal(0, rentProductResponse.Result.CurrentRentPaymentValue);
         }
     }
-}
+}*/

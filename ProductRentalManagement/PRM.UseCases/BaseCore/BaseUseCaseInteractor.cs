@@ -36,7 +36,7 @@ namespace PRM.UseCases.BaseCore
         }
         
 
-        public async Task<UseCaseResult<TEntity>> GetById(Guid id)
+        public virtual async Task<UseCaseResult<TEntity>> GetById(Guid id)
         {
             var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetById(id);
 
@@ -52,7 +52,7 @@ namespace PRM.UseCases.BaseCore
                 : UseCasesResponses.PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
         }
 
-        public async Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids)
+        public virtual async Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids)
         {
             var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetByIds(ids);
             return GetUseCaseResult(persistenceResponse);
@@ -79,19 +79,19 @@ namespace PRM.UseCases.BaseCore
         }
         
         
-        public async Task<UseCaseResult<TEntity>> Create(TEntity entity)
+        public virtual async Task<UseCaseResult<TEntity>> Create(TEntity entity)
         {
             var persistenceResponse = await _basePersistenceGateway.Create(entity);
             return GetUseCaseResult(persistenceResponse);
         }
 
-        public async Task<UseCaseResult<TEntity>> Update(TEntity entity)
+        public virtual async Task<UseCaseResult<TEntity>> Update(TEntity entity)
         {
             var persistenceResponse = await _basePersistenceGateway.Update(entity);
             return GetUseCaseResult(persistenceResponse);
         }
 
-        public async Task<UseCaseResult<DeletionResponses>> Delete(Guid id)
+        public virtual async Task<UseCaseResult<DeletionResponses>> Delete(Guid id)
         {
             var persistenceResponse = await _basePersistenceGateway.Delete(id);
             return GetUseCaseResult(persistenceResponse);
