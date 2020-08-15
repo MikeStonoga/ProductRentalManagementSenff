@@ -12,6 +12,12 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
         #endregion
 
         #region Constructors
+
+        public GetRentForecastPriceRequirement()
+        {
+            
+        }
+
         public GetRentForecastPriceRequirement(RentRequirement rentRequirement, List<Guid> productsIds)
         {
             RentRequirement = rentRequirement ?? throw new ArgumentNullException(nameof(rentRequirement));

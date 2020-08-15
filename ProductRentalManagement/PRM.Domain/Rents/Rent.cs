@@ -52,11 +52,11 @@ namespace PRM.Domain.Rents
             
             Name = rentRequirement.Name;
             Status = RentStatus.Open;
-            DailyPrice = rentRequirement.DailyPrice;
+            DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
             StartDate = rentRequirement.StartDate;
             EndDate = rentRequirement.EndDate;
             CreationTime = DateTime.Now;
-            DailyLateFee = rentRequirement.DailyLateFee;
+            DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
             RenterId = rentRequirement.RenterId;
             Products = productsToRent;
         }

@@ -22,6 +22,9 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
 
         public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement rentProductsRequirement)
         {
+            if (rentProductsRequirement.ProductsIds == null) return UseCasesResponses.ExecutionFailureResponse<GetRentForecastPriceResult>("Trying to calculate without any product");
+            if (rentProductsRequirement.RentRequirement == null) return UseCasesResponses.ExecutionFailureResponse<GetRentForecastPriceResult>("Insufficient data to calculate");
+            
             var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds);
             if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<GetRentForecastPriceResult>(productsToRentResponse.Message);
             

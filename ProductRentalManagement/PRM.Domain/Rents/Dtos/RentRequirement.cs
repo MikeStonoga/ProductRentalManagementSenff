@@ -5,6 +5,10 @@ namespace PRM.Domain.Rents.Dtos
 {
     public class RentRequirement
     {
+        public RentRequirement()
+        {
+            
+        }
         public RentRequirement(List<Guid> productsIds, Guid renterId, decimal dailyPrice, DateTime startDate, DateTime endDate, decimal dailyLateFee, string name)
         {
             ProductsIds = productsIds;

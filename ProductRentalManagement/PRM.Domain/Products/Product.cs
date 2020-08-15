@@ -10,6 +10,9 @@ namespace PRM.Domain.Products
         public string Description { get; set; }
         public ProductStatus Status { get;  set; }
         public bool IsAvailable => Status == ProductStatus.Available;
+        public decimal RentDailyPrice { get; set; }
+        public decimal RentDailyLateFee { get; set; }
+
         #endregion
 
         #region Methods

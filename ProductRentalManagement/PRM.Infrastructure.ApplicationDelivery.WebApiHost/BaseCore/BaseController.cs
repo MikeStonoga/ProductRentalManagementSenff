@@ -17,6 +17,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
     
     [ApiController]
+    [Produces("application/json")]
     [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>
@@ -62,6 +63,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
 
     [ApiController]
+    [Produces("application/json")]
     [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>

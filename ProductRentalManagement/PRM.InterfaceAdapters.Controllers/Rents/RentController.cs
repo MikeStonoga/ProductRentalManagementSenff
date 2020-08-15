@@ -34,7 +34,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         }
     }
 
-    public interface IRentManipulationController
+    public interface IRentManipulationController : IRentReadOnlyController
     {
         Task<ApiResponse<RentProductsOutput>> RentProducts(RentProductsInput input);
         Task<ApiResponse<FinishRentOutput>> FinishRent(FinishRentInput input);
