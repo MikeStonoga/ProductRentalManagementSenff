@@ -47,8 +47,9 @@ namespace PRM.UseCases.Rents.RentProducts
             }
 
             var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            var rentOutput = new RentProductsResult(rentCreatedResponse.Response);
-            return UseCasesResponses.SuccessfullyExecutedResponse(rentOutput);
+            var rentProductsResult = new RentProductsResult(rentCreatedResponse.Response);
+            
+            return UseCasesResponses.SuccessfullyExecutedResponse(rentProductsResult);
         }
     }
 }

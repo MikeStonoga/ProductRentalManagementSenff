@@ -7,6 +7,7 @@ using PRM.Domain.BaseCore.Extensions;
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents.Dtos;
+using PRM.Domain.Rents.Enums;
 
 namespace PRM.Domain.Rents
 {
@@ -17,15 +18,17 @@ namespace PRM.Domain.Rents
         public List<ProductRentalHistory> ProductRentalHistories { get; set; }
         public Guid RenterId { get; set; }
         public List<Product> Products { get; set; }
+        public RentStatus Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal DailyPrice { get; set; }
         public decimal DailyLateFee { get; set; }
         public bool WasProductDamaged { get; set; }
         public decimal DamageFee { get; set; }
+        public decimal Discount { get; set; }
 
         public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
-        public decimal PriceWithoutFees => DailyPrice * RentDays;
+        public decimal PriceWithoutFees => DailyPrice * RentDays + Discount;
 
         public int RentDays => EndDate.Subtract(StartDate).Days;
 
@@ -43,10 +46,12 @@ namespace PRM.Domain.Rents
         
         public Rent(RentRequirement rentRequirement, List<Product> productsToRent)
         {
+            if (productsToRent == null) throw new ArgumentException("Trying to create a Rent without any Products");
             if (!productsToRent.All(product => product.IsAvailable)) throw new ArgumentException(GetUnavailableProductsMessage(productsToRent));
             if (rentRequirement.EndDate < rentRequirement.StartDate) throw  new ArgumentException("Rent end date may not be earlier then start date");
             
             Name = rentRequirement.Name;
+            Status = RentStatus.Open;
             DailyPrice = rentRequirement.DailyPrice;
             StartDate = rentRequirement.StartDate;
             EndDate = rentRequirement.EndDate;
@@ -73,10 +78,9 @@ namespace PRM.Domain.Rents
 
         #region Methods
         
-        public decimal CalculateRentPrice(RentRequirement rentRequirement, List<Product> products)
+        public decimal CalculateRentForecastPrice()
         {
-            // TODO: CRIAR INPUT APROPRIADO
-            return 0M;/* new Rent(rentProductsRequirement, products).PriceWithoutFees;*/
+            return PriceWithoutFees;
         }
         
         public DomainResponseDto<Rent> RentProducts()
@@ -92,32 +96,23 @@ namespace PRM.Domain.Rents
             return this.GetSuccessResponse("Rented");
         }
 
-        public DomainResponseDto<RentFinishedResult> FinishRent(decimal damageFee = 0)
+        public DomainResponseDto<Rent> FinishRent(decimal damageFee = 0, decimal discount = 0)
         {
             if (damageFee != 0M)
             {
                 WasProductDamaged = true;
                 DamageFee = damageFee;
+                Discount = discount;
             }
-            
-            var finishedRent = new RentFinishedResult
-            {
-                RenterRentalHistory = RenterRentalHistory,
-                ProductRentalHistories = ProductRentalHistories,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                DailyPrice = DailyPrice,
-                DailyLateFee = DailyLateFee,
-                DamageFee = DamageFee,
-                ValueToPay = CurrentRentPaymentValue
-            };
 
             foreach (var product in Products)
             {
                 product.MarkAsAvailable();
             }
+
+            Status = RentStatus.Closed;
             
-            return finishedRent.GetSuccessResponse("RentFinished");
+            return this.GetSuccessResponse("RentFinished");
         }
 
         #endregion
