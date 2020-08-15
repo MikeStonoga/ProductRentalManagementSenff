@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PRM.Domain.Products;
 using PRM.Domain.Rents;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
@@ -42,28 +41,5 @@ namespace PRM.UseCases.Rents.FinishRents
             var finishRentResult = new FinishRentResult(finishRentResponse.Result.CurrentRentPaymentValue);
             return UseCasesResponses.SuccessfullyExecutedResponse(finishRentResult);
         }
-    }
-    
-    public class FinishRentResult
-    {
-        public decimal ValueToPay { get; }
-        
-        public FinishRentResult()
-        {
-            ValueToPay = 0;
-        }
-
-        public FinishRentResult(decimal valueToPay)
-        {
-            ValueToPay = valueToPay;
-        }
-        
-    }
-
-    public class FinishRentRequirement
-    {
-        public Guid RentId { get; set; }
-        public decimal DamageFee { get; set; }
-        public decimal Discount { get; set; }
     }
 }

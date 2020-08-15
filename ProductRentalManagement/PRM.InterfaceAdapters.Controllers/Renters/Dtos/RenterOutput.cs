@@ -10,18 +10,23 @@ namespace PRM.InterfaceAdapters.Controllers.Renters.Dtos
             
         }
         
-        public RenterOutput(Renter product)
+        public RenterOutput(Renter renter)
         {
-            Id = product.Id;
-            Code = product.Code;
-            Name = product.Name;
-            CreationTime = product.CreationTime;
-            CreatorId = product.CreatorId;
-            DeleterId = product.DeleterId;
-            DeletionTime = product.DeletionTime;
-            IsDeleted = product.IsDeleted;
-            LastModificationTime = product.LastModificationTime;
-            LastModifierId = product.LastModifierId;            
+            Id = renter.Id;
+            Code = renter.Code;
+            Name = renter.Name;
+            CreationTime = renter.CreationTime;
+            CreatorId = renter.CreatorId;
+            DeleterId = renter.DeleterId;
+            DeletionTime = renter.DeletionTime;
+            IsDeleted = renter.IsDeleted;
+            LastModificationTime = renter.LastModificationTime;
+            LastModifierId = renter.LastModifierId;
+            PersonImage = renter.PersonImage;
+            Email = renter.Email;
+            Phone = renter.Phone;
+            BirthDate = renter.BirthDate;
+            GovernmentRegistrationDocumentCode = renter.GovernmentRegistrationDocumentCode;
         }
     }
 }

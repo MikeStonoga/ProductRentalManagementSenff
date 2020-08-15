@@ -24,6 +24,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -51,6 +52,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<Guid?>("ProductRentalHistoryId")
@@ -60,7 +62,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -124,6 +128,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationTime")
@@ -139,9 +144,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("GovernmentRegistrationDocumentCode")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsDeleted")
@@ -154,6 +161,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<byte[]>("PersonImage")
@@ -240,6 +248,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
@@ -263,6 +274,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WasProductDamaged")
                         .HasColumnType("tinyint(1)");

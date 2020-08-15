@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PRM.Domain.Products;
+using PRM.Domain.Products.Enums;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
+using PRM.Domain.Rents.Enums;
 using PRM.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace PRM.Infrastructure.Persistence.MySQL
@@ -25,17 +27,26 @@ namespace PRM.Infrastructure.Persistence.MySQL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Renter>().HasKey(renter => renter.Id);
+            modelBuilder.Entity<Renter>().Property(r => r.Name).IsRequired();
+            modelBuilder.Entity<Renter>().Property(r => r.Email).IsRequired();
+            modelBuilder.Entity<Renter>().Property(r => r.BirthDate).IsRequired();
+            modelBuilder.Entity<Renter>().Property(r => r.Code).IsRequired();
+            modelBuilder.Entity<Renter>().Property(r => r.GovernmentRegistrationDocumentCode).IsRequired();
 
             modelBuilder.Entity<RenterRentalHistory>().HasKey(history => history.Id);
             
             modelBuilder.Entity<Rent>().HasKey(rent => rent.Id);
+            modelBuilder.Entity<Rent>().Property(r => r.DailyPrice).IsRequired();
+            modelBuilder.Entity<Rent>().Property(r => r.DailyLateFee).IsRequired();
+            modelBuilder.Entity<Rent>().Property(r => r.StartDate).IsRequired();
+            modelBuilder.Entity<Rent>().Property(r => r.EndDate).IsRequired();
 
             modelBuilder.Entity<ProductRentalHistory>().HasKey(history => history.Id);
             
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
-            
-            
-            
+            modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Code).IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.Status).HasDefaultValue(ProductStatus.Available);
         }
     }
     

@@ -32,8 +32,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Code = table.Column<string>(nullable: false),
                     CreatorId = table.Column<Guid>(nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     LastModifierId = table.Column<Guid>(nullable: true),
@@ -42,10 +42,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     PersonImage = table.Column<byte[]>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    GovernmentRegistrationDocumentCode = table.Column<string>(nullable: true),
+                    GovernmentRegistrationDocumentCode = table.Column<string>(nullable: false),
                     RenterRentalHistoryId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -75,12 +75,14 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     RenterRentalHistoryId = table.Column<Guid>(nullable: true),
                     RenterId = table.Column<Guid>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     DailyPrice = table.Column<decimal>(nullable: false),
                     DailyLateFee = table.Column<decimal>(nullable: false),
                     WasProductDamaged = table.Column<bool>(nullable: false),
-                    DamageFee = table.Column<decimal>(nullable: false)
+                    DamageFee = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,8 +127,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Code = table.Column<string>(nullable: false),
                     CreatorId = table.Column<Guid>(nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     LastModifierId = table.Column<Guid>(nullable: true),
@@ -136,7 +138,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     ProductRentalHistoryId = table.Column<Guid>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false, defaultValue: 0),
                     RentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

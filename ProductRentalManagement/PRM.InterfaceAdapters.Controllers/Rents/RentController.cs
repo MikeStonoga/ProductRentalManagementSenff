@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using PRM.Domain.Rents;
 using PRM.Domain.Rents.Dtos;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
+using PRM.InterfaceAdapters.Controllers.Rents.Dtos;
 using PRM.InterfaceAdapters.Controllers.Rents.Dtos.FinishRents;
 using PRM.InterfaceAdapters.Controllers.Rents.Dtos.GetRentForecastPrices;
 using PRM.InterfaceAdapters.Controllers.Rents.Dtos.RentProducts;
@@ -12,16 +14,16 @@ using PRM.UseCases.Rents.RentProducts;
 
 namespace PRM.InterfaceAdapters.Controllers.Rents
 {
-    public interface IRentReadOnlyController
+    public interface IRentReadOnlyController : IBaseReadOnlyController<Rent, RentOutput>
     {
         Task<ApiResponse<GetRentForecastPriceOutput>> GetRentForecastPrice(GetRentForecastPriceInput input);
     }
      
-    public class RentReadOnlyController : IRentReadOnlyController
+    public class RentReadOnlyController : BaseReadOnlyController<Rent, RentOutput, IRentUseCasesReadOnlyInteractor>, IRentReadOnlyController
     {
         private readonly IRentUseCasesReadOnlyInteractor _useCasesReadOnlyInteractor;
 
-        public RentReadOnlyController(IRentUseCasesReadOnlyInteractor useCasesReadOnlyInteractor)
+        public RentReadOnlyController(IRentUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(useCasesReadOnlyInteractor)
         {
             _useCasesReadOnlyInteractor = useCasesReadOnlyInteractor;
         }

@@ -11,7 +11,7 @@ namespace PRM.UseCases.Products
     public class ProductUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<Product>, IProductUseCasesReadOnlyInteractor
     {
         
-        public ProductUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Product> baseReadOnlyPersistenceGateway) : base(baseReadOnlyPersistenceGateway)
+        public ProductUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Product> readOnlyPersistenceGateway) : base(readOnlyPersistenceGateway)
         {
         }
         
@@ -24,7 +24,7 @@ namespace PRM.UseCases.Products
 
     public class ProductUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<Product, IProductUseCasesReadOnlyInteractor>, IProductUseCasesManipulationInteractor
     {
-        public ProductUseCasesManipulationInteractor(IManipulationPersistenceGateway<Product> basePersistenceGateway, IProductUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor, IManipulationPersistenceGateway<ProductRentalHistory> productRentalHistories) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
+        public ProductUseCasesManipulationInteractor(IManipulationPersistenceGateway<Product> persistenceGateway, IProductUseCasesReadOnlyInteractor useCasesReadOnlyInteractor, IManipulationPersistenceGateway<ProductRentalHistory> productRentalHistories) : base(persistenceGateway, useCasesReadOnlyInteractor)
         {
         }
     }

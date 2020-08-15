@@ -1,5 +1,5 @@
 ﻿using PRM.Domain.BaseCore;
-using PRM.Domain.Rents.Enums;
+using PRM.Domain.Products.Enums;
 
 namespace PRM.Domain.Products
 {
@@ -8,20 +8,20 @@ namespace PRM.Domain.Products
         #region Properties
         public ProductRentalHistory ProductRentalHistory { get; set; }
         public string Description { get; set; }
-        public RentStatus Status { get;  set; }
-        public bool IsAvailable => Status == RentStatus.Available;
+        public ProductStatus Status { get;  set; }
+        public bool IsAvailable => Status == ProductStatus.Available;
         #endregion
 
         #region Methods
 
         public void MarkAsAvailable()
         {
-            Status = RentStatus.Available;
+            Status = ProductStatus.Available;
         }
 
         public void MarkAsUnavailable()
         {
-            Status = RentStatus.Unavailable;
+            Status = ProductStatus.Unavailable;
         }
         
         #endregion

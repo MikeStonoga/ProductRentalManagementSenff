@@ -28,17 +28,17 @@ namespace PRM.UseCases.BaseCore
     public class BaseUseCaseReadOnlyInteractor<TEntity> : IBaseUseCaseReadOnlyInteractor<TEntity>
         where TEntity : FullAuditedEntity
     {
-        private readonly IReadOnlyPersistenceGateway<TEntity> _baseReadOnlyPersistenceGateway;
+        protected readonly IReadOnlyPersistenceGateway<TEntity> ReadOnlyPersistenceGateway;
 
-        public BaseUseCaseReadOnlyInteractor(IReadOnlyPersistenceGateway<TEntity> baseReadOnlyPersistenceGateway)
+        public BaseUseCaseReadOnlyInteractor(IReadOnlyPersistenceGateway<TEntity> readOnlyPersistenceGateway)
         {
-            _baseReadOnlyPersistenceGateway = baseReadOnlyPersistenceGateway;
+            ReadOnlyPersistenceGateway = readOnlyPersistenceGateway;
         }
         
 
         public virtual async Task<UseCaseResult<TEntity>> GetById(Guid id)
         {
-            var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetById(id);
+            var persistenceResponse = await ReadOnlyPersistenceGateway.GetById(id);
 
             return GetUseCaseResult(persistenceResponse);
         }
@@ -54,13 +54,13 @@ namespace PRM.UseCases.BaseCore
 
         public virtual async Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids)
         {
-            var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetByIds(ids);
+            var persistenceResponse = await ReadOnlyPersistenceGateway.GetByIds(ids);
             return GetUseCaseResult(persistenceResponse);
         }
 
         public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null)
         {
-            var persistenceResponse = await _baseReadOnlyPersistenceGateway.GetAll(includePredicate);
+            var persistenceResponse = await ReadOnlyPersistenceGateway.GetAll(includePredicate);
             return GetUseCaseResult(persistenceResponse);
         }
     }
@@ -70,30 +70,30 @@ namespace PRM.UseCases.BaseCore
         where TIEntityUseCasesReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
     {
         protected readonly TIEntityUseCasesReadOnlyInteractor UseCasesReadOnlyInteractor;
-        private readonly IManipulationPersistenceGateway<TEntity> _basePersistenceGateway;
+        private readonly IManipulationPersistenceGateway<TEntity> _persistenceGateway;
         
-        public BaseUseCaseManipulationInteractor(IManipulationPersistenceGateway<TEntity> basePersistenceGateway, TIEntityUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(basePersistenceGateway)
+        public BaseUseCaseManipulationInteractor(IManipulationPersistenceGateway<TEntity> persistenceGateway, TIEntityUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(persistenceGateway)
         {
-            _basePersistenceGateway = basePersistenceGateway;
+            _persistenceGateway = persistenceGateway;
             UseCasesReadOnlyInteractor = useCasesReadOnlyInteractor;
         }
         
         
         public virtual async Task<UseCaseResult<TEntity>> Create(TEntity entity)
         {
-            var persistenceResponse = await _basePersistenceGateway.Create(entity);
+            var persistenceResponse = await _persistenceGateway.Create(entity);
             return GetUseCaseResult(persistenceResponse);
         }
 
         public virtual async Task<UseCaseResult<TEntity>> Update(TEntity entity)
         {
-            var persistenceResponse = await _basePersistenceGateway.Update(entity);
+            var persistenceResponse = await _persistenceGateway.Update(entity);
             return GetUseCaseResult(persistenceResponse);
         }
 
         public virtual async Task<UseCaseResult<DeletionResponses>> Delete(Guid id)
         {
-            var persistenceResponse = await _basePersistenceGateway.Delete(id);
+            var persistenceResponse = await _persistenceGateway.Delete(id);
             return GetUseCaseResult(persistenceResponse);
         }
     }

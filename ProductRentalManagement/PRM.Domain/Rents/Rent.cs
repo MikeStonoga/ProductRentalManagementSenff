@@ -78,7 +78,7 @@ namespace PRM.Domain.Rents
 
         #region Methods
         
-        public decimal CalculateRentForecastPrice()
+        public decimal GetRentForecastPrice()
         {
             return PriceWithoutFees;
         }
@@ -114,7 +114,6 @@ namespace PRM.Domain.Rents
             
             return this.GetSuccessResponse("RentFinished");
         }
-
         #endregion
     }
     

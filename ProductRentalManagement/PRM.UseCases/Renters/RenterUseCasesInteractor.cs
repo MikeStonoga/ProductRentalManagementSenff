@@ -11,7 +11,7 @@ namespace PRM.UseCases.Renters
     public class RenterUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<Renter>, IRenterUseCasesReadOnlyInteractor
     {
         
-        public RenterUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Renter> baseReadOnlyPersistenceGateway) : base(baseReadOnlyPersistenceGateway)
+        public RenterUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Renter> readOnlyPersistenceGateway) : base(readOnlyPersistenceGateway)
         {
         }
         
@@ -24,7 +24,7 @@ namespace PRM.UseCases.Renters
 
     public class RenterUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<Renter, IRenterUseCasesReadOnlyInteractor>, IRenterUseCasesManipulationInteractor
     {
-        public RenterUseCasesManipulationInteractor(IManipulationPersistenceGateway<Renter> basePersistenceGateway, IRenterUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor, IManipulationPersistenceGateway<RenterRentalHistory> productRentalHistories) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
+        public RenterUseCasesManipulationInteractor(IManipulationPersistenceGateway<Renter> persistenceGateway, IRenterUseCasesReadOnlyInteractor useCasesReadOnlyInteractor, IManipulationPersistenceGateway<RenterRentalHistory> productRentalHistories) : base(persistenceGateway, useCasesReadOnlyInteractor)
         {
         }
     }

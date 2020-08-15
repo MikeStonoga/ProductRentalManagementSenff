@@ -159,7 +159,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + e.InnerException.Message : e.Message);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + "\n" + e.InnerException.Message : e.Message);
             }
         }
 
@@ -180,7 +180,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + e.InnerException.Message : e.Message);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>(e.InnerException != null ? e.Message + "\n" + e.InnerException.Message : e.Message);
             }
         }
 

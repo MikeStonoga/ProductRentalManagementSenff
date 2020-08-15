@@ -11,7 +11,7 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
     public class UserUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<User>, IUserUseCasesReadOnlyInteractor
     {
         
-        public UserUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<User> baseReadOnlyPersistenceGateway) : base(baseReadOnlyPersistenceGateway)
+        public UserUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<User> readOnlyPersistenceGateway) : base(readOnlyPersistenceGateway)
         {
         }
 
@@ -24,7 +24,7 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
     public class UserUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<User, IUserUseCasesReadOnlyInteractor>, IUserUseCasesManipulationInteractor
     {
         private readonly IManipulationPersistenceGateway<User> _persistenceGateway;
-        public UserUseCasesManipulationInteractor(IManipulationPersistenceGateway<User> persistenceGateway, IUserUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor) : base(persistenceGateway, subjectUseCasesReadOnlyInteractor)
+        public UserUseCasesManipulationInteractor(IManipulationPersistenceGateway<User> persistenceGateway, IUserUseCasesReadOnlyInteractor useCasesReadOnlyInteractor) : base(persistenceGateway, useCasesReadOnlyInteractor)
         {
             _persistenceGateway = persistenceGateway;
         }

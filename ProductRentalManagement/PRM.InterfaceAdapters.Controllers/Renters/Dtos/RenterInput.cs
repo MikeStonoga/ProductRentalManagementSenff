@@ -18,7 +18,12 @@ namespace PRM.InterfaceAdapters.Controllers.Renters.Dtos
                 DeletionTime = DeletionTime,
                 IsDeleted = IsDeleted,
                 LastModificationTime = LastModificationTime,
-                LastModifierId = LastModifierId
+                LastModifierId = LastModifierId,
+                PersonImage = PersonImage,
+                Email = Email,
+                Phone = Phone,
+                BirthDate = BirthDate,
+                GovernmentRegistrationDocumentCode = GovernmentRegistrationDocumentCode
             };
         }
     }
