@@ -1,47 +1,62 @@
 ﻿using System.Threading.Tasks;
-using PRM.Domain.Rents;
-using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
+using PRM.Domain.Rents.Dtos;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
+using PRM.UseCases.Rents.FinishRents;
+using PRM.UseCases.Rents.GetRentForecastPrices;
 using PRM.UseCases.Rents.RentProducts;
 
 namespace PRM.UseCases.Rents
 {
-    public interface IRentUseCasesReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<Rent>
+    public interface IRentUseCasesReadOnlyInteractor
     {
+        Task<UseCaseResult<GetRentForecastPriceResult>> GetRentForecastPrice(GetRentForecastPriceRequirement requirement);
     }
         
-    public class RentUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<Rent>, IRentUseCasesReadOnlyInteractor
+    public class RentUseCasesReadOnlyInteractor : IRentUseCasesReadOnlyInteractor
     {
-        
-        public RentUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Rent> baseReadOnlyPersistenceGateway) : base(baseReadOnlyPersistenceGateway)
+        private readonly IGetRentForecastPrice _getRentForecastPrice;
+
+        public RentUseCasesReadOnlyInteractor(IGetRentForecastPrice getRentForecastPrice)
         {
+            _getRentForecastPrice = getRentForecastPrice;
         }
-        
+
+        public async Task<UseCaseResult<GetRentForecastPriceResult>> GetRentForecastPrice(GetRentForecastPriceRequirement requirement)
+        {
+            return await UseCasesResponses.GetUseCaseExecutionResponse<IGetRentForecastPrice, GetRentForecastPriceRequirement, GetRentForecastPriceResult>(_getRentForecastPrice, requirement);
+        }
     }
 
-    public interface IRentUseCasesManipulationInteractor : IBaseUseCaseManipulationInteractor<Rent>, IRentUseCasesReadOnlyInteractor
+    public interface IRentUseCasesManipulationInteractor : IRentUseCasesReadOnlyInteractor
     {
-        Task<UseCaseResult<Rent>> RentProduct(RentProductRequeriment requeriment);
+        Task<UseCaseResult<FinishRentResult>> FinishRent(FinishRentRequirement requirement);
+        Task<UseCaseResult<RentProductsResult>> RentProducts(RentProductsRequirement requirement);
     }
 
-    public class RentUseCasesManipulationInteractor : BaseUseCaseManipulationInteractor<Rent, IRentUseCasesReadOnlyInteractor>, IRentUseCasesManipulationInteractor
+    public class RentUseCasesManipulationInteractor : RentUseCasesReadOnlyInteractor, IRentUseCasesManipulationInteractor
     {
+        
+        private readonly IRentProducts _rentProducts;
+        private readonly IFinishRent _finishRent;
 
-        private readonly IRentProduct _rentProduct;
-
-        public RentUseCasesManipulationInteractor(IManipulationPersistenceGateway<Rent> basePersistenceGateway, IRentUseCasesReadOnlyInteractor subjectUseCasesReadOnlyInteractor, IRentProduct rentProduct) : base(basePersistenceGateway, subjectUseCasesReadOnlyInteractor)
+        public RentUseCasesManipulationInteractor(IGetRentForecastPrice getRentForecastPrice, IRentProducts rentProducts, IFinishRent finishRent) : base(getRentForecastPrice)
         {
-            _rentProduct = rentProduct;
+            _rentProducts = rentProducts;
+            _finishRent = finishRent;
         }
 
 
-        public async Task<UseCaseResult<Rent>> RentProduct(RentProductRequeriment requeriment)
+        public async Task<UseCaseResult<FinishRentResult>> FinishRent(FinishRentRequirement requirement)
         {
-            var executionResult = await _rentProduct.Execute(requeriment);
-            return !executionResult.Success 
-                ? UseCasesResponses.ExecutionFailureResponse<Rent>(executionResult.Message) 
-                : UseCasesResponses.SuccessfullyExecutedResponse(executionResult.Result);
+            return await UseCasesResponses.GetUseCaseExecutionResponse<IFinishRent, FinishRentRequirement, FinishRentResult>(_finishRent, requirement);
         }
+
+        public async Task<UseCaseResult<RentProductsResult>> RentProducts(RentProductsRequirement requirement)
+        {
+            return await UseCasesResponses.GetUseCaseExecutionResponse<IRentProducts, RentProductsRequirement, RentProductsResult>(_rentProducts, requirement);
+        }
+        
+        
     }
 }

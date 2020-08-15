@@ -1,10 +1,23 @@
 ﻿﻿using System;
+ using System.Threading.Tasks;
  using PRM.InterfaceAdapters.Controllers.BaseCore.Enums;
+ using PRM.UseCases.BaseCore;
 
  namespace PRM.InterfaceAdapters.Controllers.BaseCore.Extensions
 {
     public static class ApiResponses
     {
+        public static async Task<ApiResponse<TOutput>> GetUseCaseInteractorResponse<TUseCaseRequirement, TUseCaseResult, TInput, TOutput>(Func<TUseCaseRequirement, Task<UseCaseResult<TUseCaseResult>>> useCase, TInput input)
+            where TInput : TUseCaseRequirement 
+            where TOutput : class, TUseCaseResult, new()
+        {
+            var useCaseResponse = await useCase(input);
+            if (!useCaseResponse.Success) return FailureResponse<TOutput>(useCaseResponse.Message);
+            
+            var output = Activator.CreateInstance(typeof(TOutput), useCaseResponse.Result) as TOutput;
+            return SuccessfullyExecutedResponse(output, useCaseResponse.Message);
+        }
+        
         public static ApiResponse<TResult> SuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
         {
             return ExecutionStatus.ExecutedSuccessfully.GetSuccessResult(result, message);

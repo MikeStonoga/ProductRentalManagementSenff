@@ -2,6 +2,8 @@
 using PRM.UseCases.Products;
 using PRM.UseCases.Renters;
 using PRM.UseCases.Rents;
+using PRM.UseCases.Rents.FinishRents;
+using PRM.UseCases.Rents.GetRentForecastPrices;
 using PRM.UseCases.Rents.RentProducts;
 
 namespace PRM.UseCases
@@ -19,7 +21,9 @@ namespace PRM.UseCases
                 //Rents
                 .AddTransient<IRentUseCasesReadOnlyInteractor, RentUseCasesReadOnlyInteractor>()
                 .AddTransient<IRentUseCasesManipulationInteractor, RentUseCasesManipulationInteractor>()
-                .AddTransient<IRentProduct, RentProduct>()
+                .AddTransient<IGetRentForecastPrice, GetRentForecastPrice>()
+                .AddTransient<IRentProducts, RentProducts>()
+                .AddTransient<IFinishRent, FinishRent>()
                 
                 // Renters
                 .AddTransient<IRenterUseCasesReadOnlyInteractor, RenterUseCasesReadOnlyInteractor>()

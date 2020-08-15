@@ -2,18 +2,18 @@
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
+using PRM.Domain.Rents.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
 
 namespace PRM.UseCases.Rents.RentProducts
 {
-    public interface IRentProduct : IBaseUseCase<RentProductRequeriment, Rent>
+    public interface IRentProducts : IBaseUseCase<RentProductsRequirement, RentProductsResult>
     {
-        
     }
     
-    public class RentProduct : BaseUseCase<RentProductRequeriment, Rent>, IRentProduct
+    public class RentProducts : BaseUseCase<RentProductsRequirement, RentProductsResult>, IRentProducts
     {
         private readonly IManipulationPersistenceGateway<Rent> _rents;
         private readonly IManipulationPersistenceGateway<RenterRentalHistory> _renterRentalHistories;
@@ -21,7 +21,7 @@ namespace PRM.UseCases.Rents.RentProducts
         private readonly IManipulationPersistenceGateway<ProductRentalHistory> _productRentalHistories;
 
 
-        public RentProduct(IManipulationPersistenceGateway<Rent> rents, IManipulationPersistenceGateway<RenterRentalHistory> renterRentalHistories, IManipulationPersistenceGateway<Product> products, IManipulationPersistenceGateway<ProductRentalHistory> productRentalHistories)
+        public RentProducts(IManipulationPersistenceGateway<Rent> rents, IManipulationPersistenceGateway<RenterRentalHistory> renterRentalHistories, IManipulationPersistenceGateway<Product> products, IManipulationPersistenceGateway<ProductRentalHistory> productRentalHistories)
         {
             _rents = rents;
             _renterRentalHistories = renterRentalHistories;
@@ -29,14 +29,14 @@ namespace PRM.UseCases.Rents.RentProducts
             _productRentalHistories = productRentalHistories;
         }
 
-        public override async Task<UseCaseResult<Rent>> Execute(RentProductRequeriment rentProductsRequirement)
+        public override async Task<UseCaseResult<RentProductsResult>> Execute(RentProductsRequirement rentProductsRequirement)
         {
             var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds);
-            if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<Rent>(productsToRentResponse.Message);
+            if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>(productsToRentResponse.Message);
 
-
-            var rentProductsResponse = new Rent(rentProductsRequirement, productsToRentResponse.Response).RentProducts();
-            if (!rentProductsResponse.Success) return UseCasesResponses.ExecutionFailureResponse<Rent>(rentProductsResponse.Message);
+            var rentToCreate = new Rent(rentProductsRequirement, productsToRentResponse.Response);
+            var rentProductsResponse = rentToCreate.RentProducts();
+            if (!rentProductsResponse.Success) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>(rentProductsResponse.Message);
 
             await _renterRentalHistories.Create(rentProductsResponse.Result.RenterRentalHistory);
             
@@ -47,7 +47,8 @@ namespace PRM.UseCases.Rents.RentProducts
             }
 
             var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            return UseCasesResponses.SuccessfullyExecutedResponse(rentCreatedResponse.Response);
+            var rentOutput = new RentProductsResult(rentCreatedResponse.Response);
+            return UseCasesResponses.SuccessfullyExecutedResponse(rentOutput);
         }
     }
 }

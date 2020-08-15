@@ -2,7 +2,7 @@
 
 namespace PRM.UseCases.Rents.RentProducts
 {
-    public class RentProductRequeriment : RentRequirement
+    public class RentProductsRequirement : RentRequirement
     {
     }
 }

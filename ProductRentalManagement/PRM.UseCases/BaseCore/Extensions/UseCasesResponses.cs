@@ -1,10 +1,22 @@
 ﻿﻿using System;
+ using System.Threading.Tasks;
  using PRM.UseCases.BaseCore.Enums;
 
  namespace PRM.UseCases.BaseCore.Extensions
 {
     public static class UseCasesResponses
     {
+        
+        public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TUseCase, TUseCaseRequirement, TUseCaseResult>(TUseCase useCase, TUseCaseRequirement input)
+            where TUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
+        {
+            var useCaseResponse = await useCase.Execute(input);
+            if (!useCaseResponse.Success) return ExecutionFailureResponse<TUseCaseResult>(useCaseResponse.Message);
+            
+            var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
+            return SuccessfullyExecutedResponse(output, useCaseResponse.Message);
+        }
+        
         public static UseCaseResult<TResult> SuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
         {
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);

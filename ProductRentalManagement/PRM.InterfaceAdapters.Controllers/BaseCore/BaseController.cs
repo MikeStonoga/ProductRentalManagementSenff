@@ -101,17 +101,6 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             
             return ApiResponses.SuccessfullyExecutedResponse(getAllOutput);
         }
-        
-        protected async Task<ApiResponse<TOutput>> GetUseCaseExecutionResponse<TUseCaseRequirement, TUseCaseResult, TInput, TOutput>(Func<TUseCaseRequirement, Task<UseCaseResult<TUseCaseResult>>> useCase, TInput input)
-            where TInput : TUseCaseRequirement 
-            where TOutput : class, TUseCaseResult, new()
-        {
-            var useCaseResponse = await useCase(input);
-            if (!useCaseResponse.Success) return ApiResponses.FailureResponse<TOutput>(useCaseResponse.Message);
-            
-            var output = Activator.CreateInstance(typeof(TOutput), useCaseResponse.Result) as TOutput;
-            return ApiResponses.SuccessfullyExecutedResponse(output, useCaseResponse.Message);
-        }
     }
 
     public abstract class BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityReadOnlyController> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseManipulationInteractor>,  IBaseManipulationController<TEntity, TEntityInput, TEntityOutput>

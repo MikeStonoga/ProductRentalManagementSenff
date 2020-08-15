@@ -5,12 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PRM.Infrastructure.Authentication;
 using PRM.Infrastructure.Persistence.MySQL;
-using PRM.Infrastructure.Persistence.MySQL.BaseCore;
 using PRM.InterfaceAdapters.Controllers;
-using PRM.InterfaceAdapters.Gateways.Persistence;
-using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases;
-using PRM.UseCases.Products;
 
 namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
 {

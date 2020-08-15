@@ -1,14 +1,16 @@
-﻿using PRM.Domain.Rents;
-using PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PRM.InterfaceAdapters.Controllers.Rents;
-using PRM.InterfaceAdapters.Controllers.Rents.Dtos;
 using PRM.UseCases.Rents;
 
 namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
 {
-    public class RentController : BaseManipulationWebController<Rent, RentInput, RentOutput, IRentUseCasesManipulationInteractor, IRentManipulationController>, IRentManipulationController
+    [ApiController]
+    [Authorize(Roles = "Admin")]
+    [Route("[controller]/[action]")]
+    public class RentController : RentManipulationController
     {
-        public RentController(IRentUseCasesManipulationInteractor useCaseInteractor, IRentManipulationController manipulationController) : base(useCaseInteractor, manipulationController)
+        public RentController(IRentUseCasesManipulationInteractor useCasesInteractor) : base(useCasesInteractor)
         {
         }
     }
