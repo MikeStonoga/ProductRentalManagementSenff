@@ -15,7 +15,7 @@ namespace PRM.UseCases.BaseCore
     {
         Task<UseCaseResult<TEntity>> GetById(Guid id);
         Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids);
-        Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null);
+        Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null);
     }
     public interface IBaseUseCaseManipulationInteractor<TEntity> : IBaseUseCaseReadOnlyInteractor<TEntity>
         where TEntity : Entity
@@ -58,9 +58,9 @@ namespace PRM.UseCases.BaseCore
             return GetUseCaseResult(persistenceResponse);
         }
 
-        public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null)
+        public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null)
         {
-            var persistenceResponse = await ReadOnlyPersistenceGateway.GetAll(includePredicate);
+            var persistenceResponse = await ReadOnlyPersistenceGateway.GetAll(whereExpression);
             return GetUseCaseResult(persistenceResponse);
         }
     }

@@ -7,8 +7,8 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
     public class GetRentForecastPriceRequirement
     {
         #region Properties
-        public RentRequirement RentRequirement { get; }
-        public List<Guid> ProductsIds { get; }
+        public RentRequirement RentRequirement { get; set; }
+        public List<Guid> ProductsIds { get; set; }
         #endregion
 
         #region Constructors

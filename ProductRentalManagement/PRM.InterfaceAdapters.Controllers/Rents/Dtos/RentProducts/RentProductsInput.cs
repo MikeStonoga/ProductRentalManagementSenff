@@ -10,7 +10,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos.RentProducts
         {
             
         }
-        public RentProductsInput(List<Guid> productsIds, Guid renterId, decimal dailyPrice, DateTime startDate, DateTime endDate, decimal dailyLateFee, string name) : base(productsIds, renterId, dailyPrice, startDate, endDate, dailyLateFee, name)
+        public RentProductsInput(List<Guid> productsIds, Guid renterId, DateTime startDate, DateTime endDate) : base(productsIds, renterId, startDate, endDate)
         {
         }
     }

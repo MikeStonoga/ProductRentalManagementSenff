@@ -5,7 +5,6 @@ using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Dtos;
 using PRM.Domain.BaseCore.Extensions;
 using PRM.Domain.Products;
-using PRM.Domain.Renters;
 using PRM.Domain.Rents.Dtos;
 using PRM.Domain.Rents.Enums;
 
@@ -14,10 +13,7 @@ namespace PRM.Domain.Rents
     public class Rent : FullAuditedEntity
     {
         #region Properties
-        public RenterRentalHistory RenterRentalHistory { get; set; }
-        public List<ProductRentalHistory> ProductRentalHistories { get; set; }
         public Guid RenterId { get; set; }
-        public List<Product> Products { get; set; }
         public RentStatus Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -39,7 +35,6 @@ namespace PRM.Domain.Rents
         #endregion
 
         #region Constructors
-        
         public Rent()
         {
         }
@@ -50,15 +45,13 @@ namespace PRM.Domain.Rents
             if (!productsToRent.All(product => product.IsAvailable)) throw new ArgumentException(GetUnavailableProductsMessage(productsToRent));
             if (rentRequirement.EndDate < rentRequirement.StartDate) throw  new ArgumentException("Rent end date may not be earlier then start date");
             
-            Name = rentRequirement.Name;
-            Status = RentStatus.Open;
+            Name = "Created: " + DateTime.Now.ToShortDateString() + " - Start: " + rentRequirement.StartDate.ToShortDateString() + " " + rentRequirement.StartDate.ToLongTimeString() + " - End: " + rentRequirement.EndDate.ToShortDateString() + " " + rentRequirement.EndDate.ToLongTimeString();
             DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
             StartDate = rentRequirement.StartDate;
             EndDate = rentRequirement.EndDate;
             CreationTime = DateTime.Now;
             DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
             RenterId = rentRequirement.RenterId;
-            Products = productsToRent;
         }
 
         private string GetUnavailableProductsMessage(List<Product> productsToRent)
@@ -73,7 +66,6 @@ namespace PRM.Domain.Rents
 
             return exceptionMessage;
         }
-
         #endregion
 
         #region Methods
@@ -85,14 +77,7 @@ namespace PRM.Domain.Rents
         
         public DomainResponseDto<Rent> RentProducts()
         {
-            RenterRentalHistory = new RenterRentalHistory(Id, RenterId);
-            ProductRentalHistories = Products.Select(product => new ProductRentalHistory(Id, product.Id)).ToList();
-
-            foreach (var product in Products)
-            {
-                product.MarkAsUnavailable();
-            }
-            
+            Status = RentStatus.Open;
             return this.GetSuccessResponse("Rented");
         }
 
@@ -104,12 +89,7 @@ namespace PRM.Domain.Rents
                 DamageFee = damageFee;
                 Discount = discount;
             }
-
-            foreach (var product in Products)
-            {
-                product.MarkAsAvailable();
-            }
-
+            
             Status = RentStatus.Closed;
             
             return this.GetSuccessResponse("RentFinished");

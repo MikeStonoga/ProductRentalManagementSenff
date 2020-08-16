@@ -31,24 +31,27 @@ namespace PRM.UseCases.Rents.RentProducts
 
         public override async Task<UseCaseResult<RentProductsResult>> Execute(RentProductsRequirement rentProductsRequirement)
         {
+            if (rentProductsRequirement.ProductsIds == null) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>("Trying to Rent without products");
+            
             var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds);
             if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>(productsToRentResponse.Message);
 
             var rentToCreate = new Rent(rentProductsRequirement, productsToRentResponse.Response);
             var rentProductsResponse = rentToCreate.RentProducts();
             if (!rentProductsResponse.Success) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>(rentProductsResponse.Message);
-
-            await _renterRentalHistories.Create(rentProductsResponse.Result.RenterRentalHistory);
             
-            foreach (var product in rentProductsResponse.Result.Products)
-            {
-                await _products.Update(product);
-                await _productRentalHistories.Create(product.ProductRentalHistory);
-            }
-
+            // TODO: UnitOfWork
             var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            var rentProductsResult = new RentProductsResult(rentCreatedResponse.Response);
+            await _renterRentalHistories.Create(new RenterRentalHistory(rentProductsResponse.Result.Id, rentProductsRequirement.RenterId));
             
+            foreach (var product in productsToRentResponse.Response)
+            {
+                product.MarkAsUnavailable();
+                await _products.Update(product);
+                await _productRentalHistories.Create(new ProductRentalHistory(rentProductsResponse.Result.Id, product.Id));
+            }
+            
+            var rentProductsResult = new RentProductsResult(rentCreatedResponse.Response);
             return UseCasesResponses.SuccessfullyExecutedResponse(rentProductsResult);
         }
     }

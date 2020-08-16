@@ -1,6 +1,6 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+ using System.Threading.Tasks;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.BaseCore;
@@ -17,10 +17,9 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
     
     [ApiController]
-    [Produces("application/json")]
     [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
-    public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>
+    public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>, IBaseReadOnlyWebController<TEntity, TEntityOutput>
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity, new()
         where TIEntityUseCaseReadOnlyInteractor : IBaseUseCaseReadOnlyInteractor<TEntity>
@@ -35,13 +34,13 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
         }
         
         [HttpGet("{id}")]
-        public new async Task<ApiResponse<TEntityOutput>> GetById([FromQuery] Guid id)
+        public override async Task<ApiResponse<TEntityOutput>> GetById([FromQuery] Guid id)
         {
             return await base.GetById(id);
         }
         
         [HttpPost]
-        public new async Task<ApiResponse<List<TEntityOutput>>> GetByIds([FromBody] List<Guid> ids)
+        public override async Task<ApiResponse<List<TEntityOutput>>> GetByIds([FromBody] List<Guid> ids)
         {
             return await base.GetByIds(ids);
         }
@@ -63,7 +62,6 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
 
     [ApiController]
-    [Produces("application/json")]
     [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]")]
     public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>

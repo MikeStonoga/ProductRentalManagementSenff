@@ -55,17 +55,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid?>("ProductRentalHistoryId")
-                        .HasColumnType("char(36)");
-
                     b.Property<decimal>("RentDailyLateFee")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("RentDailyPrice")
                         .HasColumnType("decimal(65,30)");
-
-                    b.Property<Guid?>("RentId")
-                        .HasColumnType("char(36)");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -73,10 +67,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasDefaultValue(0);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductRentalHistoryId");
-
-                    b.HasIndex("RentId");
 
                     b.ToTable("Products");
                 });
@@ -114,12 +104,17 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid?>("RentId1")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RentId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RentId1");
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RentId");
 
                     b.ToTable("ProductRentalHistory");
                 });
@@ -174,14 +169,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid?>("RenterRentalHistoryId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RenterRentalHistoryId");
 
                     b.ToTable("Renters");
                 });
@@ -219,7 +210,17 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<Guid>("RentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RenterId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RentId");
+
+                    b.HasIndex("RenterId");
 
                     b.ToTable("RenterRentalHistory");
                 });
@@ -275,9 +276,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("RenterRentalHistoryId")
-                        .HasColumnType("char(36)");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
@@ -289,41 +287,37 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RenterRentalHistoryId");
-
                     b.ToTable("Rents");
-                });
-
-            modelBuilder.Entity("PRM.Domain.Products.Product", b =>
-                {
-                    b.HasOne("PRM.Domain.Products.ProductRentalHistory", "ProductRentalHistory")
-                        .WithMany()
-                        .HasForeignKey("ProductRentalHistoryId");
-
-                    b.HasOne("PRM.Domain.Rents.Rent", null)
-                        .WithMany("Products")
-                        .HasForeignKey("RentId");
                 });
 
             modelBuilder.Entity("PRM.Domain.Products.ProductRentalHistory", b =>
                 {
+                    b.HasOne("PRM.Domain.Products.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PRM.Domain.Rents.Rent", null)
-                        .WithMany("ProductRentalHistories")
-                        .HasForeignKey("RentId1");
+                        .WithMany()
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("PRM.Domain.Renters.Renter", b =>
+            modelBuilder.Entity("PRM.Domain.Renters.RenterRentalHistory", b =>
                 {
-                    b.HasOne("PRM.Domain.Renters.RenterRentalHistory", "RenterRentalHistory")
+                    b.HasOne("PRM.Domain.Rents.Rent", null)
                         .WithMany()
-                        .HasForeignKey("RenterRentalHistoryId");
-                });
+                        .HasForeignKey("RentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("PRM.Domain.Rents.Rent", b =>
-                {
-                    b.HasOne("PRM.Domain.Renters.RenterRentalHistory", "RenterRentalHistory")
+                    b.HasOne("PRM.Domain.Renters.Renter", null)
                         .WithMany()
-                        .HasForeignKey("RenterRentalHistoryId");
+                        .HasForeignKey("RenterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

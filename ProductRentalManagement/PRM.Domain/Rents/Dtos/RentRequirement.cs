@@ -5,27 +5,25 @@ namespace PRM.Domain.Rents.Dtos
 {
     public class RentRequirement
     {
+        #region Properties
+        public Guid RenterId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set;  }
+        public List<Guid> ProductsIds { get; set; }
+        #endregion
+
+        
         public RentRequirement()
         {
             
         }
-        public RentRequirement(List<Guid> productsIds, Guid renterId, decimal dailyPrice, DateTime startDate, DateTime endDate, decimal dailyLateFee, string name)
+        public RentRequirement(List<Guid> productsIds, Guid renterId, DateTime startDate, DateTime endDate)
         {
             ProductsIds = productsIds;
             RenterId = renterId;
-            DailyPrice = dailyPrice;
             StartDate = startDate;
             EndDate = endDate;
-            DailyLateFee = dailyLateFee;
-            Name = name;
         }
-
-        public List<Guid> ProductsIds { get; } 
-        public Guid RenterId { get; }
-        public decimal DailyPrice { get; }
-        public DateTime StartDate { get; }
-        public DateTime EndDate { get; }
-        public decimal DailyLateFee { get; }
-        public string Name { get; }
+        
     }
 }

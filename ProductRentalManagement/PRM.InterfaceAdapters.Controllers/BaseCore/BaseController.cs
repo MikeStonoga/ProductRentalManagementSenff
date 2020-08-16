@@ -77,9 +77,9 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return await GetAll(null);
         }
         
-        protected async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll(Expression<Func<TEntity, object>> includePredicate = null)
+        protected async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null)
         {
-            var useCaseResult = await UseCaseReadOnlyInteractor.GetAll(includePredicate);
+            var useCaseResult = await UseCaseReadOnlyInteractor.GetAll(whereExpression);
             var wasSuccessfullyExecuted = useCaseResult.Success;
             if (!wasSuccessfullyExecuted)
             {
@@ -126,8 +126,9 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.Id = input.Id;
             entity.Code = input.Code;
             entity.Name = input.Name;
-            entity.CreationTime = input.CreationTime;
-            entity.CreatorId = input.CreatorId;
+            entity.CreationTime = DateTime.Now;
+            var userId = User.Claims.ToList()[2];
+            input.CreatorId = Guid.Parse(userId.Value);
             
             var useCaseResult = await UseCaseInteractor.Create(entity);
             
@@ -147,8 +148,9 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.Name = input.Name;
             entity.CreationTime = input.CreationTime;
             entity.CreatorId = input.CreatorId;
-            entity.LastModificationTime = input.LastModificationTime;
-            entity.LastModifierId = input.LastModifierId;
+            entity.LastModificationTime = DateTime.Now;
+            var userId = User.Claims.ToList()[2];
+            input.CreatorId = Guid.Parse(userId.Value);
             
             var useCaseResult = await UseCaseInteractor.Update(entity);
             

@@ -4,9 +4,9 @@ namespace PRM.UseCases.Rents.FinishRents
 {
     public class FinishRentRequirement
     {
-        public Guid RentId { get; }
-        public decimal DamageFee { get; }
-        public decimal Discount { get; }
+        public Guid RentId { get; set; }
+        public decimal DamageFee { get; set; }
+        public decimal Discount { get; set;  }
 
         public FinishRentRequirement()
         {

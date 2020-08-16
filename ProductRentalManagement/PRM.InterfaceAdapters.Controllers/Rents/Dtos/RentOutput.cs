@@ -12,10 +12,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
 
         public RentOutput(Rent rent)
         {
-            RenterRentalHistory = rent.RenterRentalHistory;
-            ProductRentalHistories = rent.ProductRentalHistories;
             RenterId = rent.RenterId;
-            Products = rent.Products;
             Status = rent.Status;
             StartDate = rent.StartDate;
             EndDate = rent.EndDate;

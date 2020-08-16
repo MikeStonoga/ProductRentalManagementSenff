@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Enums;
@@ -30,18 +32,25 @@ namespace PRM.Infrastructure.Persistence.MySQL
             modelBuilder.Entity<Renter>().Property(r => r.Email).IsRequired();
             modelBuilder.Entity<Renter>().Property(r => r.BirthDate).IsRequired();
             modelBuilder.Entity<Renter>().Property(r => r.Code).IsRequired();
+            modelBuilder.Entity<Renter>().Property(r => r.Phone).IsRequired();
             modelBuilder.Entity<Renter>().Property(r => r.GovernmentRegistrationDocumentCode).IsRequired();
 
             modelBuilder.Entity<RenterRentalHistory>().HasKey(history => history.Id);
+            modelBuilder.Entity<RenterRentalHistory>().HasOne<Rent>().WithMany().HasForeignKey(history => history.RentId);
+            modelBuilder.Entity<RenterRentalHistory>().HasOne<Renter>().WithMany().HasForeignKey(history => history.RenterId);
             
             modelBuilder.Entity<Rent>().HasKey(rent => rent.Id);
+            modelBuilder.Entity<Rent>().Property(r => r.RenterId).IsRequired();
             modelBuilder.Entity<Rent>().Property(r => r.DailyPrice).IsRequired();
             modelBuilder.Entity<Rent>().Property(r => r.DailyLateFee).IsRequired();
             modelBuilder.Entity<Rent>().Property(r => r.StartDate).IsRequired();
             modelBuilder.Entity<Rent>().Property(r => r.EndDate).IsRequired();
 
+
             modelBuilder.Entity<ProductRentalHistory>().HasKey(history => history.Id);
-            
+            modelBuilder.Entity<ProductRentalHistory>().HasOne<Rent>().WithMany().HasForeignKey(history => history.RentId);
+            modelBuilder.Entity<ProductRentalHistory>().HasOne<Product>().WithMany().HasForeignKey(history => history.ProductId);
+
             modelBuilder.Entity<Product>().HasKey(product => product.Id);
             modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.Code).IsRequired();

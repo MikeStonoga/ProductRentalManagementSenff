@@ -78,16 +78,16 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>(e.Message);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>(e.InnerException != null ? e.Message + "\n" + e.InnerException.Message : e.Message);
             }
         }
         
-        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate)
+        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression)
         {
             try
             {
-                var all = includePredicate != null
-                    ? await _database.Context.Set<TEntity>().Include(includePredicate).Where(e => !e.IsDeleted).ToListAsync()
+                var all = whereExpression != null
+                    ? await _database.Context.Set<TEntity>().Where(whereExpression).Where(e => !e.IsDeleted).ToListAsync()
                     : await _database.Context.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
@@ -104,7 +104,26 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, GetAllResponse<TEntity>>(e.Message);
             }
         }
-        
+
+        public async Task<PersistenceResponse<List<Guid>>> GetAllIds(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            try
+            {
+                var allIds = await _database.Context.Set<TEntity>()
+                    .Where(e => !e.IsDeleted)
+                    .Where(whereExpression)
+                    .Select(e => e.Id)
+                    .ToListAsync();
+
+                return PersistenceResponseStatus.Success.GetSuccessResponse(allIds);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, List<Guid>>(e.Message);
+            }
+        }
+
         public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate = null)
         {
             try
@@ -127,21 +146,14 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     {
     }
 
-    public class Repository<TEntity> : IRepository<TEntity> 
+    public class Repository<TEntity> : ReadOnlyRepository<TEntity>, IRepository<TEntity> 
         where TEntity : FullAuditedEntity, new()
     {
 
-        private readonly IReadOnlyRepository<TEntity> _readOnlyRepository;
         private readonly ICurrentDbContext _database;
-        public Repository(ICurrentDbContext database, IReadOnlyRepository<TEntity> readOnlyRepository)
+        public Repository(ICurrentDbContext database) : base(database)
         {
-            _readOnlyRepository = readOnlyRepository;
             _database = database;
-        }
-
-        public Repository(IReadOnlyRepository<TEntity> readOnlyRepository)
-        {
-            _readOnlyRepository = readOnlyRepository;
         }
         
 
@@ -151,6 +163,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             {
                 entity.CreationTime = DateTime.Now;
                 // TODO: CREATOR ID
+                entity.Id = Guid.NewGuid();
                 await _database.Context.AddAsync(entity);
                 await _database.Context.SaveChangesAsync();
 
@@ -225,42 +238,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                     ErrorCodeName = DeletionResponses.DeletionFailure.ToString()
                 };
             }
-        }
-
-        
-        
-        
-        
-        
-        
-        public async Task<PersistenceResponse<TEntity>> GetById(Guid id)
-        {
-            return await _readOnlyRepository.GetById(id);
-        }
-
-        public async Task<PersistenceResponse<List<TEntity>>> GetByIds(List<Guid> ids)
-        {
-            return await _readOnlyRepository.GetByIds(ids);
-        }
-
-        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll()
-        {
-            return await _readOnlyRepository.GetAll();
-        }
-        
-        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, object>> includePredicate)
-        {
-            return await _readOnlyRepository.GetAll(includePredicate);
-        }
-
-        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _readOnlyRepository.First(predicate);
-        }
-
-        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate)
-        {
-            return await _readOnlyRepository.First(predicate, includePredicate);
         }
     }
 }
