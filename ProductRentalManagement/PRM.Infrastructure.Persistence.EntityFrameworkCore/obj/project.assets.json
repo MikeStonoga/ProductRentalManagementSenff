@@ -309,6 +309,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         }
+      },
+      "PRM.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PRM.Domain.dll": {}
+        }
       }
     }
   },
@@ -929,12 +939,18 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "PRM.Domain/1.0.0": {
+      "type": "project",
+      "path": "../PRM.Domain/PRM.Domain.csproj",
+      "msbuildProject": "../PRM.Domain/PRM.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore.Design >= 3.1.7",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.7",
+      "PRM.Domain >= 1.0.0",
       "Pomelo.EntityFrameworkCore.MySql >= 3.1.2"
     ]
   },
@@ -961,7 +977,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj": {
+              "projectPath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Domain\\PRM.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

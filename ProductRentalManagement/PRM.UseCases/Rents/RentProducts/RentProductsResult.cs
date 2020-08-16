@@ -1,4 +1,6 @@
-﻿namespace PRM.Domain.Rents.Dtos
+﻿using System;
+
+namespace PRM.Domain.Rents.Dtos
 {
     public class RentProductsResult : Rent
     {
@@ -13,12 +15,12 @@
             Code = rent.Code;
             Name = rent.Name;
             RenterId = rent.RenterId;
-            StartDate = rent.StartDate;
-            EndDate = rent.EndDate;
+            RentPeriod = rent.RentPeriod;
             DailyPrice = rent.DailyPrice;
             DailyLateFee = rent.DailyLateFee;
             WasProductDamaged = rent.WasProductDamaged;
             DamageFee = rent.DamageFee;
         }
+
     }
 }

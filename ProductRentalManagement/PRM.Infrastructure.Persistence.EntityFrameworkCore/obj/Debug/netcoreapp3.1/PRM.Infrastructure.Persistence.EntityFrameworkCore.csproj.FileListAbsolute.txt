@@ -10,3 +10,6 @@ C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM
 C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.EntityFrameworkCore.dll
 C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.EntityFrameworkCore.pdb
 C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.EntityFrameworkCore.genruntimeconfig.cache
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\bin\Debug\netcoreapp3.1\PRM.Domain.dll
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\bin\Debug\netcoreapp3.1\PRM.Domain.pdb
+C:\Users\mikes\RiderProjects\ProductRentalManagement\ProductRentalManagement\PRM.Infrastructure.Persistence.EntityFrameworkCore\obj\Debug\netcoreapp3.1\PRM.Infrastructure.Persistence.EntityFrameworkCore.csproj.CopyComplete

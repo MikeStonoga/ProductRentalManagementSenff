@@ -68,7 +68,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("PRM.Domain.Products.ProductRentalHistory", b =>
@@ -116,7 +116,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasIndex("RentId");
 
-                    b.ToTable("ProductRentalHistory");
+                    b.ToTable("products_rental_history");
                 });
 
             modelBuilder.Entity("PRM.Domain.Renters.Renter", b =>
@@ -174,7 +174,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Renters");
+                    b.ToTable("renters");
                 });
 
             modelBuilder.Entity("PRM.Domain.Renters.RenterRentalHistory", b =>
@@ -222,7 +222,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasIndex("RenterId");
 
-                    b.ToTable("RenterRentalHistory");
+                    b.ToTable("renters_rental_history");
                 });
 
             modelBuilder.Entity("PRM.Domain.Rents.Rent", b =>
@@ -258,9 +258,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -276,9 +273,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -287,7 +281,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rents");
+                    b.ToTable("rents");
                 });
 
             modelBuilder.Entity("PRM.Domain.Products.ProductRentalHistory", b =>
@@ -318,6 +312,28 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasForeignKey("RenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PRM.Domain.Rents.Rent", b =>
+                {
+                    b.OwnsOne("PRM.Domain.BaseCore.ValueObjects.DateRange", "RentPeriod", b1 =>
+                        {
+                            b1.Property<Guid>("RentId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<DateTime>("EndDate")
+                                .HasColumnType("datetime(6)");
+
+                            b1.Property<DateTime>("StartDate")
+                                .HasColumnType("datetime(6)");
+
+                            b1.HasKey("RentId");
+
+                            b1.ToTable("rents");
+
+                            b1.WithOwner()
+                                .HasForeignKey("RentId");
+                        });
                 });
 #pragma warning restore 612, 618
         }

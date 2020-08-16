@@ -14,8 +14,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
         {
             RenterId = rent.RenterId;
             Status = rent.Status;
-            StartDate = rent.StartDate;
-            EndDate = rent.EndDate;
+            RentPeriod = rent.RentPeriod;
             DailyPrice = rent.DailyPrice;
             DailyLateFee = rent.DailyLateFee;
             WasProductDamaged = rent.WasProductDamaged;

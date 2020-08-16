@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PRM.Domain.Products;
-using PRM.Domain.Products.Enums;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
 using PRM.Infrastructure.Persistence.EntityFrameworkCore;
+using PRM.Infrastructure.Persistence.EntityFrameworkCore.Products;
+using PRM.Infrastructure.Persistence.EntityFrameworkCore.Renters;
+using PRM.Infrastructure.Persistence.EntityFrameworkCore.Rents;
 
 namespace PRM.Infrastructure.Persistence.MySQL
 {
@@ -24,37 +26,12 @@ namespace PRM.Infrastructure.Persistence.MySQL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Renter>().HasKey(renter => renter.Id);
-            modelBuilder.Entity<Renter>().Property(r => r.Name).IsRequired();
-            modelBuilder.Entity<Renter>().Property(r => r.Email).IsRequired();
-            modelBuilder.Entity<Renter>().Property(r => r.BirthDate).IsRequired();
-            modelBuilder.Entity<Renter>().Property(r => r.Code).IsRequired();
-            modelBuilder.Entity<Renter>().Property(r => r.Phone).IsRequired();
-            modelBuilder.Entity<Renter>().Property(r => r.GovernmentRegistrationDocumentCode).IsRequired();
-
-            modelBuilder.Entity<RenterRentalHistory>().HasKey(history => history.Id);
-            modelBuilder.Entity<RenterRentalHistory>().HasOne<Rent>().WithMany().HasForeignKey(history => history.RentId);
-            modelBuilder.Entity<RenterRentalHistory>().HasOne<Renter>().WithMany().HasForeignKey(history => history.RenterId);
             
-            modelBuilder.Entity<Rent>().HasKey(rent => rent.Id);
-            modelBuilder.Entity<Rent>().Property(r => r.RenterId).IsRequired();
-            modelBuilder.Entity<Rent>().Property(r => r.DailyPrice).IsRequired();
-            modelBuilder.Entity<Rent>().Property(r => r.DailyLateFee).IsRequired();
-            modelBuilder.Entity<Rent>().Property(r => r.StartDate).IsRequired();
-            modelBuilder.Entity<Rent>().Property(r => r.EndDate).IsRequired();
-
-
-            modelBuilder.Entity<ProductRentalHistory>().HasKey(history => history.Id);
-            modelBuilder.Entity<ProductRentalHistory>().HasOne<Rent>().WithMany().HasForeignKey(history => history.RentId);
-            modelBuilder.Entity<ProductRentalHistory>().HasOne<Product>().WithMany().HasForeignKey(history => history.ProductId);
-
-            modelBuilder.Entity<Product>().HasKey(product => product.Id);
-            modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.Code).IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.Status).HasDefaultValue(ProductStatus.Available);
-            modelBuilder.Entity<Product>().Property(p => p.RentDailyPrice).IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.RentDailyLateFee).IsRequired();
+            modelBuilder.ApplyConfiguration(new RenterEntityTypeConfiguration(modelBuilder.Model.GetDefaultSchema()));
+            modelBuilder.ApplyConfiguration(new RenterRentalHistoryEntityTypeConfiguration(modelBuilder.Model.GetDefaultSchema()));
+            modelBuilder.ApplyConfiguration(new RentEntityTypeConfiguration(modelBuilder.Model.GetDefaultSchema()));
+            modelBuilder.ApplyConfiguration(new ProductRentalHistoryEntityTypeConfiguration(modelBuilder.Model.GetDefaultSchema()));
+            modelBuilder.ApplyConfiguration(new ProductEntityTypeConfiguration(modelBuilder.Model.GetDefaultSchema()));
         }
     }
     

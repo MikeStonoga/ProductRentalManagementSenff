@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5UXHSA8L//VaKqi5DxpYuP8NtgN2YOVyg22QbB3h7uWP5EcgEVkKewihhW8KDal9H+Be+2jIegCcax2nkRAgxw==",
+  "dgSpecHash": "Dvs0LrBPxl30rSvC+ll7c8HpFIGGqC47f5oTcvJ6NnDtPvhV0JMdmPCraxS/R4cxkXpLrt+cmnWyQRy1u01viQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\mikes\\RiderProjects\\ProductRentalManagement\\ProductRentalManagement\\PRM.Infrastructure.Persistence.EntityFrameworkCore\\PRM.Infrastructure.Persistence.EntityFrameworkCore.csproj",
   "expectedPackageFiles": [

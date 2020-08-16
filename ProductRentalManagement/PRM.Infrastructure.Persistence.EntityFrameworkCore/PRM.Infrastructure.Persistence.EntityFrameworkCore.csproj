@@ -13,5 +13,9 @@
     <ItemGroup>
       <Content Include="EFScripts.txt" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+    </ItemGroup>
 
 </Project>

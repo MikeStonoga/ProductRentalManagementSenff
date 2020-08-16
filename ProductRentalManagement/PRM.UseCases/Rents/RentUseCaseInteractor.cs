@@ -18,10 +18,8 @@ namespace PRM.UseCases.Rents
     public class RentUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<Rent>, IRentUseCasesReadOnlyInteractor
     {
         private readonly IGetRentForecastPrice _getRentForecastPrice;
-        protected readonly IReadOnlyPersistenceGateway<Rent> readOnlyPersistenceGateway;
         public RentUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<Rent> readOnlyPersistenceGateway, IGetRentForecastPrice getRentForecastPrice) : base(readOnlyPersistenceGateway)
         {
-            this.readOnlyPersistenceGateway = readOnlyPersistenceGateway;
             _getRentForecastPrice = getRentForecastPrice;
         }
 

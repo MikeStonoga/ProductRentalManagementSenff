@@ -15,8 +15,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos.RentProducts
             Code = rentProductsResult.Code;
             Name = rentProductsResult.Name;
             RenterId = rentProductsResult.RenterId;
-            StartDate = rentProductsResult.StartDate;
-            EndDate = rentProductsResult.EndDate;
+            RentPeriod = rentProductsResult.RentPeriod;
             DailyPrice = rentProductsResult.DailyPrice;
             DailyLateFee = rentProductsResult.DailyLateFee;
             WasProductDamaged = rentProductsResult.WasProductDamaged;

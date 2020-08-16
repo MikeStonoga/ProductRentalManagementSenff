@@ -1,4 +1,4 @@
-﻿// PRM.Infrastructure.Persistence.EntityFrameworkCore
+﻿// PRM.Infrastructure.Persistence.MySQL
 dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations add "MIGRATION NAME HERE" --context "PrmDbContext"
 dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ migrations remove --context "PrmDbContext"
 dotnet ef --startup-project ..\PRM.Infrastructure.ApplicationDelivery.WebApiHost\ database update --context "PrmDbContext"

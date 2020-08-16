@@ -48,7 +48,7 @@ namespace PRM.UseCases.BaseCore
             var wasSuccessfullyExecuted = persistenceResponse.Success;
             
             return wasSuccessfullyExecuted
-                ? UseCasesResponses.SuccessfullyExecutedResponse(persistenceResponse.Response)
+                ? UseCasesResponses.SuccessfullyExecuted(persistenceResponse.Response)
                 : UseCasesResponses.PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
         }
 

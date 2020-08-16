@@ -11,18 +11,18 @@
             where TUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
         {
             var useCaseResponse = await useCase.Execute(input);
-            if (!useCaseResponse.Success) return ExecutionFailureResponse<TUseCaseResult>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return ExecutionFailure<TUseCaseResult>(useCaseResponse.Message);
             
             var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
-            return SuccessfullyExecutedResponse(output, useCaseResponse.Message);
+            return SuccessfullyExecuted(output, useCaseResponse.Message);
         }
         
-        public static UseCaseResult<TResult> SuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
+        public static UseCaseResult<TResult> SuccessfullyExecuted<TResult>(TResult result, string message = "")
         {
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
-        public static UseCaseResult<TResult> ExecutionFailureResponse<TResult>(string message = "") where TResult : new()
+        public static UseCaseResult<TResult> ExecutionFailure<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();
             return UseCaseResults.UseCaseFailureExecution.GetFailureResult(result, message);

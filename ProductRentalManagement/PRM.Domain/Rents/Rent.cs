@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using PRM.Domain.BaseCore;
 using PRM.Domain.BaseCore.Dtos;
 using PRM.Domain.BaseCore.Extensions;
+using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
+using PRM.Domain.Products.Extensions;
+using PRM.Domain.Renters;
 using PRM.Domain.Rents.Dtos;
 using PRM.Domain.Rents.Enums;
 
@@ -15,8 +19,8 @@ namespace PRM.Domain.Rents
         #region Properties
         public Guid RenterId { get; set; }
         public RentStatus Status { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        
+        public DateRange RentPeriod { get; set; }
         public decimal DailyPrice { get; set; }
         public decimal DailyLateFee { get; set; }
         public bool WasProductDamaged { get; set; }
@@ -26,11 +30,11 @@ namespace PRM.Domain.Rents
         public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
         public decimal PriceWithoutFees => DailyPrice * RentDays + Discount;
 
-        public int RentDays => EndDate.Subtract(StartDate).Days;
+        public int RentDays => RentPeriod.Days;
 
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
-        public bool IsLate => DateTime.Now > EndDate;
-        public int LateDays => DateTime.Now.Subtract(EndDate).Days;
+        public bool IsLate => DateTime.Now > RentPeriod.EndDate;
+        public int LateDays => DateTime.Now.Subtract(RentPeriod.EndDate).Days;
 
         #endregion
 
@@ -39,32 +43,20 @@ namespace PRM.Domain.Rents
         {
         }
         
-        public Rent(RentRequirement rentRequirement, List<Product> productsToRent)
+        public Rent(DateRange rentPeriod, List<Product> productsToRent, Renter renter)
         {
-            if (productsToRent == null) throw new ArgumentException("Trying to create a Rent without any Products");
-            if (!productsToRent.All(product => product.IsAvailable)) throw new ArgumentException(GetUnavailableProductsMessage(productsToRent));
-            if (rentRequirement.EndDate < rentRequirement.StartDate) throw  new ArgumentException("Rent end date may not be earlier then start date");
-            
-            Name = "Created: " + DateTime.Now.ToShortDateString() + " - Start: " + rentRequirement.StartDate.ToShortDateString() + " " + rentRequirement.StartDate.ToLongTimeString() + " - End: " + rentRequirement.EndDate.ToShortDateString() + " " + rentRequirement.EndDate.ToLongTimeString();
+            if (productsToRent == null) throw new ValidationException("Trying to create a Rent without any Products");
+
+            bool IsUnavailableProduct(Product product) => !product.IsAvailable;
+            var hasUnavailableProduct = productsToRent.Any(IsUnavailableProduct); 
+            if (hasUnavailableProduct) throw new ValidationException(productsToRent.GetProductsWithErrorMessage(IsUnavailableProduct, "Trying to rent unavailable products:"));
+
+            Name = "Created: " + DateTime.Now.FormatDate() + " - Start: " + rentPeriod.StartDate.FormatDate() + " - End: " + rentPeriod.EndDate.FormatDate();
             DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
-            StartDate = rentRequirement.StartDate;
-            EndDate = rentRequirement.EndDate;
+            RentPeriod = rentPeriod;
             CreationTime = DateTime.Now;
             DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
-            RenterId = rentRequirement.RenterId;
-        }
-
-        private string GetUnavailableProductsMessage(List<Product> productsToRent)
-        {
-            var unavailableProducts = productsToRent.Where(p => !p.IsAvailable).ToList();
-            var exceptionMessage = "Trying to rent unavailable products:";
-                
-            foreach (var product in unavailableProducts)
-            {
-                exceptionMessage += $"\n {product.Code} - {product.Name} - {product.Description} - {product.Status}";
-            }
-
-            return exceptionMessage;
+            RenterId = renter.Id;
         }
         #endregion
 

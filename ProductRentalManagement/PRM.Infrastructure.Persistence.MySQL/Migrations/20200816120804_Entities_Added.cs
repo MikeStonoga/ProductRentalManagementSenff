@@ -8,7 +8,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -28,11 +28,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Renters",
+                name: "renters",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -53,11 +53,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Renters", x => x.Id);
+                    table.PrimaryKey("PK_renters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rents",
+                name: "rents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -72,8 +72,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     RenterId = table.Column<Guid>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
+                    RentPeriod_StartDate = table.Column<DateTime>(nullable: true),
+                    RentPeriod_EndDate = table.Column<DateTime>(nullable: true),
                     DailyPrice = table.Column<decimal>(nullable: false),
                     DailyLateFee = table.Column<decimal>(nullable: false),
                     WasProductDamaged = table.Column<bool>(nullable: false),
@@ -82,11 +82,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rents", x => x.Id);
+                    table.PrimaryKey("PK_rents", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductRentalHistory",
+                name: "products_rental_history",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -104,23 +104,23 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductRentalHistory", x => x.Id);
+                    table.PrimaryKey("PK_products_rental_history", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductRentalHistory_Products_ProductId",
+                        name: "FK_products_rental_history_products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductRentalHistory_Rents_RentId",
+                        name: "FK_products_rental_history_rents_RentId",
                         column: x => x.RentId,
-                        principalTable: "Rents",
+                        principalTable: "rents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RenterRentalHistory",
+                name: "renters_rental_history",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -138,58 +138,58 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RenterRentalHistory", x => x.Id);
+                    table.PrimaryKey("PK_renters_rental_history", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RenterRentalHistory_Rents_RentId",
+                        name: "FK_renters_rental_history_rents_RentId",
                         column: x => x.RentId,
-                        principalTable: "Rents",
+                        principalTable: "rents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RenterRentalHistory_Renters_RenterId",
+                        name: "FK_renters_rental_history_renters_RenterId",
                         column: x => x.RenterId,
-                        principalTable: "Renters",
+                        principalTable: "renters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductRentalHistory_ProductId",
-                table: "ProductRentalHistory",
+                name: "IX_products_rental_history_ProductId",
+                table: "products_rental_history",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductRentalHistory_RentId",
-                table: "ProductRentalHistory",
+                name: "IX_products_rental_history_RentId",
+                table: "products_rental_history",
                 column: "RentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RenterRentalHistory_RentId",
-                table: "RenterRentalHistory",
+                name: "IX_renters_rental_history_RentId",
+                table: "renters_rental_history",
                 column: "RentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RenterRentalHistory_RenterId",
-                table: "RenterRentalHistory",
+                name: "IX_renters_rental_history_RenterId",
+                table: "renters_rental_history",
                 column: "RenterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductRentalHistory");
+                name: "products_rental_history");
 
             migrationBuilder.DropTable(
-                name: "RenterRentalHistory");
+                name: "renters_rental_history");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "products");
 
             migrationBuilder.DropTable(
-                name: "Rents");
+                name: "rents");
 
             migrationBuilder.DropTable(
-                name: "Renters");
+                name: "renters");
         }
     }
 }

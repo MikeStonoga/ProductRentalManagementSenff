@@ -29,15 +29,15 @@ namespace PRM.UseCases.Rents.FinishRents
         {
             
             var rentToFinish = await _rents.GetById(requirement.RentId);
-            if (!rentToFinish.Success) return UseCasesResponses.ExecutionFailureResponse<FinishRentResult>(rentToFinish.Message);
+            if (!rentToFinish.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(rentToFinish.Message);
 
             var finishRentResponse = rentToFinish.Response.FinishRent(requirement.DamageFee, requirement.Discount);
-            if (!finishRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<FinishRentResult>(finishRentResponse.Message);
+            if (!finishRentResponse.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(finishRentResponse.Message);
 
             var productsToTurnAvailableIds = await _productRentalHistories.GetAllIds(history => history.RentId == requirement.RentId);
             var productsToTurnAvailable = await _products.GetByIds(productsToTurnAvailableIds.Response);
             
-            if (!productsToTurnAvailableIds.Success) return UseCasesResponses.ExecutionFailureResponse<FinishRentResult>(productsToTurnAvailableIds.Message);
+            if (!productsToTurnAvailableIds.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(productsToTurnAvailableIds.Message);
             
             // TODO: UnitOfWork
             foreach (var product in productsToTurnAvailable.Response)
@@ -50,7 +50,7 @@ namespace PRM.UseCases.Rents.FinishRents
             await _rents.Update(finishRentResponse.Result);
             
             var finishRentResult = new FinishRentResult(finishRentResponse.Result.CurrentRentPaymentValue);
-            return UseCasesResponses.SuccessfullyExecutedResponse(finishRentResult);
+            return UseCasesResponses.SuccessfullyExecuted(finishRentResult);
         }
     }
 }
