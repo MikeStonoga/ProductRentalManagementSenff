@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using PRM.Domain.Products;
+using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
 using PRM.UseCases.Products.CheckAvailabilities;
@@ -12,24 +14,24 @@ namespace PRM.UseCases.Products.CheckProductAvailabilities
     
     public class CheckProductAvailability : BaseUseCase<Guid, CheckProductAvailabilityResult>, ICheckProductAvailability
     {
-        private readonly IProductUseCasesReadOnlyInteractor _productsReadOnlyUseCases;
+        private readonly IReadOnlyPersistenceGateway<Product> _products;
         private readonly IProductRentalHistoryUseCasesReadOnlyInteractor _productsRentalHistories;
 
-        public CheckProductAvailability(IProductUseCasesReadOnlyInteractor productsReadOnlyUseCases, IProductRentalHistoryUseCasesReadOnlyInteractor productsRentalHistories)
+        public CheckProductAvailability(IProductRentalHistoryUseCasesReadOnlyInteractor productsRentalHistories, IReadOnlyPersistenceGateway<Product> products)
         {
-            _productsReadOnlyUseCases = productsReadOnlyUseCases;
             _productsRentalHistories = productsRentalHistories;
+            _products = products;
         }
 
 
         public override async Task<UseCaseResult<CheckProductAvailabilityResult>> Execute(Guid productId)
         {
-            var productToCheckAvailability = await _productsReadOnlyUseCases.GetById(productId);
+            var productToCheckAvailability = await _products.GetById(productId);
             if (!productToCheckAvailability.Success) return UseCasesResponses.ExecutionFailure<CheckProductAvailabilityResult>(productToCheckAvailability.Message);
 
-            if (productToCheckAvailability.Result.IsAvailable)
+            if (productToCheckAvailability.Response.IsAvailable)
             {
-                return UseCasesResponses.SuccessfullyExecuted(new CheckProductAvailabilityResult(productToCheckAvailability.Result.IsAvailable));
+                return UseCasesResponses.SuccessfullyExecuted(new CheckProductAvailabilityResult(productToCheckAvailability.Response.IsAvailable));
             }
 
             var lastProductRent = await _productsRentalHistories.GetLastProductRent(productId);
