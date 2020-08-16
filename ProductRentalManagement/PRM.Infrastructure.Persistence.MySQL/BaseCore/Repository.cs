@@ -20,18 +20,19 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
     
     public class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : FullAuditedEntity, new()
     {
-        private readonly ICurrentDbContext _database;
+        private readonly DbContext _database;
 
         public ReadOnlyRepository(ICurrentDbContext database)
         {
-            _database = database;
+            _database = database.Context;
+
         }
 
         public async Task<PersistenceResponse<TEntity>> GetById(Guid id)
         {
             try
             {
-                var entity = await _database.Context.Set<TEntity>().FindAsync(id);
+                var entity = await _database.Set<TEntity>().FindAsync(id);
 
                 return entity.IsDeleted 
                     ? PersistenceResponseStatus.Success.GetFailureResponse<PersistenceResponseStatus, TEntity>("WasDeleted") 
@@ -48,7 +49,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var entities = await _database.Context.Set<TEntity>()
+                var entities = await _database.Set<TEntity>()
                     .Where(e => ids.Contains(e.Id) && !e.IsDeleted)
                     .ToListAsync();;
 
@@ -65,7 +66,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var all = await _database.Context.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                var all = await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
                 {
@@ -87,8 +88,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             try
             {
                 var all = whereExpression != null
-                    ? await _database.Context.Set<TEntity>().Where(whereExpression).Where(e => !e.IsDeleted).ToListAsync()
-                    : await _database.Context.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
+                    ? await _database.Set<TEntity>().Where(whereExpression).Where(e => !e.IsDeleted).ToListAsync()
+                    : await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
                 {
@@ -109,7 +110,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var allIds = await _database.Context.Set<TEntity>()
+                var allIds = await _database.Set<TEntity>()
                     .Where(e => !e.IsDeleted)
                     .Where(whereExpression)
                     .Select(e => e.Id)
@@ -124,14 +125,11 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             }
         }
 
-        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate = null)
+        public async Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate)
         {
             try
             {
-                var first = includePredicate != null 
-                    ? await _database.Context.Set<TEntity>().Include(includePredicate).FirstAsync(predicate) 
-                    : await _database.Context.Set<TEntity>().FirstAsync(predicate);
-                
+                var first = await _database.Set<TEntity>().FirstAsync(predicate);
                 return PersistenceResponseStatus.Success.GetSuccessResponse(first);
             }
             catch (Exception e)

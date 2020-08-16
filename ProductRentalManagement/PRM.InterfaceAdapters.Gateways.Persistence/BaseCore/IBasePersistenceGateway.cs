@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using PRM.Domain.BaseCore;
@@ -16,7 +17,7 @@ namespace PRM.InterfaceAdapters.Gateways.Persistence.BaseCore
         Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null);
         Task<PersistenceResponse<List<Guid>>> GetAllIds(Expression<Func<TEntity, bool>> whereExpression);
 
-        Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includePredicate = null);
+        Task<PersistenceResponse<TEntity>> First(Expression<Func<TEntity, bool>> predicate);
     }
     
     public interface IManipulationPersistenceGateway<TEntity> : IReadOnlyPersistenceGateway<TEntity>
