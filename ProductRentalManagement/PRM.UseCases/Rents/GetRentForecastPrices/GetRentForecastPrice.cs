@@ -24,9 +24,9 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
             _validateRentRequirement = validateRentRequirement;
         }
 
-        public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement getRentForecastPriceRequirement)
+        public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement requirement)
         {
-            var validationResponse = await _validateRentRequirement.Validate(getRentForecastPriceRequirement);
+            var validationResponse = await _validateRentRequirement.Validate(requirement);
             if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(validationResponse.Message);
             
             var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).GetRentForecastPrice();

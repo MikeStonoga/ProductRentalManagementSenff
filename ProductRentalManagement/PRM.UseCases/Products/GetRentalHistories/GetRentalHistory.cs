@@ -8,15 +8,15 @@ using PRM.UseCases.BaseCore.Extensions;
 
 namespace PRM.UseCases.Products.GetRentalHistories
 {
-    public interface IGetRentalHistory : IBaseUseCase<Guid, GetAllResponse<ProductRentalHistory>>
+    public interface IGetProductRentalHistory : IBaseUseCase<Guid, GetAllResponse<ProductRentalHistory>>
     {
     }
     
-    public class GetRentalHistory : BaseUseCase<Guid, GetAllResponse<ProductRentalHistory>>, IGetRentalHistory
+    public class GetProductRentalHistory : BaseUseCase<Guid, GetAllResponse<ProductRentalHistory>>, IGetProductRentalHistory
     {
         private IReadOnlyPersistenceGateway<ProductRentalHistory> _productRentalHistories;
 
-        public GetRentalHistory(IReadOnlyPersistenceGateway<ProductRentalHistory> productRentalHistories)
+        public GetProductRentalHistory(IReadOnlyPersistenceGateway<ProductRentalHistory> productRentalHistories)
         {
             _productRentalHistories = productRentalHistories;
         }

@@ -15,17 +15,17 @@ namespace PRM.UseCases.Products.GetLastProductRents
     public class GetLastProductRent : BaseUseCase<Guid, GetLastProductRentResult>,  IGetLastProductRent
     {
         private readonly IRentUseCasesReadOnlyInteractor _rentsUsesCases;
-        private readonly IGetRentalHistory _getRentalHistory;
+        private readonly IGetProductRentalHistory _getProductRentalHistory;
 
-        public GetLastProductRent(IRentUseCasesReadOnlyInteractor rentsUsesCases, IGetRentalHistory getRentalHistory)
+        public GetLastProductRent(IRentUseCasesReadOnlyInteractor rentsUsesCases, IGetProductRentalHistory getProductRentalHistory)
         {
             _rentsUsesCases = rentsUsesCases;
-            _getRentalHistory = getRentalHistory;
+            _getProductRentalHistory = getProductRentalHistory;
         }
 
         public override async Task<UseCaseResult<GetLastProductRentResult>> Execute(Guid productId)
         {
-            var rentalHistory = await _getRentalHistory.Execute(productId);
+            var rentalHistory = await _getProductRentalHistory.Execute(productId);
             if (!rentalHistory.Success) return UseCasesResponses.ExecutionFailure<GetLastProductRentResult>(rentalHistory.Message);
 
             var orderedByMostRecent = rentalHistory.Result.Items.OrderByDescending(history => history.CreationTime).ToList();

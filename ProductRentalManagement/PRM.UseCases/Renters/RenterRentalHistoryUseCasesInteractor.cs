@@ -5,6 +5,7 @@ using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
+using PRM.UseCases.Renters.GetRentalHistories;
 
 namespace PRM.UseCases.Renters
 {
@@ -15,15 +16,15 @@ namespace PRM.UseCases.Renters
         
     public class RenterRentalHistoryUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<RenterRentalHistory>, IRenterRentalHistoryUseCasesReadOnlyInteractor
     {
-        
-        public RenterRentalHistoryUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<RenterRentalHistory> readOnlyPersistenceGateway) : base(readOnlyPersistenceGateway)
+        private readonly IGetRenterRentalHistory _getRenterRentalHistory;
+        public RenterRentalHistoryUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<RenterRentalHistory> readOnlyPersistenceGateway, IGetRenterRentalHistory getRenterRentalHistory) : base(readOnlyPersistenceGateway)
         {
+            _getRenterRentalHistory = getRenterRentalHistory;
         }
 
         public async Task<UseCaseResult<GetAllResponse<RenterRentalHistory>>> GetRentalHistory(Guid renterId)
         {
-            var getRentalHistory = await ReadOnlyPersistenceGateway.GetAll(history => history.RenterId == renterId);
-            return UseCasesResponses.GetUseCaseResult(getRentalHistory);
+            return await UseCasesResponses.GetUseCaseExecutionResponse<IGetRenterRentalHistory, Guid, GetAllResponse<RenterRentalHistory>>(_getRenterRentalHistory, renterId);
         }
     }
 }

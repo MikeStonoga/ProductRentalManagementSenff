@@ -5,6 +5,7 @@ using PRM.UseCases.Products.CheckProductAvailabilities;
 using PRM.UseCases.Products.GetLastProductRents;
 using PRM.UseCases.Products.GetRentalHistories;
 using PRM.UseCases.Renters;
+using PRM.UseCases.Renters.GetRentalHistories;
 using PRM.UseCases.Rents;
 using PRM.UseCases.Rents.FinishRents;
 using PRM.UseCases.Rents.GetOpenRentsPaymentForecasts;
@@ -27,7 +28,7 @@ namespace PRM.UseCases
                 
                 // ProductRentalHistory
                 .AddTransient<IProductRentalHistoryUseCasesReadOnlyInteractor, ProductRentalHistoryUseCasesReadOnlyInteractor>()
-                .AddTransient<IGetRentalHistory, GetRentalHistory>()
+                .AddTransient<IGetProductRentalHistory, GetProductRentalHistory>()
                 .AddTransient<IGetLastProductRent, GetLastProductRent>()
                 
                 //Rents
@@ -41,14 +42,13 @@ namespace PRM.UseCases
                 
                 // RenterRentalHistory
                 .AddTransient<IRenterRentalHistoryUseCasesReadOnlyInteractor, RenterRentalHistoryUseCasesReadOnlyInteractor>()
+                .AddTransient<IGetRenterRentalHistory, GetRenterRentalHistory>()
                 
                 // Renters
                 .AddTransient<IRenterUseCasesReadOnlyInteractor, RenterUseCasesReadOnlyInteractor>()
                 .AddTransient<IRenterUseCasesManipulationInteractor, RenterUseCasesManipulationInteractor>()
                 ;
-            
-            
-            
+
             return services;
         }
     }

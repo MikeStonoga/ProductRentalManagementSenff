@@ -18,18 +18,18 @@ namespace PRM.UseCases.Products
         
     public class ProductRentalHistoryUseCasesReadOnlyInteractor : BaseUseCaseReadOnlyInteractor<ProductRentalHistory>, IProductRentalHistoryUseCasesReadOnlyInteractor
     {
-        private readonly IGetRentalHistory _getRentalHistory;
+        private readonly IGetProductRentalHistory _getProductRentalHistory;
         private readonly IGetLastProductRent _getLastProductRent;
 
-        public ProductRentalHistoryUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<ProductRentalHistory> readOnlyPersistenceGateway, IGetLastProductRent getLastProductRent, IGetRentalHistory getRentalHistory) : base(readOnlyPersistenceGateway)
+        public ProductRentalHistoryUseCasesReadOnlyInteractor(IReadOnlyPersistenceGateway<ProductRentalHistory> readOnlyPersistenceGateway, IGetLastProductRent getLastProductRent, IGetProductRentalHistory getProductRentalHistory) : base(readOnlyPersistenceGateway)
         {
             _getLastProductRent = getLastProductRent;
-            _getRentalHistory = getRentalHistory;
+            _getProductRentalHistory = getProductRentalHistory;
         }
 
         public async Task<UseCaseResult<GetAllResponse<ProductRentalHistory>>> GetRentalHistory(Guid productId)
         {
-            return await UseCasesResponses.GetUseCaseExecutionResponse<IGetRentalHistory, Guid, GetAllResponse<ProductRentalHistory>>(_getRentalHistory, productId);
+            return await UseCasesResponses.GetUseCaseExecutionResponse<IGetProductRentalHistory, Guid, GetAllResponse<ProductRentalHistory>>(_getProductRentalHistory, productId);
         }
 
         public async Task<UseCaseResult<GetLastProductRentResult>> GetLastProductRent(Guid productId)
