@@ -1,4 +1,5 @@
-﻿using PRM.Domain.Products;
+﻿using System.Threading.Tasks;
+using PRM.Domain.Products;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.Products.Dtos;
 using PRM.UseCases.Products;
@@ -7,12 +8,24 @@ namespace PRM.InterfaceAdapters.Controllers.Products
 {
     public interface IProductReadOnlyController : IBaseReadOnlyController<Product, ProductOutput>
     {
+        Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables();
+        Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables();
     }
      
     public class ProductReadOnlyController : BaseReadOnlyController<Product, ProductOutput, IProductUseCasesReadOnlyInteractor>, IProductReadOnlyController
     {
         public ProductReadOnlyController(IProductUseCasesReadOnlyInteractor useCaseReadOnlyInteractor) : base(useCaseReadOnlyInteractor)
         {
+        }
+
+        public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables()
+        {
+            return await GetAll(p => p.IsAvailable);
+        }
+
+        public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables()
+        {
+            return await GetAll(p => !p.IsAvailable);
         }
     }
 
@@ -25,6 +38,16 @@ namespace PRM.InterfaceAdapters.Controllers.Products
     {
         public ProductManipulationController(IProductUseCasesManipulationInteractor useCaseInteractor, IProductReadOnlyController readOnlyController) : base(useCaseInteractor, readOnlyController)
         {
+        }
+
+        public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables()
+        {
+            return await ReadOnlyController.GetAvailables();
+        }
+
+        public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables()
+        {
+            return await ReadOnlyController.GetUnavailables();
         }
     }
 }

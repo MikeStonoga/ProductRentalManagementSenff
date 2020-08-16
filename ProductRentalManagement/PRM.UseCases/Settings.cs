@@ -3,6 +3,7 @@ using PRM.UseCases.Products;
 using PRM.UseCases.Renters;
 using PRM.UseCases.Rents;
 using PRM.UseCases.Rents.FinishRents;
+using PRM.UseCases.Rents.GetOpenRentsPaymentForecasts;
 using PRM.UseCases.Rents.GetRentForecastPrices;
 using PRM.UseCases.Rents.RentProducts;
 using PRM.UseCases.Rents.Validations.Requirements.Rents;
@@ -26,6 +27,7 @@ namespace PRM.UseCases
                 .AddTransient<IRentProducts, RentProducts>()
                 .AddTransient<IFinishRent, FinishRent>()
                 .AddTransient<IValidateRentRequirement, ValidateRentRequirement>()
+                .AddTransient<IGetOpenRentsPaymentForecast, GetOpenRentsPaymentForecast>()
                 
                 // Renters
                 .AddTransient<IRenterUseCasesReadOnlyInteractor, RenterUseCasesReadOnlyInteractor>()

@@ -13,7 +13,7 @@ namespace PRM.Domain.BaseCore.ValueObjects
         public DateTime EndDate { get; private set; }
         
         public int Days => EndDate.Subtract(StartDate).Days;
-        
+
         private DateRange() { }
         
         public DateRange(DateTime startDate, DateTime endDate)
@@ -27,6 +27,11 @@ namespace PRM.Domain.BaseCore.ValueObjects
         {
             yield return StartDate;
             yield return EndDate;
+        }
+
+        public bool IsOnRange(DateRange input)
+        {
+            return StartDate <= input.StartDate && input.EndDate <= EndDate;
         }
     }
 

@@ -12,6 +12,13 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
 
         public RentOutput(Rent rent)
         {
+            Id = rent.Id;
+            Name = rent.Name;
+            Code = rent.Code;
+            CreatorId = rent.CreatorId;
+            CreationTime = rent.CreationTime;
+            LastModifierId = rent.LastModifierId;
+            LastModificationTime = rent.LastModificationTime;
             RenterId = rent.RenterId;
             Status = rent.Status;
             RentPeriod = rent.RentPeriod;

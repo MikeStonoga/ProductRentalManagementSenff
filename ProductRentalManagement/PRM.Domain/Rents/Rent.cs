@@ -9,7 +9,6 @@ using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Extensions;
 using PRM.Domain.Renters;
-using PRM.Domain.Rents.Dtos;
 using PRM.Domain.Rents.Enums;
 
 namespace PRM.Domain.Rents
@@ -35,6 +34,7 @@ namespace PRM.Domain.Rents
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
         public int LateDays => DateTime.Now.Subtract(RentPeriod.EndDate).Days;
+        public bool IsFinished => Status == RentStatus.Closed;
 
         #endregion
 
@@ -75,13 +75,17 @@ namespace PRM.Domain.Rents
 
         public DomainResponseDto<Rent> FinishRent(decimal damageFee = 0, decimal discount = 0)
         {
-            if (damageFee != 0M)
+            if (IsFinished) return DomainValidationsExtensions.GetFailureResponse<Rent>("Already finished: " + LastModificationTime?.FormatDate());
+
+            var wasProductsDamaged = damageFee != 0M;
+            if (wasProductsDamaged)
             {
                 WasProductDamaged = true;
                 DamageFee = damageFee;
             }
 
-            if (discount != 0M)
+            var hasDiscount = discount != 0M;
+            if (hasDiscount)
             {
                 Discount = discount;
             }

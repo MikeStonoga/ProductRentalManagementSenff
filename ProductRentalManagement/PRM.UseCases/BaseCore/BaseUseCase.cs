@@ -2,6 +2,16 @@
 
 namespace PRM.UseCases.BaseCore
 {
+    public interface IBaseUseCase<TResult>
+    {
+        Task<UseCaseResult<TResult>> Execute();
+    }
+    
+    public abstract class BaseUseCase<TResult> : IBaseUseCase<TResult>
+    {
+        public abstract Task<UseCaseResult<TResult>> Execute();
+    }
+    
     public interface IBaseUseCase<TRequirement, TResult>
     {
         Task<UseCaseResult<TResult>> Execute(TRequirement getRentForecastPriceRequirement);
