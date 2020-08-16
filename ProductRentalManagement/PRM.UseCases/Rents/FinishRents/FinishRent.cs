@@ -25,16 +25,16 @@ namespace PRM.UseCases.Rents.FinishRents
             _productRentalHistories = productRentalHistories;
         }
 
-        public override async Task<UseCaseResult<FinishRentResult>> Execute(FinishRentRequirement requirement)
+        public override async Task<UseCaseResult<FinishRentResult>> Execute(FinishRentRequirement getRentForecastPriceRequirement)
         {
             
-            var rentToFinish = await _rents.GetById(requirement.RentId);
+            var rentToFinish = await _rents.GetById(getRentForecastPriceRequirement.RentId);
             if (!rentToFinish.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(rentToFinish.Message);
 
-            var finishRentResponse = rentToFinish.Response.FinishRent(requirement.DamageFee, requirement.Discount);
+            var finishRentResponse = rentToFinish.Response.FinishRent(getRentForecastPriceRequirement.DamageFee, getRentForecastPriceRequirement.Discount);
             if (!finishRentResponse.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(finishRentResponse.Message);
 
-            var productsToTurnAvailableIds = await _productRentalHistories.GetAllIds(history => history.RentId == requirement.RentId);
+            var productsToTurnAvailableIds = await _productRentalHistories.GetAllIds(history => history.RentId == getRentForecastPriceRequirement.RentId);
             var productsToTurnAvailable = await _products.GetByIds(productsToTurnAvailableIds.Response);
             
             if (!productsToTurnAvailableIds.Success) return UseCasesResponses.ExecutionFailure<FinishRentResult>(productsToTurnAvailableIds.Message);
@@ -44,7 +44,6 @@ namespace PRM.UseCases.Rents.FinishRents
             {
                 product.MarkAsAvailable();
                 await _products.Update(product);
-                
             }
 
             await _rents.Update(finishRentResponse.Result);

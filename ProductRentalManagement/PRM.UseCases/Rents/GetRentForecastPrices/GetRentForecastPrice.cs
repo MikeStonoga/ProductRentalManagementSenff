@@ -7,6 +7,7 @@ using PRM.Domain.Rents;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
+using PRM.UseCases.Rents.Validations.Requirements.Rents;
 
 namespace PRM.UseCases.Rents.GetRentForecastPrices
 {
@@ -16,31 +17,19 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
     
     public class GetRentForecastPrice : BaseUseCase<GetRentForecastPriceRequirement, GetRentForecastPriceResult>, IGetRentForecastPrice
     {
-        private readonly IReadOnlyPersistenceGateway<Product> _products;
-        private readonly IReadOnlyPersistenceGateway<Renter> _renters;
+        private readonly IValidateRentRequirement _validateRentRequirement;
 
-        public GetRentForecastPrice(IReadOnlyPersistenceGateway<Product> products, IReadOnlyPersistenceGateway<Renter> renters)
+        public GetRentForecastPrice(IValidateRentRequirement validateRentRequirement)
         {
-            _products = products;
-            _renters = renters;
+            _validateRentRequirement = validateRentRequirement;
         }
 
-        public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement rentProductsRequirement)
+        public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement getRentForecastPriceRequirement)
         {
-            var isTryingToCalculateWithoutProducts = rentProductsRequirement.ProductsIds == null;
-            if (isTryingToCalculateWithoutProducts) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>("Trying to calculate without any product");
+            var validationResponse = await _validateRentRequirement.Validate(getRentForecastPriceRequirement);
+            if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(validationResponse.Message);
             
-            var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds);
-            if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(productsToRentResponse.Message);
-
-            var renter = await _renters.GetById(rentProductsRequirement.RenterId);
-            if (!renter.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(renter.Message);
-            
-                        
-            var rentPeriod = DateRangeProvider.GetDateRange(rentProductsRequirement.StartDate, rentProductsRequirement.EndDate);
-            if (!rentPeriod.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(rentPeriod.Message);
-            
-            var rentForecastPrice = new Rent(rentPeriod.Result, productsToRentResponse.Response, renter.Response).GetRentForecastPrice();
+            var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).GetRentForecastPrice();
             
             var rentForecastPriceResult =new GetRentForecastPriceResult(rentForecastPrice);
             return UseCasesResponses.SuccessfullyExecuted(rentForecastPriceResult);

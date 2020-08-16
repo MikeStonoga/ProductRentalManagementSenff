@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <Folder Include="BaseCore\Dtos" />
+      <Folder Include="Rents\Validations\Requirements" />
     </ItemGroup>
 
     <ItemGroup>
