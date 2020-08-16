@@ -4,6 +4,11 @@ namespace PRM.InterfaceAdapters.Controllers.Renters.Dtos.RentalHistory
 {
     public class RenterRentalHistoryOutput : RenterRentalHistory
     {
+        public RenterRentalHistoryOutput()
+        {
+            
+        }
+        
         public RenterRentalHistoryOutput(RenterRentalHistory history)
         {
             Id = history.Id;

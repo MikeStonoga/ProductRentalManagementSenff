@@ -4,6 +4,10 @@ namespace PRM.InterfaceAdapters.Controllers.Products.Dtos.RentalHistory
 {
     public class ProductRentalHistoryOutput : ProductRentalHistory
     {
+        public ProductRentalHistoryOutput()
+        {
+            
+        }
         public ProductRentalHistoryOutput(ProductRentalHistory history)
         {
             Id = history.Id;

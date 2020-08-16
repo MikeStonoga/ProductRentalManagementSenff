@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Renters;
@@ -37,25 +35,7 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
 
         public async Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory(Guid renterId)
         {
-            var rentalHistory = await _renterRentalHistoryUseCasesReadOnlyInteractor.GetRentalHistory(renterId);
-            if (!rentalHistory.Success)
-            {
-                var failureResponse = new GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>
-                {
-                    Items = new List<RenterRentalHistoryOutput>(),
-                    TotalCount = 0
-                };
-                return ApiResponses.FailureResponse(failureResponse, rentalHistory.Message);
-            }
-            
-            var productRentalHistories = rentalHistory.Result.Items.Select(history => new RenterRentalHistoryOutput(history)).ToList();
-            
-            var getAllOutput = new GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>
-            {
-                Items = productRentalHistories,
-                TotalCount = rentalHistory.Result.TotalCount
-            };
-            return ApiResponses.SuccessfullyExecutedResponse(getAllOutput);
+            return await ApiResponses.GetUseCaseInteractorResponse<RenterRentalHistory, RenterRentalHistoryOutput>(_renterRentalHistoryUseCasesReadOnlyInteractor.GetRentalHistory, renterId);
         }
     }
 

@@ -1,17 +1,33 @@
 ﻿﻿using System;
  using System.Linq;
  using System.Threading.Tasks;
- using Microsoft.Extensions.DependencyInjection;
  using PRM.Domain.BaseCore;
  using PRM.InterfaceAdapters.Controllers.BaseCore.Enums;
  using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
  using PRM.UseCases.BaseCore;
- using PRM.UseCases.BaseCore.Extensions;
 
  namespace PRM.InterfaceAdapters.Controllers.BaseCore.Extensions
 {
     public static class ApiResponses
     {
+        public static async Task<ApiResponse<GetAllResponse<TEntity, TOutput>>> GetUseCaseInteractorResponse<TEntity, TOutput>(Func<Guid, Task<UseCaseResult<GetAllResponse<TEntity>>>> useCase, Guid input)
+            where TEntity : FullAuditedEntity, new()
+            where TOutput : TEntity, new()
+        {
+            var useCaseResponse = await useCase(input);
+            if (!useCaseResponse.Success) return FailureResponse<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
+            
+            var outputs = new GetAllResponse<TEntity, TOutput>();
+            
+            foreach (var output in useCaseResponse.Result.Items.Select(entity => Activator.CreateInstance(typeof(TOutput), entity) as TOutput))
+            {
+                outputs.Items.Add(output);
+            }
+
+            outputs.TotalCount = useCaseResponse.Result.TotalCount;
+            return SuccessfullyExecutedResponse(outputs, useCaseResponse.Message);
+        }
+        
         public static async Task<ApiResponse<GetAllResponse<TEntity, TOutput>>> GetUseCaseInteractorResponse<TEntity, TOutput>(Func<Task<UseCaseResult<GetAllResponse<TEntity>>>> useCase)
             where TEntity : FullAuditedEntity, new()
             where TOutput : TEntity, new()
