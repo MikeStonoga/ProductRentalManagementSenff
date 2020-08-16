@@ -87,6 +87,10 @@ namespace PRM.Domain.Rents
             {
                 WasProductDamaged = true;
                 DamageFee = damageFee;
+            }
+
+            if (discount != 0M)
+            {
                 Discount = discount;
             }
             

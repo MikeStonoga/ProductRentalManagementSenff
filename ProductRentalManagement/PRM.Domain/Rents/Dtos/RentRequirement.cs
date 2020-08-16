@@ -6,24 +6,13 @@ namespace PRM.Domain.Rents.Dtos
     public class RentRequirement
     {
         #region Properties
+
         public Guid RenterId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set;  }
-        public List<Guid> ProductsIds { get; set; }
-        #endregion
 
-        
-        public RentRequirement()
-        {
-            
-        }
-        public RentRequirement(List<Guid> productsIds, Guid renterId, DateTime startDate, DateTime endDate)
-        {
-            ProductsIds = productsIds;
-            RenterId = renterId;
-            StartDate = startDate;
-            EndDate = endDate;
-        }
-        
+        public List<Guid> ProductsIds { get; set; }
+
+        #endregion
     }
 }

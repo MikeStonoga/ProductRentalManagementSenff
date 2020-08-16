@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
@@ -33,7 +34,7 @@ namespace PRM.UseCases.Rents.RentProducts
         {
             if (rentProductsRequirement.ProductsIds == null) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>("Trying to Rent without products");
             
-            var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds);
+            var productsToRentResponse = await _products.GetByIds(rentProductsRequirement.ProductsIds.ToList());
             if (!productsToRentResponse.Success) return UseCasesResponses.ExecutionFailureResponse<RentProductsResult>(productsToRentResponse.Message);
 
             var rentToCreate = new Rent(rentProductsRequirement, productsToRentResponse.Response);
