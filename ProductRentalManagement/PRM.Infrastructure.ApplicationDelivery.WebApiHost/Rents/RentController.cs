@@ -49,6 +49,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
             return await _rentManipulationController.GetOpenRents();
         }
 
+        [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRentsFromPeriod(DateTime? startDate, DateTime? endDate)
         {
             return await _rentManipulationController.GetOpenRentsFromPeriod(startDate, endDate);
