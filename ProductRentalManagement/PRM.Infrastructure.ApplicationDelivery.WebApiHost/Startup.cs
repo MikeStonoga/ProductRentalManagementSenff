@@ -25,7 +25,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost
             services
                 .AddControllersTransients()
                 .AddUseCasesTransients()
-                .AddMySqlPersistenceTransients();
+                .AddMySqlPersistenceScopeds();
             
             services.UseMySql<PrmDbContext>(databaseName: "prm");
             services.AddControllers();

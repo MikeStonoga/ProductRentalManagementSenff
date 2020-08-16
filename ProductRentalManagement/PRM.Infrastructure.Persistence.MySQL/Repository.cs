@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Enums;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore.Extensions;
 
-namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
+namespace PRM.Infrastructure.Persistence.MySQL
 {
     public interface IReadOnlyRepository<TEntity> : IReadOnlyPersistenceGateway<TEntity> where TEntity : FullAuditedEntity
     {
@@ -148,10 +148,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         where TEntity : FullAuditedEntity, new()
     {
 
-        private readonly ICurrentDbContext _database;
+        private readonly DbContext _database;
         public Repository(ICurrentDbContext database) : base(database)
         {
-            _database = database;
+            _database = database.Context;
         }
         
 
@@ -162,8 +162,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 entity.CreationTime = DateTime.Now;
                 // TODO: CREATOR ID
                 entity.Id = Guid.NewGuid();
-                await _database.Context.AddAsync(entity);
-                await _database.Context.SaveChangesAsync();
+                await _database.AddAsync(entity);
+                await _database.SaveChangesAsync();
 
                 return PersistenceResponseStatus.Success.GetSuccessResponse(entity);
             }
@@ -180,11 +180,10 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
             {
                 entity.LastModificationTime = DateTime.Now;
                 
-                var entityToUpdate = await _database.Context.FindAsync<TEntity>(entity.Id);
+                var entityToUpdate = await _database.FindAsync<TEntity>(entity.Id);
                 if (entityToUpdate.IsDeleted) return PersistenceResponseStatus.PersistenceFailure.GetFailureResponse<PersistenceResponseStatus, TEntity>("AlreadyWasDeleted");
-                
-                entityToUpdate = entity;
-                await _database.Context.SaveChangesAsync();
+                _database.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+                await _database.SaveChangesAsync();
 
                 return PersistenceResponseStatus.Success.GetSuccessResponse(entityToUpdate);
             }
@@ -199,7 +198,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
         {
             try
             {
-                var entity = await _database.Context.FindAsync<TEntity>(id);
+                var entity = await _database.FindAsync<TEntity>(id);
 
                 if (entity.IsDeleted)
                 {
@@ -215,7 +214,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.BaseCore
                 
                 entity.DeletionTime = DateTime.Now;
                 entity.IsDeleted = true;
-                await _database.Context.SaveChangesAsync();
+                await _database.SaveChangesAsync();
 
                 return new PersistenceResponse<DeletionResponses>
                 {

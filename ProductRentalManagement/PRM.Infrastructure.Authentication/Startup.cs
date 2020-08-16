@@ -7,7 +7,6 @@ using PRM.Infrastructure.Authentication.Infrastructure.Persistence;
 using PRM.Infrastructure.Authentication.Users.Controllers;
 using PRM.Infrastructure.Authentication.Users.UseCases;
 using PRM.Infrastructure.Persistence.MySQL;
-using PRM.Infrastructure.Persistence.MySQL.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 
 namespace PRM.Infrastructure.Authentication

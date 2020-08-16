@@ -6,12 +6,12 @@ namespace PRM.InterfaceAdapters.Gateways.Persistence
 {
     public static class PersistenceSettings
     {
-        public static IServiceCollection AddPersistenceTransients(this IServiceCollection services, Type readOnlyImplementation, Type readOnlyInterface,Type manipulationImplementation)
+        public static IServiceCollection AddPersistenceScopeds(this IServiceCollection services, Type readOnlyImplementation, Type readOnlyInterface,Type manipulationImplementation)
         {
             services
-                .AddTransient(typeof(IReadOnlyPersistenceGateway<>), readOnlyImplementation)
-                .AddTransient(readOnlyInterface, readOnlyImplementation)
-                .AddTransient(typeof(IManipulationPersistenceGateway<>), manipulationImplementation);
+                .AddScoped(typeof(IReadOnlyPersistenceGateway<>), readOnlyImplementation)
+                .AddScoped(readOnlyInterface, readOnlyImplementation)
+                .AddScoped(typeof(IManipulationPersistenceGateway<>), manipulationImplementation);
             
             return services;
         }

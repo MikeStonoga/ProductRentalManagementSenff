@@ -1,5 +1,6 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+ using System.Linq;
  using System.Threading.Tasks;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
@@ -85,12 +86,18 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
         public new async Task<ApiResponse<TEntityOutput>> Create([FromBody] TEntityInput input)
         {
             input.Id = Guid.NewGuid();
+            input.CreationTime = DateTime.Now;
+            var userId = User.Claims.ToList()[2];
+            input.CreatorId = Guid.Parse(userId.Value);
             return await base.Create(input);
         }
 
         [HttpPut]
         public new async Task<ApiResponse<TEntityOutput>> Update([FromBody] TEntityInput input)
         {
+            input.LastModificationTime = DateTime.Now;
+            var userId = User.Claims.ToList()[2];
+            input.LastModifierId = Guid.Parse(userId.Value);
             return await base.Update(input);
         }
 

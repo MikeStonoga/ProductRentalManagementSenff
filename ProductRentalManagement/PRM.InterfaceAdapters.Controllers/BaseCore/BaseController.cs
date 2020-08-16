@@ -126,10 +126,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.Id = input.Id;
             entity.Code = input.Code;
             entity.Name = input.Name;
-            entity.CreationTime = DateTime.Now;
-            var userId = User.Claims.ToList()[2];
-            input.CreatorId = Guid.Parse(userId.Value);
-            
+
             var useCaseResult = await UseCaseInteractor.Create(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
@@ -146,12 +143,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             entity.Id = input.Id;
             entity.Code = input.Code;
             entity.Name = input.Name;
-            entity.CreationTime = input.CreationTime;
-            entity.CreatorId = input.CreatorId;
-            entity.LastModificationTime = DateTime.Now;
-            var userId = User.Claims.ToList()[2];
-            input.CreatorId = Guid.Parse(userId.Value);
-            
+
             var useCaseResult = await UseCaseInteractor.Update(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PRM.Infrastructure.Authentication.Services;
 using PRM.Infrastructure.Authentication.Users;
-using PRM.Infrastructure.Persistence.MySQL.BaseCore;
+using PRM.Infrastructure.Persistence.MySQL;
 
 namespace PRM.Infrastructure.Authentication.Authentication
 {

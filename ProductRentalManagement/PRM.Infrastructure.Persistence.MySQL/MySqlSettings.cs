@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using PRM.Infrastructure.Persistence.MySQL.BaseCore;
 using PRM.InterfaceAdapters.Gateways.Persistence;
 
 namespace PRM.Infrastructure.Persistence.MySQL
@@ -10,9 +9,9 @@ namespace PRM.Infrastructure.Persistence.MySQL
     {
         public static readonly string ConnectionString = "Server=127.0.0.1; Port=3306; DataBase=DATABASE_NAME;Uid=root;Pwd=''";
 
-        public static IServiceCollection AddMySqlPersistenceTransients(this IServiceCollection services)
+        public static IServiceCollection AddMySqlPersistenceScopeds(this IServiceCollection services)
         {
-            services.AddPersistenceTransients(typeof(ReadOnlyRepository<>), typeof(IReadOnlyRepository<>), typeof(Repository<>));
+            services.AddPersistenceScopeds(typeof(ReadOnlyRepository<>), typeof(IReadOnlyRepository<>), typeof(Repository<>));
             return services;
         }
     }
