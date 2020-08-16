@@ -1,4 +1,5 @@
 ﻿using PRM.Domain.Rents.Dtos;
+using PRM.UseCases.Rents.RentProducts;
 
 namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos.RentProducts
 {

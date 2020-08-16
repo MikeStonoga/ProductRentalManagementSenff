@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PRM.Domain.Rents;
 
-namespace PRM.Domain.Rents.Dtos
+namespace PRM.UseCases.Rents.RentProducts
 {
     public class RentProductsResult : Rent
     {

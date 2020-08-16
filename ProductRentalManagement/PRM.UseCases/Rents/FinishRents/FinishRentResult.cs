@@ -2,13 +2,12 @@
 {
     public class FinishRentResult
     {
-        public decimal ValueToPay { get; }
+        public decimal ValueToPay { get; set; }
         
         public FinishRentResult()
         {
-            ValueToPay = 0;
         }
-
+        
         public FinishRentResult(decimal valueToPay)
         {
             ValueToPay = valueToPay;
