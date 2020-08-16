@@ -40,28 +40,19 @@ namespace PRM.UseCases.BaseCore
         {
             var persistenceResponse = await ReadOnlyPersistenceGateway.GetById(id);
 
-            return GetUseCaseResult(persistenceResponse);
-        }
-
-        protected UseCaseResult<TResult> GetUseCaseResult<TResult>(PersistenceResponse<TResult> persistenceResponse)
-        {
-            var wasSuccessfullyExecuted = persistenceResponse.Success;
-            
-            return wasSuccessfullyExecuted
-                ? UseCasesResponses.SuccessfullyExecuted(persistenceResponse.Response)
-                : UseCasesResponses.PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
 
         public virtual async Task<UseCaseResult<List<TEntity>>> GetByIds(List<Guid> ids)
         {
             var persistenceResponse = await ReadOnlyPersistenceGateway.GetByIds(ids);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
 
         public async Task<UseCaseResult<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null)
         {
             var persistenceResponse = await ReadOnlyPersistenceGateway.GetAll(whereExpression);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
     }
     
@@ -82,19 +73,19 @@ namespace PRM.UseCases.BaseCore
         public virtual async Task<UseCaseResult<TEntity>> Create(TEntity entity)
         {
             var persistenceResponse = await _persistenceGateway.Create(entity);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
 
         public virtual async Task<UseCaseResult<TEntity>> Update(TEntity entity)
         {
             var persistenceResponse = await _persistenceGateway.Update(entity);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
 
         public virtual async Task<UseCaseResult<DeletionResponses>> Delete(Guid id)
         {
             var persistenceResponse = await _persistenceGateway.Delete(id);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
     }
 }

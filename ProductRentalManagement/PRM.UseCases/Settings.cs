@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PRM.UseCases.Products;
+using PRM.UseCases.Products.CheckAvailabilities;
+using PRM.UseCases.Products.CheckProductAvailabilities;
+using PRM.UseCases.Products.GetLastProductRents;
+using PRM.UseCases.Products.GetRentalHistories;
 using PRM.UseCases.Renters;
 using PRM.UseCases.Rents;
 using PRM.UseCases.Rents.FinishRents;
@@ -19,6 +23,12 @@ namespace PRM.UseCases
                 //Products
                 .AddTransient<IProductUseCasesReadOnlyInteractor, ProductUseCasesReadOnlyInteractor>()
                 .AddTransient<IProductUseCasesManipulationInteractor, ProductUseCasesManipulationInteractor>()
+                .AddTransient<ICheckProductAvailability, CheckProductAvailability>()
+                
+                // ProductRentalHistory
+                .AddTransient<IProductRentalHistoryUseCasesReadOnlyInteractor, ProductRentalHistoryUseCasesReadOnlyInteractor>()
+                .AddTransient<IGetRentalHistory, GetRentalHistory>()
+                .AddTransient<IGetLastProductRent, GetLastProductRent>()
                 
                 //Rents
                 .AddTransient<IRentUseCasesReadOnlyInteractor, RentUseCasesReadOnlyInteractor>()
@@ -28,6 +38,9 @@ namespace PRM.UseCases
                 .AddTransient<IFinishRent, FinishRent>()
                 .AddTransient<IValidateRentRequirement, ValidateRentRequirement>()
                 .AddTransient<IGetOpenRentsPaymentForecast, GetOpenRentsPaymentForecast>()
+                
+                // RenterRentalHistory
+                .AddTransient<IRenterRentalHistoryUseCasesReadOnlyInteractor, RenterRentalHistoryUseCasesReadOnlyInteractor>()
                 
                 // Renters
                 .AddTransient<IRenterUseCasesReadOnlyInteractor, RenterUseCasesReadOnlyInteractor>()

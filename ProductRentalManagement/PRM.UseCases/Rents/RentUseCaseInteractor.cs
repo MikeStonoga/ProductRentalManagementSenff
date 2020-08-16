@@ -65,8 +65,5 @@ namespace PRM.UseCases.Rents
         {
             return await UseCasesResponses.GetUseCaseExecutionResponse<IRentProducts, RentProductsRequirement, RentProductsResult>(_rentProducts, requirement);
         }
-
-
-  
     }
 }

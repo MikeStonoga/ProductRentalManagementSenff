@@ -29,6 +29,16 @@ namespace PRM.Domain.BaseCore.ValueObjects
             yield return EndDate;
         }
 
+        public bool IsMonthOnRange(int month)
+        {
+            return StartDate.Month <= month && month <= EndDate.Month;
+        }
+        
+        public bool IsOnRange(DateTime date)
+        {
+            return StartDate <= date && date <= EndDate;
+        }
+        
         public bool IsOnRange(DateRange input)
         {
             return StartDate <= input.StartDate && input.EndDate <= EndDate;

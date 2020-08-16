@@ -1,5 +1,6 @@
 ﻿﻿using System;
  using System.Threading.Tasks;
+ using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
  using PRM.UseCases.BaseCore.Enums;
 
  namespace PRM.UseCases.BaseCore.Extensions
@@ -7,8 +8,8 @@
     public static class UseCasesResponses
     {
         
-        public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TUseCase, TUseCaseRequirement, TUseCaseResult>(TUseCase useCase, TUseCaseRequirement input)
-            where TUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
+        public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TIUseCase, TUseCaseRequirement, TUseCaseResult>(TIUseCase useCase, TUseCaseRequirement input)
+            where TIUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
         {
             var useCaseResponse = await useCase.Execute(input);
             if (!useCaseResponse.Success) return ExecutionFailure<TUseCaseResult>(useCaseResponse.Message);
@@ -18,6 +19,16 @@
             var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
             return SuccessfullyExecuted(output, useCaseResponse.Message);
         }
+        
+        public static UseCaseResult<TResult> GetUseCaseResult<TResult>(PersistenceResponse<TResult> persistenceResponse)
+        {
+            var wasSuccessfullyExecuted = persistenceResponse.Success;
+            
+            return wasSuccessfullyExecuted
+                ? SuccessfullyExecuted(persistenceResponse.Response)
+                : PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
+        }
+
         
         public static UseCaseResult<TResult> SuccessfullyExecuted<TResult>(TResult result, string message = "")
         {

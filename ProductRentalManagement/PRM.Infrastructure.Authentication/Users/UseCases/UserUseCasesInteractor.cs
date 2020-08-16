@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
+using PRM.UseCases.BaseCore.Extensions;
 
 namespace PRM.Infrastructure.Authentication.Users.UseCases
 {
@@ -36,11 +37,11 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
             {
                 loginValidationResponse.Success = false;
                 loginValidationResponse.Message = "AlreadyHasLogin";
-                return GetUseCaseResult(loginValidationResponse);
+                return UseCasesResponses.GetUseCaseResult(loginValidationResponse);
             }
             
             var persistenceResponse = await _persistenceGateway.Create(entity);
-            return GetUseCaseResult(persistenceResponse);
+            return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
     }
 }

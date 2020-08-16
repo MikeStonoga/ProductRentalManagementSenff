@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.Products;
 using PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.Products;
 using PRM.InterfaceAdapters.Controllers.Products.Dtos;
+using PRM.InterfaceAdapters.Controllers.Products.Dtos.CheckProductAvailabilities;
+using PRM.InterfaceAdapters.Controllers.Products.Dtos.GetLastProductRents;
 using PRM.InterfaceAdapters.Controllers.Products.Dtos.RentalHistory;
 using PRM.UseCases.Products;
 
@@ -17,17 +20,32 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Products
         {
         }
 
+        [HttpGet]
+        public async Task<ApiResponse<CheckProductAvailabilityOutput>> CheckProductAvailability([FromQuery] Guid productId)
+        {
+            return await ReadOnlyController.CheckProductAvailability(productId);
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastProductRent([FromQuery] Guid productId)
+        {
+            return await ReadOnlyController.GetLastProductRent(productId);
+        }
+
+        [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables()
         {
             return await ReadOnlyController.GetAvailables();
         }
 
+        [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables()
         {
             return await ReadOnlyController.GetUnavailables();
         }
 
-        public async Task<ApiResponse<GetAllResponse<ProductRentalHistory, ProductRentalHistoryOutput>>> GetRentalHistory(Guid productId)
+        [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<ProductRentalHistory, ProductRentalHistoryOutput>>> GetRentalHistory([FromQuery] Guid productId)
         {
             return await ReadOnlyController.GetRentalHistory(productId);
         }

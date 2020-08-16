@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PRM.Domain.BaseCore.Dtos;
-using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
-using PRM.Domain.Rents.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
@@ -60,7 +57,7 @@ namespace PRM.UseCases.Rents.RentProducts
         {
             // TODO: UnitOfWork
             var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            await _renterRentalHistories.Create(new RenterRentalHistory(rentProductsResponse.Result.Id, validationResponse.Result.Renter.Id));
+            await _renterRentalHistories.Create(new RenterRentalHistory(rentCreatedResponse.Response, validationResponse.Result.Renter));
             
             foreach (var product in validationResponse.Result.Products)
             {
