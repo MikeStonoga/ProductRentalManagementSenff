@@ -14,7 +14,7 @@ namespace PRM.UseCases.Products.GetRentalHistories
     
     public class GetProductRentalHistory : BaseUseCase<Guid, GetAllResponse<ProductRentalHistory>>, IGetProductRentalHistory
     {
-        private IReadOnlyPersistenceGateway<ProductRentalHistory> _productRentalHistories;
+        private readonly IReadOnlyPersistenceGateway<ProductRentalHistory> _productRentalHistories;
 
         public GetProductRentalHistory(IReadOnlyPersistenceGateway<ProductRentalHistory> productRentalHistories)
         {
