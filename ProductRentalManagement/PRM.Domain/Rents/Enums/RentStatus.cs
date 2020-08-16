@@ -2,7 +2,7 @@
 {
     public enum RentStatus
     {
-        Open = 1,
-        Closed = 2
+        Open = 0,
+        Closed = 1
     }
 }
