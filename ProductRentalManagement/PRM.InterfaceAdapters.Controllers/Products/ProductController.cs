@@ -44,12 +44,12 @@ namespace PRM.InterfaceAdapters.Controllers.Products
 
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables()
         {
-            return await GetAll(p => p.IsAvailable);
+            return await ApiResponses.GetUseCaseInteractorResponse<Product, ProductOutput>(UseCaseReadOnlyInteractor.GetAvailablesProducts);
         }
 
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables()
         {
-            return await GetAll(p => !p.IsAvailable);
+            return await ApiResponses.GetUseCaseInteractorResponse<Product, ProductOutput>(UseCaseReadOnlyInteractor.GetUnavailablesProducts);
         }
 
         public async Task<ApiResponse<GetAllResponse<ProductRentalHistory, ProductRentalHistoryOutput>>> GetRentalHistory(Guid productId)

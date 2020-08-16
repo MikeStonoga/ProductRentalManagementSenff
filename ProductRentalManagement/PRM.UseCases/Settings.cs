@@ -2,6 +2,7 @@
 using PRM.UseCases.Products;
 using PRM.UseCases.Products.CheckAvailabilities;
 using PRM.UseCases.Products.CheckProductAvailabilities;
+using PRM.UseCases.Products.GetAvailables;
 using PRM.UseCases.Products.GetLastProductRents;
 using PRM.UseCases.Products.GetRentalHistories;
 using PRM.UseCases.Renters;
@@ -25,6 +26,8 @@ namespace PRM.UseCases
                 .AddTransient<IProductUseCasesReadOnlyInteractor, ProductUseCasesReadOnlyInteractor>()
                 .AddTransient<IProductUseCasesManipulationInteractor, ProductUseCasesManipulationInteractor>()
                 .AddTransient<ICheckProductAvailability, CheckProductAvailability>()
+                .AddTransient<IGetAvailablesProducts, GetAvailablesProducts>()
+                .AddTransient<IGetUnavailablesProducts, GetUnavailablesProducts>()
                 
                 // ProductRentalHistory
                 .AddTransient<IProductRentalHistoryUseCasesReadOnlyInteractor, ProductRentalHistoryUseCasesReadOnlyInteractor>()

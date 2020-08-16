@@ -7,6 +7,17 @@
 {
     public static class UseCasesResponses
     {
+        public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TIUseCase, TUseCaseResult>(TIUseCase useCase)
+            where TIUseCase : IBaseUseCase<TUseCaseResult> where TUseCaseResult : class, new()
+        {
+            var useCaseResponse = await useCase.Execute();
+            if (!useCaseResponse.Success) return ExecutionFailure<TUseCaseResult>(useCaseResponse.Message);
+            var useCaseResult = useCaseResponse.Result;
+            if (useCaseResult.GetType() == typeof(TUseCaseResult)) return SuccessfullyExecuted(useCaseResponse.Result, useCaseResponse.Message);
+            
+            var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
+            return SuccessfullyExecuted(output, useCaseResponse.Message);
+        }
         
         public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TIUseCase, TUseCaseRequirement, TUseCaseResult>(TIUseCase useCase, TUseCaseRequirement input)
             where TIUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
