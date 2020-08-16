@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PRM.Domain.Products;
 using PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.Products;
 using PRM.InterfaceAdapters.Controllers.Products.Dtos;
+using PRM.InterfaceAdapters.Controllers.Products.Dtos.RentalHistory;
 using PRM.UseCases.Products;
 
 namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Products
@@ -23,6 +25,11 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Products
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables()
         {
             return await ReadOnlyController.GetUnavailables();
+        }
+
+        public async Task<ApiResponse<GetAllResponse<ProductRentalHistory, ProductRentalHistoryOutput>>> GetRentalHistory(Guid productId)
+        {
+            return await ReadOnlyController.GetRentalHistory(productId);
         }
     }
 }

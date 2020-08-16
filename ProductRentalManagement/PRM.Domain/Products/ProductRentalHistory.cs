@@ -1,13 +1,16 @@
 ﻿using System;
 using PRM.Domain.BaseCore;
+using PRM.Domain.BaseCore.Extensions;
+using PRM.Domain.Renters;
+using PRM.Domain.Rents;
 
 namespace PRM.Domain.Products
 {
     public class ProductRentalHistory : FullAuditedEntity
     {
         #region Properties
-        public Guid RentId { get; }
-        public Guid ProductId { get;  }
+        public Guid RentId { get; set; }
+        public Guid ProductId { get; set; }
         #endregion
 
         #region Constructors
@@ -17,10 +20,11 @@ namespace PRM.Domain.Products
             
         }
         
-        public ProductRentalHistory(Guid rentId, Guid productId)
+        public ProductRentalHistory(Rent rent, Product product, Renter renter)
         {
-            RentId = rentId;
-            ProductId = productId;
+            Name = product.Name + " - " + renter.Name + " - " + rent.RentPeriod.StartDate.FormatDate() + " - " + rent.RentPeriod.EndDate.FormatDate(); 
+            RentId = rent.Id;
+            ProductId = product.Id;
         }
         #endregion
     }

@@ -66,7 +66,7 @@ namespace PRM.UseCases.Rents.RentProducts
             {
                 product.MarkAsUnavailable();
                 await _products.Update(product);
-                await _productRentalHistories.Create(new ProductRentalHistory(rentProductsResponse.Result.Id, product.Id));
+                await _productRentalHistories.Create(new ProductRentalHistory(rentCreatedResponse.Response, product, validationResponse.Result.Renter));
             }
 
             return rentCreatedResponse.Response;
