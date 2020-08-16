@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200816120804_Entities_Added")]
+    [Migration("20200816222339_Entities_Added")]
     partial class Entities_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
