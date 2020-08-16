@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PRM.Domain.BaseCore.Dtos;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
@@ -41,24 +42,17 @@ namespace PRM.UseCases.Rents.RentProducts
             
             var rentToCreate = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter);
                 
+            
             var rentProductsResponse = rentToCreate.RentProducts();
             if (!rentProductsResponse.Success) return UseCasesResponses.ExecutionFailure<RentProductsResult>(rentProductsResponse.Message);
             
-            // TODO: UnitOfWork
-            var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            await _renterRentalHistories.Create(new RenterRentalHistory(rentProductsResponse.Result.Id, rentProductsRequirement.RenterId));
             
-            foreach (var product in validationResponse.Result.Products)
-            {
-                product.MarkAsUnavailable();
-                await _products.Update(product);
-                await _productRentalHistories.Create(new ProductRentalHistory(rentProductsResponse.Result.Id, product.Id));
-            }
+            var rentCreated = await Persist(rentProductsResponse, validationResponse);
             
-            var rentProductsResult = new RentProductsResult(rentCreatedResponse.Response);
+            var rentProductsResult = new RentProductsResult(rentCreated);
             return UseCasesResponses.SuccessfullyExecuted(rentProductsResult);
         }
-
+        
         private async Task<UseCaseResult<RentProductsValidationResult>> Validate(RentProductsRequirement rentProductsRequirement)
         {
             var isTryingToRentWithoutProducts = rentProductsRequirement.ProductsIds == null; 
@@ -81,6 +75,22 @@ namespace PRM.UseCases.Rents.RentProducts
             };
 
             return UseCasesResponses.SuccessfullyExecuted(validationResult);
+        }
+        
+        private async Task<Rent> Persist(DomainResponseDto<Rent> rentProductsResponse, UseCaseResult<RentProductsValidationResult> validationResponse)
+        {
+            // TODO: UnitOfWork
+            var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
+            await _renterRentalHistories.Create(new RenterRentalHistory(rentProductsResponse.Result.Id, validationResponse.Result.Renter.Id));
+            
+            foreach (var product in validationResponse.Result.Products)
+            {
+                product.MarkAsUnavailable();
+                await _products.Update(product);
+                await _productRentalHistories.Create(new ProductRentalHistory(rentProductsResponse.Result.Id, product.Id));
+            }
+
+            return rentCreatedResponse.Response;
         }
     }
 
