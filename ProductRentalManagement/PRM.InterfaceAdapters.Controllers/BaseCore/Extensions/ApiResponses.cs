@@ -1,4 +1,5 @@
 ﻿﻿using System;
+ using System.Collections.Generic;
  using System.Linq;
  using System.Threading.Tasks;
  using PRM.Domain.BaseCore;
@@ -35,7 +36,10 @@
             var useCaseResponse = await useCase();
             if (!useCaseResponse.Success) return FailureResponse<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
             
-            var outputs = new GetAllResponse<TEntity, TOutput>();
+            var outputs = new GetAllResponse<TEntity, TOutput>
+            {
+                Items = new List<TOutput>()
+            };
             
             foreach (var output in useCaseResponse.Result.Items.Select(entity => Activator.CreateInstance(typeof(TOutput), entity) as TOutput))
             {

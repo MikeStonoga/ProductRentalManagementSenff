@@ -77,7 +77,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return await GetAll(null);
         }
         
-        protected async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll(Expression<Func<TEntity, bool>> whereExpression = null)
+        protected async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll(Func<TEntity, bool> whereExpression = null)
         {
             var useCaseResult = await UseCaseReadOnlyInteractor.GetAll(whereExpression);
             var wasSuccessfullyExecuted = useCaseResult.Success;

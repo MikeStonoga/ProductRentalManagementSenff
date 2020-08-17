@@ -83,24 +83,12 @@ namespace PRM.Infrastructure.Persistence.MySQL
             }
         }
         
-        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<PersistenceResponse<GetAllResponse<TEntity>>> GetAll(Func<TEntity, bool> whereExpression)
         {
             try
             {
-                var databaseRegistriesCount = await _database.Set<TEntity>().CountAsync();
-                var hasNoRegistries = databaseRegistriesCount == 0;
-                if (hasNoRegistries)
-                {
-                    var response = new GetAllResponse<TEntity>
-                    {
-                        Items = new List<TEntity>(),
-                        TotalCount = 0
-                    };
-                    return PersistenceResponseStatus.Success.GetSuccessResponse(response, "No registries");
-                }
-                
                 var all = whereExpression != null
-                    ? await _database.Set<TEntity>().Where(whereExpression).Where(e => !e.IsDeleted).ToListAsync()
+                    ? _database.Set<TEntity>().AsEnumerable().Where(e => !e.IsDeleted && whereExpression(e)).ToList()
                     : await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
