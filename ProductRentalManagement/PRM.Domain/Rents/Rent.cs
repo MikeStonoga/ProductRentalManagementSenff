@@ -16,21 +16,18 @@ namespace PRM.Domain.Rents
     public class Rent : FullAuditedEntity
     {
         #region Properties
+        
         public Guid RenterId { get; set; }
         public RentStatus Status { get; set; }
-        
         public DateRange RentPeriod { get; set; }
         public decimal DailyPrice { get; set; }
         public decimal DailyLateFee { get; set; }
         public bool WasProductDamaged { get; set; }
         public decimal DamageFee { get; set; }
         public decimal Discount { get; set; }
-
         public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
         public decimal PriceWithoutFees => DailyPrice * RentDays + Discount;
-
         public int RentDays => RentPeriod.Days;
-
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
         public int LateDays => DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date.AddDays(1).AddTicks(-1)).Days;
@@ -39,6 +36,7 @@ namespace PRM.Domain.Rents
         #endregion
 
         #region Constructors
+        
         public Rent()
         {
         }
@@ -58,6 +56,7 @@ namespace PRM.Domain.Rents
             DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
             RenterId = renter.Id;
         }
+        
         #endregion
 
         #region Methods
@@ -94,6 +93,7 @@ namespace PRM.Domain.Rents
             
             return this.GetSuccessResponse("RentFinished");
         }
+        
         #endregion
     }
     
