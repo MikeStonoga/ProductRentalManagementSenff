@@ -57,7 +57,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
             var period = DateRangeProvider.GetDateRange(input.StartDate, input.EndDate);
             if (!period.Success) return ApiResponses.FailureResponse<GetAllResponse<Rent, RentOutput>>(period.Message);
             
-            return await GetAll(r => r.IsFinished == false && period.Result.IsOnRange(r.RentPeriod));
+            return await GetAll(r => !r.IsFinished == false && period.Result.IsOnRange(r.RentPeriod));
         }
 
         // TODO Migrate to UseCases
