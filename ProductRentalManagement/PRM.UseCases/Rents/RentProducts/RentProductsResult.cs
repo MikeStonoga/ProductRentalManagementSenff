@@ -1,4 +1,6 @@
-﻿using PRM.Domain.Rents;
+﻿using System;
+using PRM.Domain.BaseCore.ValueObjects;
+using PRM.Domain.Rents;
 
 namespace PRM.UseCases.Rents.RentProducts
 {
@@ -6,7 +8,7 @@ namespace PRM.UseCases.Rents.RentProducts
     {
         public RentProductsResult()
         {
-            
+            RentPeriod = new DateRange(DateTime.MinValue, DateTime.MaxValue);
         }
         
         public RentProductsResult(Rent rent)

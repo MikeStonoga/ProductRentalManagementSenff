@@ -4,6 +4,7 @@ namespace PRM.Infrastructure.Authentication.Users.Dtos
 {
     public class UserInput : User, IAmManipulationInput<User>
     {
+        public string PasswordConfirmation { get; set; }
         public User MapToEntity()
         {
             return new User

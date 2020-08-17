@@ -20,7 +20,7 @@ namespace PRM.UseCases.BaseCore
     public interface IBaseUseCaseManipulationInteractor<TEntity> : IBaseUseCaseReadOnlyInteractor<TEntity>
         where TEntity : Entity
     {
-        Task<UseCaseResult<TEntity>> Create(TEntity entity);
+        Task<UseCaseResult<TEntity>> Create(TEntity userToCreate);
         Task<UseCaseResult<TEntity>> Update(TEntity entity);
         Task<UseCaseResult<DeletionResponses>> Delete(Guid id);
     }
@@ -70,9 +70,9 @@ namespace PRM.UseCases.BaseCore
         }
         
         
-        public virtual async Task<UseCaseResult<TEntity>> Create(TEntity entity)
+        public virtual async Task<UseCaseResult<TEntity>> Create(TEntity userToCreate)
         {
-            var persistenceResponse = await _persistenceGateway.Create(entity);
+            var persistenceResponse = await _persistenceGateway.Create(userToCreate);
             return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
 

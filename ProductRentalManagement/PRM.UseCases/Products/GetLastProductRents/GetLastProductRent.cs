@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using PRM.Domain.Rents;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
 using PRM.UseCases.Products.GetRentalHistories;
@@ -27,6 +28,7 @@ namespace PRM.UseCases.Products.GetLastProductRents
         {
             var rentalHistory = await _getProductRentalHistory.Execute(productId);
             if (!rentalHistory.Success) return UseCasesResponses.ExecutionFailure<GetLastProductRentResult>(rentalHistory.Message);
+            if (rentalHistory.Result.TotalCount == 0) return UseCasesResponses.SuccessfullyExecuted<GetLastProductRentResult>("Dont have any rent yet");
 
             var orderedByMostRecent = rentalHistory.Result.Items.OrderByDescending(history => history.CreationTime).ToList();
             var lastProductRentId = orderedByMostRecent[0].RentId;

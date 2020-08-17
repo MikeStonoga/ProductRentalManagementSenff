@@ -43,7 +43,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
 
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRents()
         {
-            return await GetAll(r => !r.IsFinished);
+            return await GetAll(r => r.IsFinished == false);
         }
 
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRentsFromPeriod(DateTime? startDate, DateTime? endDate)
@@ -51,7 +51,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
             var period = DateRangeProvider.GetDateRange(startDate ??= DateTime.MinValue, endDate ??= DateTime.MaxValue);
             if (!period.Success) return ApiResponses.FailureResponse<GetAllResponse<Rent, RentOutput>>(period.Message);
             
-            return await GetAll(r => !r.IsFinished && period.Result.IsOnRange(r.RentPeriod));
+            return await GetAll(r => r.IsFinished == false && period.Result.IsOnRange(r.RentPeriod));
         }
 
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetLateRents()

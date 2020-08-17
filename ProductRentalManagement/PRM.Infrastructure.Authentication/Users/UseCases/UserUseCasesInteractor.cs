@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
@@ -30,17 +31,33 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
             _persistenceGateway = persistenceGateway;
         }
         
-        public override async Task<UseCaseResult<User>> Create(User entity)
+        public override async Task<UseCaseResult<User>> Create(User userToCreate)
         {
-            var loginValidationResponse = await _persistenceGateway.First(user => user.Login == entity.Login);
-            if (loginValidationResponse.Success)
+            var validationResponse = new PersistenceResponse<User>();
+            if (userToCreate.BirthDate == null)
             {
-                loginValidationResponse.Success = false;
-                loginValidationResponse.Message = "AlreadyHasLogin";
-                return UseCasesResponses.GetUseCaseResult(loginValidationResponse);
+                validationResponse.Success = false;
+                validationResponse.Message = "BirthDate is Required";
+                return UseCasesResponses.GetUseCaseResult(validationResponse);
             }
             
-            var persistenceResponse = await _persistenceGateway.Create(entity);
+            var alreadyHasLogin = await _persistenceGateway.First(user => user.Login == userToCreate.Login);
+            if (alreadyHasLogin.Success)
+            {
+                validationResponse.Success = false;
+                validationResponse.Message = "AlreadyHasLogin";
+                return UseCasesResponses.GetUseCaseResult(validationResponse);
+            }
+            
+            var alreadyHasEmail = await _persistenceGateway.First(user => string.Equals(user.Email, userToCreate.Email, StringComparison.CurrentCultureIgnoreCase));
+            if (alreadyHasEmail.Success)
+            {
+                validationResponse.Success = false;
+                validationResponse.Message = "AlreadyHasEmail";
+                return UseCasesResponses.GetUseCaseResult(validationResponse);
+            }
+            
+            var persistenceResponse = await _persistenceGateway.Create(userToCreate);
             return UseCasesResponses.GetUseCaseResult(persistenceResponse);
         }
     }

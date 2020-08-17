@@ -32,7 +32,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         where TEntityOutput : TEntity
     {
         Task<ApiResponse<TEntityOutput>> Create(TEntityInput input);
-        Task<ApiResponse<TEntityOutput>> Update(TEntityInput input);
+        Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate);
         Task<ApiResponse<DeletionResponses>> Delete(Guid id);
     }
 
@@ -136,13 +136,13 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
         }
 
-        public virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput input)
+        public virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate)
         {
-            var entity = input.MapToEntity();
+            var entity = entityToUpdate.MapToEntity();
             
-            entity.Id = input.Id;
-            entity.Code = input.Code;
-            entity.Name = input.Name;
+            entity.Id = entityToUpdate.Id;
+            entity.Code = entityToUpdate.Code;
+            entity.Name = entityToUpdate.Name;
 
             var useCaseResult = await UseCaseInteractor.Update(entity);
             

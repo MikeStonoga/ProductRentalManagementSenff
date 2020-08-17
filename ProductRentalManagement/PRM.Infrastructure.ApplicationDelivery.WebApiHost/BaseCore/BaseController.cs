@@ -93,16 +93,16 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
         }
 
         [HttpPut]
-        public new async Task<ApiResponse<TEntityOutput>> Update([FromBody] TEntityInput input)
+        public new async Task<ApiResponse<TEntityOutput>> Update([FromBody] TEntityInput entityToUpdate)
         {
-            input.LastModificationTime = DateTime.Now;
+            entityToUpdate.LastModificationTime = DateTime.Now;
             var userId = User.Claims.ToList()[2];
-            input.LastModifierId = Guid.Parse(userId.Value);
-            return await base.Update(input);
+            entityToUpdate.LastModifierId = Guid.Parse(userId.Value);
+            return await base.Update(entityToUpdate);
         }
 
         [HttpDelete("{id}")]
-        public new async Task<ApiResponse<DeletionResponses>> Delete([FromQuery] Guid id)
+        public new async Task<ApiResponse<DeletionResponses>> Delete(Guid id)
         {
             return await base.Delete(id);
         }

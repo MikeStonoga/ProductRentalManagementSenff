@@ -66,7 +66,8 @@ namespace PRM.Domain.BaseCore.ValueObjects
                 var response = new ValidationDto<DateRange>()
                 {
                     Success = false,
-                    Message = e.Message
+                    Message = e.Message,
+                    Result = new DateRange(DateTime.MinValue, DateTime.MaxValue)
                 };
 
                 return response;

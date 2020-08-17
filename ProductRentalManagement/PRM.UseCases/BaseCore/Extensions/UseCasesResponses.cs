@@ -46,6 +46,12 @@
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
+        public static UseCaseResult<TResult> SuccessfullyExecuted<TResult>(string message = "") where TResult : new()
+        {
+            var result = new TResult();
+            return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
+        }
+        
         public static UseCaseResult<TResult> ExecutionFailure<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();

@@ -7,7 +7,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
 
         public RentOutput()
         {
-            
+               
         }
 
         public RentOutput(Rent rent)
