@@ -18,7 +18,10 @@
             var useCaseResponse = await useCase(input);
             if (!useCaseResponse.Success) return FailureResponse<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
             
-            var outputs = new GetAllResponse<TEntity, TOutput>();
+            var outputs = new GetAllResponse<TEntity, TOutput>
+            {
+                Items = new List<TOutput>()
+            };
             
             foreach (var output in useCaseResponse.Result.Items.Select(entity => Activator.CreateInstance(typeof(TOutput), entity) as TOutput))
             {

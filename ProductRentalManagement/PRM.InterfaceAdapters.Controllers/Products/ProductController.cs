@@ -16,7 +16,7 @@ namespace PRM.InterfaceAdapters.Controllers.Products
     public interface IProductReadOnlyController : IBaseReadOnlyController<Product, ProductOutput>
     {
         Task<ApiResponse<CheckProductAvailabilityOutput>> CheckProductAvailability(Guid productId);
-        Task<ApiResponse<GetLastProductRentOutput>> GetLastProductRent(Guid productId);
+        Task<ApiResponse<GetLastProductRentOutput>> GetLastRent(Guid productId);
         Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables();
         Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetUnavailables();
         Task<ApiResponse<GetAllResponse<ProductRentalHistory, ProductRentalHistoryOutput>>> GetRentalHistory(Guid productId);
@@ -35,7 +35,7 @@ namespace PRM.InterfaceAdapters.Controllers.Products
             return await ApiResponses.GetUseCaseInteractorResponse<Guid, CheckProductAvailabilityResult, Guid, CheckProductAvailabilityOutput>(UseCaseReadOnlyInteractor.CheckProductAvailability, productId);
         }
 
-        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastProductRent(Guid productId)
+        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastRent(Guid productId)
         {
             return await ApiResponses.GetUseCaseInteractorResponse<Guid, GetLastProductRentResult, Guid, GetLastProductRentOutput>(_productRentalHistoryUseCasesReadOnlyInteractor.GetLastProductRent, productId);
         }
@@ -72,9 +72,9 @@ namespace PRM.InterfaceAdapters.Controllers.Products
             return await ReadOnlyController.CheckProductAvailability(productId);
         }
 
-        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastProductRent(Guid productId)
+        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastRent(Guid productId)
         {
-            return await ReadOnlyController.GetLastProductRent(productId);
+            return await ReadOnlyController.GetLastRent(productId);
         }
 
         public async Task<ApiResponse<GetAllResponse<Product, ProductOutput>>> GetAvailables()

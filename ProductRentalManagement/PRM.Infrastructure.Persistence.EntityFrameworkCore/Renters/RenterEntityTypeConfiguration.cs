@@ -23,6 +23,7 @@ namespace PRM.Infrastructure.Persistence.EntityFrameworkCore.Renters
             renterConfiguration.Property(r => r.BirthDate).IsRequired();
             renterConfiguration.Property(r => r.Code).IsRequired();
             renterConfiguration.Property(r => r.Phone).IsRequired();
+            renterConfiguration.HasIndex(r => r.GovernmentRegistrationDocumentCode).IsUnique();
             renterConfiguration.Property(r => r.GovernmentRegistrationDocumentCode).IsRequired();
 
         }

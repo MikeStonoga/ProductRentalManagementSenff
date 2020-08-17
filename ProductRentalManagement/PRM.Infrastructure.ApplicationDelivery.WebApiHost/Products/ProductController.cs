@@ -27,9 +27,9 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Products
         }
 
         [HttpGet]
-        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastProductRent([FromQuery] Guid productId)
+        public async Task<ApiResponse<GetLastProductRentOutput>> GetLastRent([FromQuery] Guid productId)
         {
-            return await ReadOnlyController.GetLastProductRent(productId);
+            return await ReadOnlyController.GetLastRent(productId);
         }
 
         [HttpGet]
