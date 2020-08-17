@@ -6,7 +6,7 @@ namespace PRM.Domain.Products.Extensions
 {
     public static class ProductErrorMessagesExtensions
     {
-        public static string GetProductsWithErrorMessage(this List<Product> productsToRent, Func<Product, bool> errorCondition, string productErrorMessage)
+        public static string GetProductsWithErrorMessage(this List<Product> productsToRent, string productErrorMessage, Func<Product, bool> errorCondition)
         {
             var productsWithError = productsToRent.Where(errorCondition).ToList();
             var exceptionMessage = productErrorMessage;

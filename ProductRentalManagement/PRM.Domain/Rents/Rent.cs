@@ -33,7 +33,7 @@ namespace PRM.Domain.Rents
 
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
-        public int LateDays => DateTime.Now.Subtract(RentPeriod.EndDate).Days;
+        public int LateDays => DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date.AddDays(1).AddTicks(-1)).Days;
         public bool IsFinished => Status == RentStatus.Closed;
 
         #endregion
@@ -49,7 +49,7 @@ namespace PRM.Domain.Rents
 
             bool IsUnavailableProduct(Product product) => !product.IsAvailable;
             var hasUnavailableProduct = productsToRent.Any(IsUnavailableProduct); 
-            if (hasUnavailableProduct) throw new ValidationException(productsToRent.GetProductsWithErrorMessage(IsUnavailableProduct, "Trying to rent unavailable products:"));
+            if (hasUnavailableProduct) throw new ValidationException(productsToRent.GetProductsWithErrorMessage("Trying to rent unavailable products:", IsUnavailableProduct));
 
             Name = "Created: " + DateTime.Now.FormatDate() + " - Start: " + rentPeriod.StartDate.FormatDate() + " - End: " + rentPeriod.EndDate.FormatDate();
             DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
