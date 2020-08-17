@@ -88,7 +88,7 @@ namespace PRM.Infrastructure.Persistence.MySQL
             try
             {
                 var all = whereExpression != null
-                    ? _database.Set<TEntity>().AsEnumerable().Where(e => !e.IsDeleted && whereExpression(e)).ToList()
+                    ? _database.Set<TEntity>().Where(e => !e.IsDeleted).AsEnumerable().Where(whereExpression).ToList()
                     : await _database.Set<TEntity>().Where(e => !e.IsDeleted).ToListAsync();
                 
                 var getAllResponse = new GetAllResponse<TEntity>
