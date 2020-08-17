@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
+using PRM.Domain.Rents.Dtos;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
@@ -26,7 +28,15 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
 
         public override async Task<UseCaseResult<GetRentForecastPriceResult>> Execute(GetRentForecastPriceRequirement requirement)
         {
-            var validationResponse = await _validateRentRequirement.Validate(requirement);
+            var rentRequirement = new RentRequirement
+            {
+                RenterId = Guid.NewGuid(),
+                EndDate = requirement.EndDate,
+                StartDate = requirement.StartDate,
+                ProductsIds = requirement.ProductsIds
+            };
+            
+            var validationResponse = await _validateRentRequirement.ValidateForForecast(rentRequirement);
             if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(validationResponse.Message);
             
             var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).GetRentForecastPrice();

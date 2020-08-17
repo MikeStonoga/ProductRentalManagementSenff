@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
@@ -8,12 +9,12 @@ using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
 using PRM.UseCases.BaseCore.Validations;
-using PRM.UseCases.Rents.RentProducts;
 
 namespace PRM.UseCases.Rents.Validations.Requirements.Rents
 {
     public interface IValidateRentRequirement : IValidateUseCaseRequirement<RentRequirement, RentRequirementValidationResult>
     {
+        Task<UseCaseResult<RentRequirementValidationResult>> ValidateForForecast(RentRequirement requirement);
     }
     public class ValidateRentRequirement : UseCaseRequirementValidation<RentRequirement, RentRequirementValidationResult>, IValidateRentRequirement
     {
@@ -26,18 +27,49 @@ namespace PRM.UseCases.Rents.Validations.Requirements.Rents
             _products = products;
         }
 
-        public override async Task<UseCaseResult<RentRequirementValidationResult>> Validate(RentRequirement rentProductsRequirement)
+        public override async Task<UseCaseResult<RentRequirementValidationResult>> Validate(RentRequirement requirement)
         {
-            var isTryingToRentWithoutProducts = rentProductsRequirement.ProductsIds == null; 
+            var isTryingToRentWithoutProducts = requirement.ProductsIds == null; 
             if (isTryingToRentWithoutProducts) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>("Trying to Rent without products");
             
-            var productsToRent = await _products.GetByIds(rentProductsRequirement.ProductsIds.ToList());
+            var productsToRent = await _products.GetByIds(requirement.ProductsIds.ToList());
             if (!productsToRent.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(productsToRent.Message);
-            
-            var renter = await _renter.GetById(rentProductsRequirement.RenterId);
+
+            var renter = await _renter.GetById(requirement.RenterId);
             if (!renter.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(renter.Message);
             
-            var rentPeriod = DateRangeProvider.GetDateRange(rentProductsRequirement.StartDate, rentProductsRequirement.EndDate);
+            var rentPeriod = DateRangeProvider.GetDateRange(requirement.StartDate, requirement.EndDate);
+            if (!rentPeriod.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(rentPeriod.Message);
+            
+            var validationResult = new RentRequirementValidationResult
+            {
+                Products = productsToRent.Response,
+                RentPeriod = rentPeriod.Result,
+                Renter = renter.Response
+            };
+
+            return UseCasesResponses.SuccessfullyExecuted(validationResult);
+        }
+
+        public async Task<UseCaseResult<RentRequirementValidationResult>> ValidateForForecast(RentRequirement requirement)
+        {
+            var isTryingToRentWithoutProducts = requirement.ProductsIds == null; 
+            if (isTryingToRentWithoutProducts) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>("Trying to Rent without products");
+            
+            var productsToRent = await _products.GetByIds(requirement.ProductsIds.ToList());
+            if (!productsToRent.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(productsToRent.Message);
+
+            var renter = new PersistenceResponse<Renter>
+            {
+                Success = true,
+                Response = new Renter
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Forecast"
+                }
+            };
+            
+            var rentPeriod = DateRangeProvider.GetDateRange(requirement.StartDate, requirement.EndDate);
             if (!rentPeriod.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(rentPeriod.Message);
             
             var validationResult = new RentRequirementValidationResult
