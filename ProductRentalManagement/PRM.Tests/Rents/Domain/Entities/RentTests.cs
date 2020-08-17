@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Enums;
@@ -11,22 +12,25 @@ namespace PRM.Tests.Rents.Domain.Entities
 {
     public interface IRentTests
     {
-        void CreateNotLateRentSuccessfully();
-        void CreateLateRentSuccessfully();
+        void ItCreateNotLateRentSuccessfully();
+        void ItCreateLateRentSuccessfully();
+        void ItFailsToCreateWithoutProducts();
+
     }
+
     public class RentTests : IRentTests
     {
         [Fact]
-        public void CreateNotLateRentSuccessfully()
+        public void ItCreateNotLateRentSuccessfully()
         {
             // Arrange
             var rentPeriod = new DateRange(DateTime.Now, DateTime.Now.AddDays(10));
             var productsToRent = GetProductsToRent();
             var renter = new Renter();
-            
+
             // Act
             var rent = new Rent(rentPeriod, productsToRent, renter);
-            
+
             // Assert
             Assert.Equal(renter.Id, rent.RenterId);
             Assert.Equal(rentPeriod, rent.RentPeriod);
@@ -41,10 +45,10 @@ namespace PRM.Tests.Rents.Domain.Entities
             Assert.Equal(0, rent.LateFee);
             Assert.True(rent.IsOpen);
             Assert.False(rent.IsLate);
-            Assert.Equal(-10, rent.LateDays);
+            Assert.Equal(0, rent.LateDays);
             Assert.False(rent.IsFinished);
         }
-        
+
         private List<Product> GetProductsToRent()
         {
             var product1 = new Product
@@ -53,7 +57,7 @@ namespace PRM.Tests.Rents.Domain.Entities
                 RentDailyPrice = 10,
                 RentDailyLateFee = 5
             };
-            
+
             var product2 = new Product
             {
                 Status = ProductStatus.Available,
@@ -63,7 +67,7 @@ namespace PRM.Tests.Rents.Domain.Entities
 
             var productsToRent = new List<Product>
             {
-                product1, 
+                product1,
                 product2
             };
 
@@ -71,7 +75,7 @@ namespace PRM.Tests.Rents.Domain.Entities
         }
 
         [Fact]
-        public void CreateLateRentSuccessfully()
+        public void ItCreateLateRentSuccessfully()
         {
             // Arrange
             var rentPeriod = new DateRange(DateTime.Now.Date.AddDays(-11), DateTime.Now.Date.AddDays(-1));
@@ -98,6 +102,21 @@ namespace PRM.Tests.Rents.Domain.Entities
             Assert.True(rent.IsOpen);
             Assert.False(rent.IsClosed);
             Assert.False(rent.IsFinished);
+        }
+
+        [Fact]
+        public void ItFailsToCreateWithoutProducts()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date.AddDays(-11), DateTime.Now.Date.AddDays(-1));
+            var productsToRent = new List<Product>();
+            var renter = new Renter();
+
+            // Act
+            var exception = Assert.Throws<ValidationException>(() => new Rent(rentPeriod, productsToRent, renter));
+
+            // Assert
+            Assert.Equal("Trying to create a Rent without any Products", exception.Message);
         }
     }
 }

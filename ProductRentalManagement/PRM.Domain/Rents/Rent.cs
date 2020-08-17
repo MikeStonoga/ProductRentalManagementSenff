@@ -25,11 +25,12 @@ namespace PRM.Domain.Rents
         public decimal DamageFee { get; set; }
         public decimal Discount { get; set; }
         public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
-        public decimal PriceWithoutFees => DailyPrice * (RentDays - LateDays) + Discount;
+        public decimal PriceWithoutFees => DailyPrice * (RentDays - LateDays) - DamageFee;
+        public decimal PriceWithDiscount => PriceWithoutFees + Discount;
         public int RentDays => RentPeriod.Days + LateDays;
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
-        public int LateDays => DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date).Days;
+        public int LateDays => IsLate ? DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date).Days : 0;
         public bool IsOpen => Status == RentStatus.Open;
         public bool IsClosed => Status == RentStatus.Closed;
         public bool IsFinished => IsClosed;
@@ -44,7 +45,7 @@ namespace PRM.Domain.Rents
         
         public Rent(DateRange rentPeriod, List<Product> productsToRent, Renter renter)
         {
-            var isTryingToRentWithoutProducts = productsToRent == null;
+            var isTryingToRentWithoutProducts = productsToRent == null || productsToRent.Count == 0;
             if (isTryingToRentWithoutProducts) throw new ValidationException("Trying to create a Rent without any Products");
 
             bool IsUnavailableProduct(Product product) => !product.IsAvailable;
