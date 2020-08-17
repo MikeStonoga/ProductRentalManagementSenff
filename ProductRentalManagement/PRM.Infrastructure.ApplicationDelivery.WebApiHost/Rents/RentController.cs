@@ -67,9 +67,8 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
         }
 
         [HttpPost]
-        public async Task<ApiResponse<GetOpenRentsPaymentForecastOutput>> GetOpenRentsPaymentForecast(GetOpenRentsPaymentForecastInput input)
+        public async Task<ApiResponse<GetOpenRentsPaymentForecastOutput>> GetOpenRentsPaymentForecast([FromBody] GetOpenRentsPaymentForecastInput input)
         {
-            input.TargetDate ??= DateTime.Now;
             return await _rentManipulationController.GetOpenRentsPaymentForecast(input);
         }
     }
