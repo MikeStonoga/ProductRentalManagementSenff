@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.Rents;
 using PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
+using PRM.InterfaceAdapters.Controllers.BaseCore.Dtos;
 using PRM.InterfaceAdapters.Controllers.Rents;
 using PRM.InterfaceAdapters.Controllers.Rents.Dtos;
 using PRM.InterfaceAdapters.Controllers.Rents.Dtos.FinishRents;
@@ -49,10 +50,10 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
             return await _rentManipulationController.GetOpenRents();
         }
 
-        [HttpGet]
-        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRentsFromPeriod(DateTime? startDate, DateTime? endDate)
+        [HttpPost]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRentsFromPeriod([FromBody] PeriodInput input)
         {
-            return await _rentManipulationController.GetOpenRentsFromPeriod(startDate, endDate);
+            return await _rentManipulationController.GetOpenRentsFromPeriod(input);
         }
 
         [HttpGet]
@@ -91,9 +92,10 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
             return await _rentManipulationController.GetNotLateRents();
         }
 
-        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod(DateTime? startDate, DateTime? endDate)
+        [HttpPost]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod([FromBody] PeriodInput input)
         {
-            return await _rentManipulationController.GetClosedRentsFromPeriod(startDate, endDate);
+            return await _rentManipulationController.GetClosedRentsFromPeriod(input);
         }
 
         [HttpPost]
