@@ -13,7 +13,7 @@ namespace PRM.Tests.Rents.Domain.Entities
     public class RentTests
     {
         [Fact]
-        public void CreateRentSuccessfuly()
+        public void CreateRentSuccessfully()
         {
             // Arrange
             var rentPeriod = new DateRange(DateTime.Now, DateTime.Now.AddDays(10));
