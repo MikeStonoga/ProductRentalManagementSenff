@@ -20,7 +20,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Renters
         }
 
         [HttpPost]
-        public async Task<ApiResponse<GetAllResponse<Renter, RenterOutput>>> GetBirthDaysOnPeriod(GetBirthDaysOnPeriodInput input)
+        public async Task<ApiResponse<GetAllResponse<Renter, RenterOutput>>> GetBirthDaysOnPeriod([FromBody] GetBirthDaysOnPeriodInput input)
         {
             return await ReadOnlyController.GetBirthDaysOnPeriod(input);
         }
@@ -32,7 +32,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Renters
         }
 
         [HttpGet]
-        public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
+        public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent([FromQuery] Guid renterId)
         {
             return await ReadOnlyController.GetLastRent(renterId);
         }
