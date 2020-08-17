@@ -16,9 +16,8 @@ namespace PRM.Domain.Rents
     public class Rent : FullAuditedEntity
     {
         #region Properties
-        
         public Guid RenterId { get; set; }
-        public RentStatus Status { get; set; }
+        private RentStatus Status { get; set; }
         public DateRange RentPeriod { get; set; }
         public decimal DailyPrice { get; set; }
         public decimal DailyLateFee { get; set; }
@@ -26,12 +25,14 @@ namespace PRM.Domain.Rents
         public decimal DamageFee { get; set; }
         public decimal Discount { get; set; }
         public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
-        public decimal PriceWithoutFees => DailyPrice * RentDays + Discount;
-        public int RentDays => RentPeriod.Days;
+        public decimal PriceWithoutFees => DailyPrice * (RentDays - LateDays) + Discount;
+        public int RentDays => RentPeriod.Days + LateDays;
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
-        public int LateDays => DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date.AddDays(1).AddTicks(-1)).Days;
-        public bool IsFinished => Status == RentStatus.Closed;
+        public int LateDays => DateTime.Now.Date.Subtract(RentPeriod.EndDate.Date).Days;
+        public bool IsOpen => Status == RentStatus.Open;
+        public bool IsClosed => Status == RentStatus.Closed;
+        public bool IsFinished => IsClosed;
 
         #endregion
 
@@ -43,7 +44,8 @@ namespace PRM.Domain.Rents
         
         public Rent(DateRange rentPeriod, List<Product> productsToRent, Renter renter)
         {
-            if (productsToRent == null) throw new ValidationException("Trying to create a Rent without any Products");
+            var isTryingToRentWithoutProducts = productsToRent == null;
+            if (isTryingToRentWithoutProducts) throw new ValidationException("Trying to create a Rent without any Products");
 
             bool IsUnavailableProduct(Product product) => !product.IsAvailable;
             var hasUnavailableProduct = productsToRent.Any(IsUnavailableProduct); 
@@ -74,24 +76,28 @@ namespace PRM.Domain.Rents
 
         public DomainResponseDto<Rent> FinishRent(decimal damageFee = 0, decimal discount = 0)
         {
-            if (IsFinished) return DomainValidationsExtensions.GetFailureResponse<Rent>("Already finished: " + LastModificationTime?.FormatDate());
+            if (IsFinished) return DomainValidations.Failure<Rent>("Already finished: " + LastModificationTime?.FormatDate());
 
             var wasProductsDamaged = damageFee != 0M;
-            if (wasProductsDamaged)
-            {
-                WasProductDamaged = true;
-                DamageFee = damageFee;
-            }
-
-            var hasDiscount = discount != 0M;
-            if (hasDiscount)
-            {
-                Discount = discount;
-            }
+            if (wasProductsDamaged) AddDamageFee(damageFee);
             
+            var hasDiscount = discount != 0M;
+            if (hasDiscount) AddDiscount(discount);
+
             Status = RentStatus.Closed;
             
             return this.GetSuccessResponse("RentFinished");
+        }
+
+        public void AddDiscount(decimal discount)
+        {
+            Discount = discount;
+        }
+
+        public void AddDamageFee(decimal damageFee)
+        {
+            WasProductDamaged = true;
+            DamageFee = damageFee;
         }
         
         #endregion

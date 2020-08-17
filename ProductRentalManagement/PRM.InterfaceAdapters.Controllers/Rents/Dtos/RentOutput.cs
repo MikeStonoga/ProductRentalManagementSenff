@@ -20,7 +20,6 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
             LastModifierId = rent.LastModifierId;
             LastModificationTime = rent.LastModificationTime;
             RenterId = rent.RenterId;
-            Status = rent.Status;
             RentPeriod = rent.RentPeriod;
             DailyPrice = rent.DailyPrice;
             DailyLateFee = rent.DailyLateFee;

@@ -5,12 +5,16 @@ using PRM.Domain.Products;
 using PRM.Domain.Products.Enums;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
-using PRM.Domain.Rents.Enums;
 using Xunit;
 
 namespace PRM.Tests.Rents.Domain.Entities
 {
-    public class RentTests
+    public interface IRentTests
+    {
+        void CreateNotLateRentSuccessfully();
+        void CreateLateRentSuccessfully();
+    }
+    public class RentTests : IRentTests
     {
         [Fact]
         public void CreateNotLateRentSuccessfully()
@@ -25,7 +29,6 @@ namespace PRM.Tests.Rents.Domain.Entities
             
             // Assert
             Assert.Equal(renter.Id, rent.RenterId);
-            Assert.Equal(RentStatus.Open, rent.Status);
             Assert.Equal(rentPeriod, rent.RentPeriod);
             Assert.Equal(30, rent.DailyPrice);
             Assert.Equal(15, rent.DailyLateFee);
@@ -36,11 +39,12 @@ namespace PRM.Tests.Rents.Domain.Entities
             Assert.Equal(300, rent.PriceWithoutFees);
             Assert.Equal(10, rent.RentDays);
             Assert.Equal(0, rent.LateFee);
+            Assert.True(rent.IsOpen);
             Assert.False(rent.IsLate);
             Assert.Equal(-10, rent.LateDays);
             Assert.False(rent.IsFinished);
         }
-
+        
         private List<Product> GetProductsToRent()
         {
             var product1 = new Product
@@ -64,6 +68,36 @@ namespace PRM.Tests.Rents.Domain.Entities
             };
 
             return productsToRent;
+        }
+
+        [Fact]
+        public void CreateLateRentSuccessfully()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date.AddDays(-11), DateTime.Now.Date.AddDays(-1));
+            var productsToRent = GetProductsToRent();
+            var renter = new Renter();
+
+            // Act
+            var rent = new Rent(rentPeriod, productsToRent, renter);
+
+            // Assert
+            Assert.Equal(renter.Id, rent.RenterId);
+            Assert.Equal(rentPeriod, rent.RentPeriod);
+            Assert.Equal(30, rent.DailyPrice);
+            Assert.Equal(15, rent.DailyLateFee);
+            Assert.False(rent.WasProductDamaged);
+            Assert.Equal(0, rent.DamageFee);
+            Assert.Equal(0, rent.Discount);
+            Assert.Equal(315, rent.CurrentRentPaymentValue);
+            Assert.Equal(300, rent.PriceWithoutFees);
+            Assert.Equal(11, rent.RentDays);
+            Assert.Equal(15, rent.LateFee);
+            Assert.True(rent.IsLate);
+            Assert.Equal(1, rent.LateDays);
+            Assert.True(rent.IsOpen);
+            Assert.False(rent.IsClosed);
+            Assert.False(rent.IsFinished);
         }
     }
 }
