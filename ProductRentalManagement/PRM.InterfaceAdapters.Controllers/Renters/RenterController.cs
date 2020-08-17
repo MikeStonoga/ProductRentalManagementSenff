@@ -6,8 +6,10 @@ using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos.GetBirthDaysOnPeriods;
+using PRM.InterfaceAdapters.Controllers.Renters.Dtos.GetLastRenterRents;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos.RentalHistory;
 using PRM.UseCases.Renters;
+using PRM.UseCases.Renters.GetLastRenterRents;
 
 namespace PRM.InterfaceAdapters.Controllers.Renters
 {
@@ -15,6 +17,8 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
     {
         Task<ApiResponse<GetAllResponse<Renter, RenterOutput>>> GetBirthDaysOnPeriod(GetBirthDaysOnPeriodInput input);
         Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory(Guid renterId);
+        Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId);
+        
     }
      
     public class RenterReadOnlyController : BaseReadOnlyController<Renter, RenterOutput, IRenterUseCasesReadOnlyInteractor>, IRenterReadOnlyController
@@ -36,6 +40,11 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         public async Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory(Guid renterId)
         {
             return await ApiResponses.GetUseCaseInteractorResponse<RenterRentalHistory, RenterRentalHistoryOutput>(_renterRentalHistoryUseCasesReadOnlyInteractor.GetRentalHistory, renterId);
+        }
+
+        public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
+        {
+            return await ApiResponses.GetUseCaseInteractorResponse<Guid, GetLastRenterRentResult, Guid, GetLastRenterRentOutput>(_renterRentalHistoryUseCasesReadOnlyInteractor.GetLastRenterRent, renterId);
         }
     }
 
@@ -59,6 +68,11 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         public async Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory(Guid renterId)
         {
             return await ReadOnlyController.GetRentalHistory(renterId);
+        }
+
+        public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
+        {
+            return await ReadOnlyController.GetLastRent(renterId);
         }
     }
 }

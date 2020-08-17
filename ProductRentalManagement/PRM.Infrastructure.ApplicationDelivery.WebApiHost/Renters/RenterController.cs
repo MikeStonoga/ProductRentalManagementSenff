@@ -7,6 +7,7 @@ using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.Renters;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos.GetBirthDaysOnPeriods;
+using PRM.InterfaceAdapters.Controllers.Renters.Dtos.GetLastRenterRents;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos.RentalHistory;
 using PRM.UseCases.Renters;
 
@@ -28,6 +29,12 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Renters
         public async Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory([FromQuery] Guid renterId)
         {
             return await ReadOnlyController.GetRentalHistory(renterId);
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
+        {
+            return await ReadOnlyController.GetLastRent(renterId);
         }
     }
 }

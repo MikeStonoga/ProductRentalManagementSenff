@@ -56,9 +56,39 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
         }
 
         [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenLateRents()
+        {
+            return await _rentManipulationController.GetOpenLateRents();
+        }
+        
+        [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents()
+        {
+            return await _rentManipulationController.GetOpenNotLateRents();
+        }
+        
+        [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedLateRents()
+        {
+            return await _rentManipulationController.GetOpenLateRents();
+        }
+        
+        [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedNotLateRents()
+        {
+            return await _rentManipulationController.GetOpenNotLateRents();
+        }
+        
+        [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetLateRents()
         {
             return await _rentManipulationController.GetLateRents();
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetNotLateRents()
+        {
+            return await _rentManipulationController.GetNotLateRents();
         }
 
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod(DateTime? startDate, DateTime? endDate)
