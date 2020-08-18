@@ -32,12 +32,12 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
             };
             
             var validationResponse = await _validateRentRequirement.ValidateForForecast(rentRequirement);
-            if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(validationResponse.Message);
+            if (!validationResponse.Success) return UseCasesResponses.Failure<GetRentForecastPriceResult>(validationResponse.Message);
             
             var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).PriceWithoutFees;
             
             var rentForecastPriceResult =new GetRentForecastPriceResult(rentForecastPrice);
-            return UseCasesResponses.SuccessfullyExecuted(rentForecastPriceResult);
+            return UseCasesResponses.Success(rentForecastPriceResult);
         }
     }
 }

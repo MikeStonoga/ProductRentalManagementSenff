@@ -36,19 +36,19 @@ namespace PRM.UseCases.Rents.RentProducts
         public override async Task<UseCaseResult<RentProductsResult>> Execute(RentProductsRequirement requirement)
         {
             var validationResponse = await _validateRentRequirement.Validate(requirement);
-            if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<RentProductsResult>(validationResponse.Message);
+            if (!validationResponse.Success) return UseCasesResponses.Failure<RentProductsResult>(validationResponse.Message);
             
             var rentToCreate = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter);
                 
             
             var rentProductsResponse = rentToCreate.RentProducts();
-            if (!rentProductsResponse.Success) return UseCasesResponses.ExecutionFailure<RentProductsResult>(rentProductsResponse.Message);
+            if (!rentProductsResponse.Success) return UseCasesResponses.Failure<RentProductsResult>(rentProductsResponse.Message);
             
             
             var rentCreated = await Persist(rentProductsResponse, validationResponse);
             
             var rentProductsResult = new RentProductsResult(rentCreated);
-            return UseCasesResponses.SuccessfullyExecuted(rentProductsResult);
+            return UseCasesResponses.Success(rentProductsResult);
         }
         
         

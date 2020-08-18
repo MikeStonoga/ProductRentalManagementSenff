@@ -27,18 +27,18 @@ namespace PRM.UseCases.Products.CheckProductAvailabilities
         public override async Task<UseCaseResult<CheckProductAvailabilityResult>> Execute(Guid productId)
         {
             var productToCheckAvailability = await _products.GetById(productId);
-            if (!productToCheckAvailability.Success) return UseCasesResponses.ExecutionFailure<CheckProductAvailabilityResult>(productToCheckAvailability.Message);
+            if (!productToCheckAvailability.Success) return UseCasesResponses.Failure<CheckProductAvailabilityResult>(productToCheckAvailability.Message);
 
             if (productToCheckAvailability.Response.IsAvailable)
             {
-                return UseCasesResponses.SuccessfullyExecuted(new CheckProductAvailabilityResult(productToCheckAvailability.Response.IsAvailable));
+                return UseCasesResponses.Success(new CheckProductAvailabilityResult(productToCheckAvailability.Response.IsAvailable));
             }
 
             var lastProductRent = await _productsRentalHistories.GetLastProductRent(productId);
             
             return !lastProductRent.Success
-                ? UseCasesResponses.ExecutionFailure<CheckProductAvailabilityResult>(lastProductRent.Message)
-                : UseCasesResponses.SuccessfullyExecuted(new CheckProductAvailabilityResult(lastProductRent.Result.LastProductRent.RentPeriod.EndDate));
+                ? UseCasesResponses.Failure<CheckProductAvailabilityResult>(lastProductRent.Message)
+                : UseCasesResponses.Success(new CheckProductAvailabilityResult(lastProductRent.Result.LastProductRent.RentPeriod.EndDate));
         }
     }
 }

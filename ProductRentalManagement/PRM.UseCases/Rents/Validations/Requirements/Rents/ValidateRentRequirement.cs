@@ -30,16 +30,16 @@ namespace PRM.UseCases.Rents.Validations.Requirements.Rents
         public override async Task<UseCaseResult<RentRequirementValidationResult>> Validate(RentRequirement requirement)
         {
             var isTryingToRentWithoutProducts = requirement.ProductsIds == null; 
-            if (isTryingToRentWithoutProducts) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>("Trying to Rent without products");
+            if (isTryingToRentWithoutProducts) return UseCasesResponses.Failure<RentRequirementValidationResult>("Trying to Rent without products");
             
             var productsToRent = await _products.GetByIds(requirement.ProductsIds.ToList());
-            if (!productsToRent.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(productsToRent.Message);
+            if (!productsToRent.Success) return UseCasesResponses.Failure<RentRequirementValidationResult>(productsToRent.Message);
 
             var renter = await _renter.GetById(requirement.RenterId);
-            if (!renter.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(renter.Message);
+            if (!renter.Success) return UseCasesResponses.Failure<RentRequirementValidationResult>(renter.Message);
             
             var rentPeriod = DateRangeProvider.GetDateRange(requirement.StartDate, requirement.EndDate);
-            if (!rentPeriod.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(rentPeriod.Message);
+            if (!rentPeriod.Success) return UseCasesResponses.Failure<RentRequirementValidationResult>(rentPeriod.Message);
             
             var validationResult = new RentRequirementValidationResult
             {
@@ -48,16 +48,16 @@ namespace PRM.UseCases.Rents.Validations.Requirements.Rents
                 Renter = renter.Response
             };
 
-            return UseCasesResponses.SuccessfullyExecuted(validationResult);
+            return UseCasesResponses.Success(validationResult);
         }
 
         public async Task<UseCaseResult<RentRequirementValidationResult>> ValidateForForecast(RentRequirement requirement)
         {
             var isTryingToRentWithoutProducts = requirement.ProductsIds == null; 
-            if (isTryingToRentWithoutProducts) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>("Trying to Rent without products");
+            if (isTryingToRentWithoutProducts) return UseCasesResponses.Failure<RentRequirementValidationResult>("Trying to Rent without products");
             
             var productsToRent = await _products.GetByIds(requirement.ProductsIds.ToList());
-            if (!productsToRent.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(productsToRent.Message);
+            if (!productsToRent.Success) return UseCasesResponses.Failure<RentRequirementValidationResult>(productsToRent.Message);
 
             var renter = new PersistenceResponse<Renter>
             {
@@ -70,7 +70,7 @@ namespace PRM.UseCases.Rents.Validations.Requirements.Rents
             };
             
             var rentPeriod = DateRangeProvider.GetDateRange(requirement.StartDate, requirement.EndDate);
-            if (!rentPeriod.Success) return UseCasesResponses.ExecutionFailure<RentRequirementValidationResult>(rentPeriod.Message);
+            if (!rentPeriod.Success) return UseCasesResponses.Failure<RentRequirementValidationResult>(rentPeriod.Message);
             
             var validationResult = new RentRequirementValidationResult
             {
@@ -79,7 +79,7 @@ namespace PRM.UseCases.Rents.Validations.Requirements.Rents
                 Renter = renter.Response
             };
 
-            return UseCasesResponses.SuccessfullyExecuted(validationResult);
+            return UseCasesResponses.Success(validationResult);
         }
     }
 }

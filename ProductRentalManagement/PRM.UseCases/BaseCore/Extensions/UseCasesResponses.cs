@@ -11,24 +11,24 @@
             where TIUseCase : IBaseUseCase<TUseCaseResult> where TUseCaseResult : class, new()
         {
             var useCaseResponse = await useCase.Execute();
-            if (!useCaseResponse.Success) return ExecutionFailure<TUseCaseResult>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return Failure<TUseCaseResult>(useCaseResponse.Message);
             var useCaseResult = useCaseResponse.Result;
-            if (useCaseResult.GetType() == typeof(TUseCaseResult)) return SuccessfullyExecuted(useCaseResponse.Result, useCaseResponse.Message);
+            if (useCaseResult.GetType() == typeof(TUseCaseResult)) return Success(useCaseResponse.Result, useCaseResponse.Message);
             
             var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
-            return SuccessfullyExecuted(output, useCaseResponse.Message);
+            return Success(output, useCaseResponse.Message);
         }
         
         public static async Task<UseCaseResult<TUseCaseResult>> GetUseCaseExecutionResponse<TIUseCase, TUseCaseRequirement, TUseCaseResult>(TIUseCase useCase, TUseCaseRequirement input)
             where TIUseCase : IBaseUseCase<TUseCaseRequirement, TUseCaseResult> where TUseCaseResult : class, new()
         {
             var useCaseResponse = await useCase.Execute(input);
-            if (!useCaseResponse.Success) return ExecutionFailure<TUseCaseResult>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return Failure<TUseCaseResult>(useCaseResponse.Message);
             var useCaseResult = useCaseResponse.Result;
-            if (useCaseResult.GetType() == typeof(TUseCaseResult)) return SuccessfullyExecuted(useCaseResponse.Result, useCaseResponse.Message);
+            if (useCaseResult.GetType() == typeof(TUseCaseResult)) return Success(useCaseResponse.Result, useCaseResponse.Message);
             
             var output = Activator.CreateInstance(typeof(TUseCaseResult), useCaseResponse.Result) as TUseCaseResult;
-            return SuccessfullyExecuted(output, useCaseResponse.Message);
+            return Success(output, useCaseResponse.Message);
         }
         
         public static UseCaseResult<TResult> GetUseCaseResult<TResult>(PersistenceResponse<TResult> persistenceResponse)
@@ -36,23 +36,28 @@
             var wasSuccessfullyExecuted = persistenceResponse.Success;
             
             return wasSuccessfullyExecuted
-                ? SuccessfullyExecuted(persistenceResponse.Response)
+                ? Success(persistenceResponse.Response)
                 : PersistenceErrorResponse(persistenceResponse.Response, persistenceResponse.Message);
         }
 
         
-        public static UseCaseResult<TResult> SuccessfullyExecuted<TResult>(TResult result, string message = "")
+        public static UseCaseResult<TResult> Success<TResult>(TResult result, string message = "")
         {
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
-        public static UseCaseResult<TResult> SuccessfullyExecuted<TResult>(string message = "") where TResult : new()
+        public static UseCaseResult<TResult> Success<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();
             return UseCaseResults.UseCaseSuccessfullyExecuted.GetSuccessResult(result, message);
         }
         
-        public static UseCaseResult<TResult> ExecutionFailure<TResult>(string message = "") where TResult : new()
+        public static UseCaseResult<TResult> Failure<TResult>(TResult result, string message = "") where TResult : new()
+        {
+            return UseCaseResults.UseCaseFailureExecution.GetFailureResult(result, message);
+        }
+        
+        public static UseCaseResult<TResult> Failure<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();
             return UseCaseResults.UseCaseFailureExecution.GetFailureResult(result, message);

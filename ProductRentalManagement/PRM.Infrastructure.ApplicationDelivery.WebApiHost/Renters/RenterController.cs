@@ -36,5 +36,11 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Renters
         {
             return await ReadOnlyController.GetLastRent(renterId);
         }
+
+        [HttpGet]
+        public async Task<ApiResponse<GetProductsPerRentAverageOutput>> GetProductsPerRentAverage([FromQuery] Guid renterId)
+        {
+            return await ReadOnlyController.GetProductsPerRentAverage(renterId);
+        }
     }
 }

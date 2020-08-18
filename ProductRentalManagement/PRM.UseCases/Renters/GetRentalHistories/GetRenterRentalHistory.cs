@@ -16,9 +16,9 @@ namespace PRM.UseCases.Renters.GetRentalHistories
     {
         private readonly IReadOnlyPersistenceGateway<RenterRentalHistory> _rentersRentalHistories;
 
-        public GetRenterRentalHistory( IReadOnlyPersistenceGateway<RenterRentalHistory> rentersRentalHistories1)
+        public GetRenterRentalHistory( IReadOnlyPersistenceGateway<RenterRentalHistory> rentersRentalHistories)
         {
-            _rentersRentalHistories = rentersRentalHistories1;
+            _rentersRentalHistories = rentersRentalHistories;
         }
 
         public override async Task<UseCaseResult<GetAllResponse<RenterRentalHistory>>> Execute(Guid renterId)
@@ -27,6 +27,4 @@ namespace PRM.UseCases.Renters.GetRentalHistories
             return UseCasesResponses.GetUseCaseResult(getRentalHistory);
         }
     }
-
-    
 }

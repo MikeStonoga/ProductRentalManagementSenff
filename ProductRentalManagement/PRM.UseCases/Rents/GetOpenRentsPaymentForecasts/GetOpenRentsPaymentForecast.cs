@@ -25,11 +25,11 @@ namespace PRM.UseCases.Rents.GetOpenRentsPaymentForecasts
             var openRents = await _rents.GetAll(
                 r => !r.IsFinished && r.RentPeriod.EndDate <= requirement.TargetDate.Date.AddDays(1).AddTicks(-1)
                 );
-            if (!openRents.Success) return UseCasesResponses.ExecutionFailure<GetOpenRentsPaymentForecastResult>(openRents.Message);
+            if (!openRents.Success) return UseCasesResponses.Failure<GetOpenRentsPaymentForecastResult>(openRents.Message);
 
             var openRentsPaymentForecast = openRents.Response.Items.Sum(r => r.CurrentRentPaymentValue);
             var result = new GetOpenRentsPaymentForecastResult(openRentsPaymentForecast);
-            return UseCasesResponses.SuccessfullyExecuted(result);
+            return UseCasesResponses.Success(result);
         }
     }
 }

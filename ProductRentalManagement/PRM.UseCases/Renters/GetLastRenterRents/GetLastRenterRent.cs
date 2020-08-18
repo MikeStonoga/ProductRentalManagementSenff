@@ -27,8 +27,8 @@ namespace PRM.UseCases.Renters.GetLastRenterRents
         public override async Task<UseCaseResult<GetLastRenterRentResult>> Execute(Guid productId)
         {
             var rentalHistory = await _getRenterRentalHistory.Execute(productId);
-            if (!rentalHistory.Success) return UseCasesResponses.ExecutionFailure<GetLastRenterRentResult>(rentalHistory.Message);
-            if (rentalHistory.Result.TotalCount == 0) return UseCasesResponses.SuccessfullyExecuted<GetLastRenterRentResult>("Dont have any rent yet");
+            if (!rentalHistory.Success) return UseCasesResponses.Failure<GetLastRenterRentResult>(rentalHistory.Message);
+            if (rentalHistory.Result.TotalCount == 0) return UseCasesResponses.Success<GetLastRenterRentResult>("Dont have any rent yet");
 
             var orderedByMostRecent = rentalHistory.Result.Items.OrderByDescending(history => history.CreationTime).ToList();
             var lastRenterRentId = orderedByMostRecent[0].RentId;
@@ -36,8 +36,8 @@ namespace PRM.UseCases.Renters.GetLastRenterRents
             var lastRenterRent = await _rentsUsesCases.GetById(lastRenterRentId);
             
             return !lastRenterRent.Success 
-                ? UseCasesResponses.ExecutionFailure<GetLastRenterRentResult>(lastRenterRent.Message) 
-                : UseCasesResponses.SuccessfullyExecuted(new GetLastRenterRentResult(lastRenterRent.Result));
+                ? UseCasesResponses.Failure<GetLastRenterRentResult>(lastRenterRent.Message) 
+                : UseCasesResponses.Success(new GetLastRenterRentResult(lastRenterRent.Result));
         }
     }
 }

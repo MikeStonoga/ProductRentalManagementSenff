@@ -1,5 +1,4 @@
-﻿using System;
-using PRM.Domain.BaseCore;
+﻿using PRM.Domain.BaseCore;
 
 namespace PRM.Domain.Renters
 {

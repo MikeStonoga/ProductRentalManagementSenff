@@ -10,6 +10,7 @@ using PRM.InterfaceAdapters.Controllers.Renters.Dtos.GetLastRenterRents;
 using PRM.InterfaceAdapters.Controllers.Renters.Dtos.RentalHistory;
 using PRM.UseCases.Renters;
 using PRM.UseCases.Renters.GetLastRenterRents;
+using PRM.UseCases.Renters.GetProductsPerRentAverages;
 
 namespace PRM.InterfaceAdapters.Controllers.Renters
 {
@@ -18,9 +19,23 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         Task<ApiResponse<GetAllResponse<Renter, RenterOutput>>> GetBirthDaysOnPeriod(GetBirthDaysOnPeriodInput input);
         Task<ApiResponse<GetAllResponse<RenterRentalHistory, RenterRentalHistoryOutput>>> GetRentalHistory(Guid renterId);
         Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId);
+        Task<ApiResponse<GetProductsPerRentAverageOutput>> GetProductsPerRentAverage(Guid renterId);
         
     }
-     
+
+    public class GetProductsPerRentAverageOutput : GetProductsPerRentAverageResult
+    {
+        public GetProductsPerRentAverageOutput()
+        {
+            
+        }
+
+        public GetProductsPerRentAverageOutput(GetProductsPerRentAverageResult result)
+        {
+            ProductsPerRentAverage = result.ProductsPerRentAverage;
+        }
+    }
+
     public class RenterReadOnlyController : BaseReadOnlyController<Renter, RenterOutput, IRenterUseCasesReadOnlyInteractor>, IRenterReadOnlyController
     {
         private readonly IRenterRentalHistoryUseCasesReadOnlyInteractor _renterRentalHistoryUseCasesReadOnlyInteractor;
@@ -45,6 +60,11 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
         {
             return await ApiResponses.GetUseCaseInteractorResponse<Guid, GetLastRenterRentResult, Guid, GetLastRenterRentOutput>(_renterRentalHistoryUseCasesReadOnlyInteractor.GetLastRenterRent, renterId);
+        }
+
+        public async Task<ApiResponse<GetProductsPerRentAverageOutput>> GetProductsPerRentAverage(Guid renterId)
+        {
+            return await ApiResponses.GetUseCaseInteractorResponse<Guid, GetProductsPerRentAverageResult, Guid, GetProductsPerRentAverageOutput>(_renterRentalHistoryUseCasesReadOnlyInteractor.GetProductsPerRentAverage, renterId);
         }
     }
 
@@ -73,6 +93,11 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         public async Task<ApiResponse<GetLastRenterRentOutput>> GetLastRent(Guid renterId)
         {
             return await ReadOnlyController.GetLastRent(renterId);
+        }
+
+        public async Task<ApiResponse<GetProductsPerRentAverageOutput>> GetProductsPerRentAverage(Guid renterId)
+        {
+            return await ReadOnlyController.GetProductsPerRentAverage(renterId);
         }
     }
 }

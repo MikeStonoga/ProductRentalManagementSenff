@@ -7,6 +7,7 @@ using PRM.UseCases.Products.GetLastProductRents;
 using PRM.UseCases.Products.GetRentalHistories;
 using PRM.UseCases.Renters;
 using PRM.UseCases.Renters.GetLastRenterRents;
+using PRM.UseCases.Renters.GetProductsPerRentAverages;
 using PRM.UseCases.Renters.GetRentalHistories;
 using PRM.UseCases.Rents;
 using PRM.UseCases.Rents.FinishRents;
@@ -48,6 +49,7 @@ namespace PRM.UseCases
                 .AddTransient<IRenterRentalHistoryUseCasesReadOnlyInteractor, RenterRentalHistoryUseCasesReadOnlyInteractor>()
                 .AddTransient<IGetRenterRentalHistory, GetRenterRentalHistory>()
                 .AddTransient<IGetLastRenterRent, GetLastRenterRent>()
+                .AddTransient<IGetProductsPerRentAverage, GetProductsPerRentAverage>()
                 
                 // Renters
                 .AddTransient<IRenterUseCasesReadOnlyInteractor, RenterUseCasesReadOnlyInteractor>()
