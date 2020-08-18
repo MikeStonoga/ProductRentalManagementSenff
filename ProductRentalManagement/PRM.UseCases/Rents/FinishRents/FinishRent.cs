@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using PRM.Domain.Products;
 using PRM.Domain.Rents;
 using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
@@ -33,13 +34,12 @@ namespace PRM.UseCases.Rents.FinishRents
 
             var finishRentResponse = rentToFinish.Response.FinishRent(requirement.DamageFee, requirement.Discount);
             if (!finishRentResponse.Success) return UseCasesResponses.Failure<FinishRentResult>(finishRentResponse.Message);
-
-            var productsToTurnAvailableIds = await _productRentalHistories.GetAllIds(history => history.RentId == requirement.RentId);
-            var productsToTurnAvailable = await _products.GetByIds(productsToTurnAvailableIds.Response);
-            
-            if (!productsToTurnAvailableIds.Success) return UseCasesResponses.Failure<FinishRentResult>(productsToTurnAvailableIds.Message);
             
             // TODO: UnitOfWork
+            var rentProducts = await _productRentalHistories.GetAll(history => history.RentId == requirement.RentId);
+            var productsToTurnAvailableIds = rentProducts.Response.Items.Select(e => e.ProductId).ToList();
+            var productsToTurnAvailable = await _products.GetByIds(productsToTurnAvailableIds);
+            
             foreach (var product in productsToTurnAvailable.Response)
             {
                 product.MarkAsAvailable();
