@@ -26,6 +26,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos
             WasProductDamaged = rent.WasProductDamaged;
             DamageFee = rent.DamageFee;
             Discount = rent.Discount;
+            RentedProductsCount = rent.RentedProductsCount;
         }
         
     }

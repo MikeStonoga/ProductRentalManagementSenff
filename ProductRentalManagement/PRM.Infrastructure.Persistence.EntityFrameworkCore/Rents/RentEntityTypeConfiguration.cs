@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PRM.Domain.Rents;
 
@@ -22,6 +21,7 @@ namespace PRM.Infrastructure.Persistence.EntityFrameworkCore.Rents
             rentConfiguration.Property(r => r.RenterId).IsRequired();
             rentConfiguration.Property(r => r.DailyPrice).IsRequired();
             rentConfiguration.Property(r => r.DailyLateFee).IsRequired();
+            rentConfiguration.Property(r => r.RentedProductsCount).IsRequired();
             rentConfiguration.OwnsOne(r => r.RentPeriod);
         }
     }

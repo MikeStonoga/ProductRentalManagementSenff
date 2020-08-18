@@ -17,7 +17,8 @@ namespace PRM.Infrastructure.Authentication.Users.Dtos
                 Role = Role,
                 PersonImage = PersonImage,
                 CreatorId = CreatorId,
-                LastModifierId = LastModifierId
+                LastModifierId = LastModifierId,
+                BirthDate = BirthDate
             };
         }
     }

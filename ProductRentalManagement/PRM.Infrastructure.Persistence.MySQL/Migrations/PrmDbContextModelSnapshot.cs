@@ -273,6 +273,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("RentedProductsCount")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
 

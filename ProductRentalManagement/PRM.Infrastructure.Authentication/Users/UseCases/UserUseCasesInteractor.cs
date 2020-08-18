@@ -34,7 +34,7 @@ namespace PRM.Infrastructure.Authentication.Users.UseCases
         public override async Task<UseCaseResult<User>> Create(User userToCreate)
         {
             var validationResponse = new PersistenceResponse<User>();
-            if (userToCreate.BirthDate == null)
+            if (userToCreate.BirthDate == DateTime.MinValue)
             {
                 validationResponse.Success = false;
                 validationResponse.Message = "BirthDate is Required";

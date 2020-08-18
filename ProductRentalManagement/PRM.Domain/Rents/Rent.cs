@@ -24,6 +24,8 @@ namespace PRM.Domain.Rents
         public bool WasProductDamaged { get; set; }
         public decimal DamageFee { get; set; }
         public decimal Discount { get; set; }
+        public int RentedProductsCount { get; set; }
+
         public decimal CurrentRentPaymentValue => PriceWithDiscount;
         public decimal PriceWithFees => PriceWithoutFees + LateFee + DamageFee;
         public decimal PriceWithDiscount => PriceWithFees - Discount;
@@ -33,7 +35,6 @@ namespace PRM.Domain.Rents
         public decimal AverageTicketWithDiscount => PriceWithFees / RentedProductsCount;
         public decimal AverageTicketWithoutFees => PriceWithoutFees / RentedProductsCount;
         public decimal AverageTicketWithoutFeesWithDiscount => PriceWithoutFeesWithDiscount / RentedProductsCount;
-        public int RentedProductsCount { get; }
         public int RentDays => RentPeriod.Days + LateDays;
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;

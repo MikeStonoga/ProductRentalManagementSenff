@@ -22,6 +22,7 @@ namespace PRM.UseCases.Rents.RentProducts
             DailyLateFee = rent.DailyLateFee;
             WasProductDamaged = rent.WasProductDamaged;
             DamageFee = rent.DamageFee;
+            RentedProductsCount = rent.RentedProductsCount;
         }
 
     }

@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200818075348_Entities_Added")]
+    [Migration("20200818092220_Entities_Added")]
     partial class Entities_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -274,6 +274,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("RentedProductsCount")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");

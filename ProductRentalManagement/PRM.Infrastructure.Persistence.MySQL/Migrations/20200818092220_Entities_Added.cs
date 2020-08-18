@@ -77,7 +77,8 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     DailyLateFee = table.Column<decimal>(nullable: false),
                     WasProductDamaged = table.Column<bool>(nullable: false),
                     DamageFee = table.Column<decimal>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false)
+                    Discount = table.Column<decimal>(nullable: false),
+                    RentedProductsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
