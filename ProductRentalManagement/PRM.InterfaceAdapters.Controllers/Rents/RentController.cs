@@ -27,6 +27,10 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetNotLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents();
+        Task<ApiResponse<decimal>> GetRentAverageTicket(Guid rentId);
+        Task<ApiResponse<decimal>> GetRentAverageTicketWithDiscount(Guid rentId);
+        Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId);
+        Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFeesWithDiscount(Guid rentId);
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod(PeriodInput input);
         Task<ApiResponse<GetOpenRentsPaymentForecastOutput>> GetOpenRentsPaymentForecast(GetOpenRentsPaymentForecastInput input);
     }
@@ -48,16 +52,16 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRents()
         {
-            return await GetAll(r => r.IsFinished == false);
+            return await GetAll(r => r.IsOpen);
         }
 
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenRentsFromPeriod(PeriodInput input)
         {
             var period = DateRangeProvider.GetDateRange(input.StartDate, input.EndDate);
-            if (!period.Success) return ApiResponses.FailureResponse<GetAllResponse<Rent, RentOutput>>(period.Message);
+            if (!period.Success) return ApiResponses.Failure<GetAllResponse<Rent, RentOutput>>(period.Message);
             
-            return await GetAll(r => !r.IsFinished == false && period.Result.IsOnRange(r.RentPeriod));
+            return await GetAll(r => r.IsOpen && period.Result.IsOnRange(r.RentPeriod));
         }
 
         // TODO Migrate to UseCases
@@ -75,34 +79,70 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenLateRents()
         {
-            return await GetAll(r => r.IsLate && !r.IsFinished);
+            return await GetAll(r => r.IsLate && !r.IsOpen);
         }
         
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents()
         {
-            return await GetAll(r => !r.IsLate && !r.IsFinished);
+            return await GetAll(r => !r.IsLate && r.IsOpen);
         }
         
         // TODO Migrate to UseCases
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFeesWithDiscount(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(0M, rent.Message)
+                : ApiResponses.Success(rent.Response.AverageTicketWithoutFeesWithDiscount);
+        }
+        
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(0M, rent.Message)
+                : ApiResponses.Success(rent.Response.AverageTicketWithoutFees);
+        }
+        
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<decimal>> GetRentAverageTicket(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(0M, rent.Message)
+                : ApiResponses.Success(rent.Response.AverageTicket);
+        }
+        
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithDiscount(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(0M, rent.Message)
+                : ApiResponses.Success(rent.Response.AverageTicketWithDiscount);
+        }
+
+        // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedLateRents()
         {
-            return await GetAll(r => r.IsLate && r.IsFinished);
+            return await GetAll(r => r.IsLate && r.IsClosed);
         }
         
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedNotLateRents()
         {
-            return await GetAll(r => !r.IsLate && r.IsFinished);
+            return await GetAll(r => !r.IsLate && r.IsClosed);
         }
 
         // TODO Migrate to UseCases
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod(PeriodInput input)
         {
             var period = DateRangeProvider.GetDateRange(input.StartDate, input.EndDate);
-            if (!period.Success) return ApiResponses.FailureResponse<GetAllResponse<Rent, RentOutput>>(period.Message);
+            if (!period.Success) return ApiResponses.Failure<GetAllResponse<Rent, RentOutput>>(period.Message);
             
-            return await GetAll(r => r.IsFinished && period.Result.IsOnRange(r.RentPeriod));
+            return await GetAll(r => r.IsClosed && period.Result.IsOnRange(r.RentPeriod));
         }
 
         public async Task<ApiResponse<GetOpenRentsPaymentForecastOutput>> GetOpenRentsPaymentForecast(GetOpenRentsPaymentForecastInput input)

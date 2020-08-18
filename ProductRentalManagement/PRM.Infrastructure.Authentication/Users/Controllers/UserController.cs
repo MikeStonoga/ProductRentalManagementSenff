@@ -63,7 +63,7 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
             var isPasswordConfirmed = input.Password == input.PasswordConfirmation;
             if (!isPasswordConfirmed)
             {
-                return ApiResponses.FailureResponse<UserOutput>("Passwords doesnt matches");
+                return ApiResponses.Failure<UserOutput>("Passwords doesnt matches");
             }
             
             input.Id = Guid.NewGuid();
@@ -76,7 +76,7 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
         public new async Task<ApiResponse<UserOutput>> Update([FromBody] UserInput entityToUpdate)
         {
             var user = await _users.GetById(entityToUpdate.Id);
-            if (!user.Success) return ApiResponses.FailureResponse<UserOutput>("User doesnt exists");
+            if (!user.Success) return ApiResponses.Failure<UserOutput>("User doesnt exists");
 
             var isUpdatingPassword = entityToUpdate.Password != user.Response.Password;
             if (isUpdatingPassword)
@@ -84,7 +84,7 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
                 var isPasswordConfirmed = entityToUpdate.Password == entityToUpdate.PasswordConfirmation;
                 if (!isPasswordConfirmed)
                 {
-                    return ApiResponses.FailureResponse<UserOutput>("Passwords doesnt matches");
+                    return ApiResponses.Failure<UserOutput>("Passwords doesnt matches");
                 }
             }
             

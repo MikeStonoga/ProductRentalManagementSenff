@@ -53,10 +53,10 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         {
             var useCaseResult = await UseCaseReadOnlyInteractor.GetById(id);
             var wasSuccessfullyExecuted = useCaseResult.Success;
-            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+            if (!wasSuccessfullyExecuted) return ApiResponses.Failure(new TEntityOutput(), useCaseResult.Message);
 
             var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
-            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
+            return ApiResponses.Success(entityOutput);
         }
 
 
@@ -68,8 +68,8 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             var entityOutputs = useCaseResult.Result.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
 
             return wasSuccessfullyExecuted
-                ? ApiResponses.SuccessfullyExecutedResponse(entityOutputs)
-                : ApiResponses.FailureResponse(entityOutputs, useCaseResult.Message);
+                ? ApiResponses.Success(entityOutputs)
+                : ApiResponses.Failure(entityOutputs, useCaseResult.Message);
         }
 
         public virtual async Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll()
@@ -88,7 +88,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
                     Items = new List<TEntityOutput>(),
                     TotalCount = 0
                 };
-                return ApiResponses.FailureResponse(failureResult, useCaseResult.Message);
+                return ApiResponses.Failure(failureResult, useCaseResult.Message);
             }
             
             var entityOutputs = useCaseResult.Result.Items.Select(result => Activator.CreateInstance(typeof(TEntityOutput), result) as TEntityOutput).ToList();
@@ -99,7 +99,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
                 TotalCount = useCaseResult.Result.TotalCount
             };
             
-            return ApiResponses.SuccessfullyExecutedResponse(getAllOutput);
+            return ApiResponses.Success(getAllOutput);
         }
     }
 
@@ -130,10 +130,10 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             var useCaseResult = await UseCaseInteractor.Create(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
-            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+            if (!wasSuccessfullyExecuted) return ApiResponses.Failure(new TEntityOutput(), useCaseResult.Message);
 
             var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
-            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
+            return ApiResponses.Success(entityOutput);
         }
 
         public virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate)
@@ -147,10 +147,10 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             var useCaseResult = await UseCaseInteractor.Update(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
-            if (!wasSuccessfullyExecuted) return ApiResponses.FailureResponse(new TEntityOutput(), useCaseResult.Message);
+            if (!wasSuccessfullyExecuted) return ApiResponses.Failure(new TEntityOutput(), useCaseResult.Message);
 
             var entityOutput = Activator.CreateInstance(typeof(TEntityOutput), useCaseResult.Result) as TEntityOutput;
-            return ApiResponses.SuccessfullyExecutedResponse(entityOutput);
+            return ApiResponses.Success(entityOutput);
         }
 
         public virtual async Task<ApiResponse<DeletionResponses>> Delete(Guid id)

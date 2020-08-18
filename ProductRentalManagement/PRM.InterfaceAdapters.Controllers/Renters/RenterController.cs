@@ -32,7 +32,7 @@ namespace PRM.InterfaceAdapters.Controllers.Renters
         public async Task<ApiResponse<GetAllResponse<Renter, RenterOutput>>> GetBirthDaysOnPeriod(GetBirthDaysOnPeriodInput input)
         {
             var period = DateRangeProvider.GetDateRange(input.StartDate, input.EndDate);
-            if (!period.Success) return ApiResponses.FailureResponse<GetAllResponse<Renter, RenterOutput>>(period.Message);
+            if (!period.Success) return ApiResponses.Failure<GetAllResponse<Renter, RenterOutput>>(period.Message);
 
             return await GetAll(r => period.Result.IsMonthOnRange(r.BirthDate.Date.Month));
         }

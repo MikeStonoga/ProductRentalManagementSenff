@@ -16,7 +16,7 @@
             where TOutput : TEntity, new()
         {
             var useCaseResponse = await useCase(input);
-            if (!useCaseResponse.Success) return FailureResponse<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return Failure<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
             
             var outputs = new GetAllResponse<TEntity, TOutput>
             {
@@ -29,7 +29,7 @@
             }
 
             outputs.TotalCount = useCaseResponse.Result.TotalCount;
-            return SuccessfullyExecutedResponse(outputs, useCaseResponse.Message);
+            return Success(outputs, useCaseResponse.Message);
         }
         
         public static async Task<ApiResponse<GetAllResponse<TEntity, TOutput>>> GetUseCaseInteractorResponse<TEntity, TOutput>(Func<Task<UseCaseResult<GetAllResponse<TEntity>>>> useCase)
@@ -37,7 +37,7 @@
             where TOutput : TEntity, new()
         {
             var useCaseResponse = await useCase();
-            if (!useCaseResponse.Success) return FailureResponse<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return Failure<GetAllResponse<TEntity, TOutput>>(useCaseResponse.Message);
             
             var outputs = new GetAllResponse<TEntity, TOutput>
             {
@@ -50,7 +50,7 @@
             }
 
             outputs.TotalCount = useCaseResponse.Result.TotalCount;
-            return SuccessfullyExecutedResponse(outputs, useCaseResponse.Message);
+            return Success(outputs, useCaseResponse.Message);
         }
         
         public static async Task<ApiResponse<TOutput>> GetUseCaseInteractorResponse<TUseCaseRequirement, TUseCaseResult, TInput, TOutput>(Func<TUseCaseRequirement, Task<UseCaseResult<TUseCaseResult>>> useCase, TInput input)
@@ -58,23 +58,23 @@
             where TOutput : class, TUseCaseResult, new()
         {
             var useCaseResponse = await useCase(input);
-            if (!useCaseResponse.Success) return FailureResponse<TOutput>(useCaseResponse.Message);
+            if (!useCaseResponse.Success) return Failure<TOutput>(useCaseResponse.Message);
             
             var output = Activator.CreateInstance(typeof(TOutput), useCaseResponse.Result) as TOutput;
-            return SuccessfullyExecutedResponse(output, useCaseResponse.Message);
+            return Success(output, useCaseResponse.Message);
         }
         
-        public static ApiResponse<TResult> SuccessfullyExecutedResponse<TResult>(TResult result, string message = "")
+        public static ApiResponse<TResult> Success<TResult>(TResult result, string message = "")
         {
             return ExecutionStatus.ExecutedSuccessfully.GetSuccessResult(result, message);
         }
         
-        public static ApiResponse<TResult> FailureResponse<TResult>(TResult result, string message = "")
+        public static ApiResponse<TResult> Failure<TResult>(TResult result, string message = "")
         {
             return ExecutionStatus.Failure.GetFailureResult(result, message);
         }
         
-        public static ApiResponse<TResult> FailureResponse<TResult>(string message = "") where TResult : new()
+        public static ApiResponse<TResult> Failure<TResult>(string message = "") where TResult : new()
         {
             var result = new TResult();
             return ExecutionStatus.Failure.GetFailureResult(result, message);

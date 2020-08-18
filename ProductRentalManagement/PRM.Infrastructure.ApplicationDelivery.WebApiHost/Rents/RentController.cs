@@ -67,7 +67,27 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
         {
             return await _rentManipulationController.GetOpenNotLateRents();
         }
-        
+
+        public async Task<ApiResponse<decimal>> GetRentAverageTicket(Guid rentId)
+        {
+            return await _rentManipulationController.GetRentAverageTicket(rentId);
+        }
+
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithDiscount(Guid rentId)
+        {
+            return await _rentManipulationController.GetRentAverageTicketWithDiscount(rentId);
+        }
+
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId)
+        {
+            return await _rentManipulationController.GetRentAverageTicketWithoutFees(rentId);
+        }
+
+        public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFeesWithDiscount(Guid rentId)
+        {
+            return await _rentManipulationController.GetRentAverageTicketWithoutFeesWithDiscount(rentId);
+        }
+
         [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedLateRents()
         {

@@ -26,9 +26,9 @@ namespace PRM.Domain.Rents
         public decimal Discount { get; set; }
         public decimal CurrentRentPaymentValue => PriceWithDiscount;
         public decimal PriceWithFees => PriceWithoutFees + LateFee + DamageFee;
-        public decimal PriceWithDiscount => PriceWithFees + Discount;
+        public decimal PriceWithDiscount => PriceWithFees - Discount;
         public decimal PriceWithoutFees => DailyPrice * (RentDays - LateDays) - DamageFee;
-        public decimal PriceWithoutFeesWithDiscount => PriceWithoutFees + Discount;
+        public decimal PriceWithoutFeesWithDiscount => PriceWithoutFees - Discount;
         public decimal AverageTicket => CurrentRentPaymentValue / RentedProductsCount;
         public decimal AverageTicketWithDiscount => PriceWithFees / RentedProductsCount;
         public decimal AverageTicketWithoutFees => PriceWithoutFees / RentedProductsCount;
