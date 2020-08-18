@@ -24,9 +24,16 @@ namespace PRM.Domain.Rents
         public bool WasProductDamaged { get; set; }
         public decimal DamageFee { get; set; }
         public decimal Discount { get; set; }
-        public decimal CurrentRentPaymentValue => PriceWithoutFees + LateFee + DamageFee;
+        public decimal CurrentRentPaymentValue => PriceWithDiscount;
+        public decimal PriceWithFees => PriceWithoutFees + LateFee + DamageFee;
+        public decimal PriceWithDiscount => PriceWithFees + Discount;
         public decimal PriceWithoutFees => DailyPrice * (RentDays - LateDays) - DamageFee;
-        public decimal PriceWithDiscount => PriceWithoutFees + Discount;
+        public decimal PriceWithoutFeesWithDiscount => PriceWithoutFees + Discount;
+        public decimal AverageTicket => CurrentRentPaymentValue / RentedProductsCount;
+        public decimal AverageTicketWithDiscount => PriceWithFees / RentedProductsCount;
+        public decimal AverageTicketWithoutFees => PriceWithoutFees / RentedProductsCount;
+        public decimal AverageTicketWithoutFeesWithDiscount => PriceWithoutFeesWithDiscount / RentedProductsCount;
+        public int RentedProductsCount { get; }
         public int RentDays => RentPeriod.Days + LateDays;
         public decimal LateFee => IsLate ? DailyLateFee * LateDays : 0;
         public bool IsLate => DateTime.Now > RentPeriod.EndDate;
@@ -48,12 +55,13 @@ namespace PRM.Domain.Rents
             var isTryingToRentWithoutProducts = productsToRent == null || productsToRent.Count == 0;
             if (isTryingToRentWithoutProducts) throw new ValidationException("Trying to create a Rent without any Products");
 
-            bool IsUnavailableProduct(Product product) => !product.IsAvailable;
+            bool IsUnavailableProduct(Product product) => product.IsUnavailable;
             var hasUnavailableProduct = productsToRent.Any(IsUnavailableProduct); 
             if (hasUnavailableProduct) throw new ValidationException(productsToRent.GetProductsWithErrorMessage("Trying to rent unavailable products:", IsUnavailableProduct));
 
             Name = "Created: " + DateTime.Now.FormatDate() + " - Start: " + rentPeriod.StartDate.FormatDate() + " - End: " + rentPeriod.EndDate.FormatDate();
             DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
+            RentedProductsCount = productsToRent.Count;
             RentPeriod = rentPeriod;
             CreationTime = DateTime.Now;
             DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
@@ -63,11 +71,6 @@ namespace PRM.Domain.Rents
         #endregion
 
         #region Methods
-        
-        public decimal GetRentForecastPrice()
-        {
-            return PriceWithoutFees;
-        }
         
         public DomainResponseDto<Rent> RentProducts()
         {

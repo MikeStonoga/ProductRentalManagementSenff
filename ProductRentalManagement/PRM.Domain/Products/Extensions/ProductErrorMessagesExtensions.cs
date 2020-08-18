@@ -13,7 +13,7 @@ namespace PRM.Domain.Products.Extensions
                 
             foreach (var product in productsWithError)
             {
-                exceptionMessage += $" \n {product.Code} - {product.Name} - {product.Description} - {product.Status}";
+                exceptionMessage += $" \n {product.Code} - {product.Name} - {product.Description} - {product.IsAvailable.ToString()}";
             }
 
             return exceptionMessage;

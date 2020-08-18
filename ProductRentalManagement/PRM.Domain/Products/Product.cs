@@ -11,6 +11,7 @@ namespace PRM.Domain.Products
         public string Description { get; set; }
         public ProductStatus Status { get;  set; }
         public bool IsAvailable => Status == ProductStatus.Available;
+        public bool IsUnavailable => Status == ProductStatus.Unavailable;
         
         private decimal _rentDailyPrice;
         public decimal RentDailyPrice

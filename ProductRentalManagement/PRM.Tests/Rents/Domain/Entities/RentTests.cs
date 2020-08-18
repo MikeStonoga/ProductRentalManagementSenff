@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Products;
 using PRM.Domain.Products.Enums;
+using PRM.Domain.Products.Extensions;
 using PRM.Domain.Renters;
 using PRM.Domain.Rents;
 using Xunit;
@@ -14,7 +15,8 @@ namespace PRM.Tests.Rents.Domain.Entities
     {
         void ItCreateNotLateRentSuccessfully();
         void ItCreateLateRentSuccessfully();
-        void ItFailsToCreateWithoutProducts();
+        void ItFailsToRentWithoutProducts();
+        void ItFailsToRentUnavailableProducts();
 
     }
 
@@ -40,10 +42,19 @@ namespace PRM.Tests.Rents.Domain.Entities
             Assert.Equal(0, rent.DamageFee);
             Assert.Equal(0, rent.Discount);
             Assert.Equal(300, rent.CurrentRentPaymentValue);
+            Assert.Equal(300, rent.PriceWithFees);
+            Assert.Equal(300, rent.PriceWithDiscount);
             Assert.Equal(300, rent.PriceWithoutFees);
+            Assert.Equal(300, rent.PriceWithDiscount);
+            Assert.Equal(150, rent.AverageTicket);
+            Assert.Equal(150, rent.AverageTicketWithDiscount);
+            Assert.Equal(150, rent.AverageTicketWithoutFees);
+            Assert.Equal(150, rent.AverageTicketWithoutFeesWithDiscount);
+            Assert.Equal(2, rent.RentedProductsCount);
             Assert.Equal(10, rent.RentDays);
             Assert.Equal(0, rent.LateFee);
             Assert.True(rent.IsOpen);
+            Assert.False(rent.IsClosed);
             Assert.False(rent.IsLate);
             Assert.Equal(0, rent.LateDays);
             Assert.False(rent.IsFinished);
@@ -94,7 +105,15 @@ namespace PRM.Tests.Rents.Domain.Entities
             Assert.Equal(0, rent.DamageFee);
             Assert.Equal(0, rent.Discount);
             Assert.Equal(315, rent.CurrentRentPaymentValue);
+            Assert.Equal(315, rent.PriceWithFees);
+            Assert.Equal(315, rent.PriceWithDiscount);
             Assert.Equal(300, rent.PriceWithoutFees);
+            Assert.Equal(300, rent.PriceWithoutFeesWithDiscount);
+            Assert.Equal(157.5M, rent.AverageTicket);
+            Assert.Equal(157.5M, rent.AverageTicketWithDiscount);
+            Assert.Equal(150, rent.AverageTicketWithoutFees);
+            Assert.Equal(150, rent.AverageTicketWithoutFeesWithDiscount);
+            Assert.Equal(2, rent.RentedProductsCount);
             Assert.Equal(11, rent.RentDays);
             Assert.Equal(15, rent.LateFee);
             Assert.True(rent.IsLate);
@@ -105,7 +124,7 @@ namespace PRM.Tests.Rents.Domain.Entities
         }
 
         [Fact]
-        public void ItFailsToCreateWithoutProducts()
+        public void ItFailsToRentWithoutProducts()
         {
             // Arrange
             var rentPeriod = new DateRange(DateTime.Now.Date.AddDays(-11), DateTime.Now.Date.AddDays(-1));
@@ -117,6 +136,25 @@ namespace PRM.Tests.Rents.Domain.Entities
 
             // Assert
             Assert.Equal("Trying to create a Rent without any Products", exception.Message);
+        }
+
+        [Fact]
+        public void ItFailsToRentUnavailableProducts()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date.AddDays(-11), DateTime.Now.Date.AddDays(-1));
+            var productsToRent = new List<Product>
+            {
+                new Product{Status = ProductStatus.Available},
+                new Product{Status = ProductStatus.Unavailable}
+            };
+            var renter = new Renter();
+
+            // Act
+            var exception = Assert.Throws<ValidationException>(() => new Rent(rentPeriod, productsToRent, renter));
+
+            // Assert
+            Assert.Equal(productsToRent.GetProductsWithErrorMessage("Trying to rent unavailable products:", p => p.IsUnavailable), exception.Message);
         }
     }
 }

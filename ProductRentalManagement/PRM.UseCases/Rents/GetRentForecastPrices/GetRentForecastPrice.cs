@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using PRM.Domain.BaseCore.ValueObjects;
-using PRM.Domain.Products;
-using PRM.Domain.Renters;
 using PRM.Domain.Rents;
 using PRM.Domain.Rents.Dtos;
-using PRM.InterfaceAdapters.Gateways.Persistence.BaseCore;
 using PRM.UseCases.BaseCore;
 using PRM.UseCases.BaseCore.Extensions;
 using PRM.UseCases.Rents.Validations.Requirements.Rents;
@@ -39,7 +34,7 @@ namespace PRM.UseCases.Rents.GetRentForecastPrices
             var validationResponse = await _validateRentRequirement.ValidateForForecast(rentRequirement);
             if (!validationResponse.Success) return UseCasesResponses.ExecutionFailure<GetRentForecastPriceResult>(validationResponse.Message);
             
-            var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).GetRentForecastPrice();
+            var rentForecastPrice = new Rent(validationResponse.Result.RentPeriod, validationResponse.Result.Products, validationResponse.Result.Renter).PriceWithoutFees;
             
             var rentForecastPriceResult =new GetRentForecastPriceResult(rentForecastPrice);
             return UseCasesResponses.SuccessfullyExecuted(rentForecastPriceResult);
