@@ -9,7 +9,7 @@ using PRM.Infrastructure.Authentication.Infrastructure.Persistence;
 namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AuthenticationDbContext))]
-    [Migration("20200818074917_User_Entity_Added")]
+    [Migration("20200818104036_User_Entity_Added")]
     partial class User_Entity_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,7 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsDeleted")
@@ -58,7 +59,7 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -80,6 +81,9 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Login")
                         .IsUnique();
 
                     b.ToTable("Users");

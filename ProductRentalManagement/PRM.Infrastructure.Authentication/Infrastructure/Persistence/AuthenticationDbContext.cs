@@ -23,6 +23,8 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence
             modelBuilder.Entity<User>().Property(user => user.Code).ValueGeneratedOnAdd();
             modelBuilder.Entity<User>().Property(user => user.Name).IsRequired();
             modelBuilder.Entity<User>().HasIndex(user => user.Email).IsUnique();
+            modelBuilder.Entity<User>().Property(user => user.Email).IsRequired();
+            modelBuilder.Entity<User>().HasIndex(user => user.Login).IsUnique();
             modelBuilder.Entity<User>().Property(user => user.Login).IsRequired();
             modelBuilder.Entity<User>().Property(user => user.Password).IsRequired();
         }

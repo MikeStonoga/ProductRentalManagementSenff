@@ -22,7 +22,7 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     PersonImage = table.Column<byte[]>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Login = table.Column<string>(nullable: false),
@@ -38,6 +38,12 @@ namespace PRM.Infrastructure.Authentication.Infrastructure.Persistence.Migration
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Login",
+                table: "Users",
+                column: "Login",
                 unique: true);
         }
 
