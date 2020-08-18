@@ -279,6 +279,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<bool>("WasProductDamaged")
                         .HasColumnType("tinyint(1)");
 

@@ -10,7 +10,7 @@ namespace PRM.InterfaceAdapters.Controllers.Renters.Dtos
             return new Renter
             {
                 Id = Id,
-                Code = Code,
+                Code = GovernmentRegistrationDocumentCode,
                 Name = Name,
                 CreationTime = CreationTime,
                 CreatorId = CreatorId,

@@ -21,6 +21,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents.Dtos.RentProducts
             DailyLateFee = rentProductsResult.DailyLateFee;
             WasProductDamaged = rentProductsResult.WasProductDamaged;
             DamageFee = rentProductsResult.DamageFee;
+            RentedProductsCount = rentProductsResult.RentedProductsCount;
         }
     }
 }

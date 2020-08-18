@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200818104230_Entities_Added")]
+    [Migration("20200818113957_Entities_Added")]
     partial class Entities_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WasProductDamaged")
                         .HasColumnType("tinyint(1)");

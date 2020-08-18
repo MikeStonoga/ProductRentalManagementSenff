@@ -17,7 +17,7 @@ namespace PRM.Domain.Rents
     {
         #region Properties
         public Guid RenterId { get; set; }
-        private RentStatus Status { get; set; }
+        public RentStatus Status { get; private set; }
         public DateRange RentPeriod { get; set; }
         public decimal DailyPrice { get; set; }
         public decimal DailyLateFee { get; set; }
@@ -59,10 +59,10 @@ namespace PRM.Domain.Rents
             bool IsUnavailableProduct(Product product) => product.IsUnavailable;
             var hasUnavailableProduct = productsToRent.Any(IsUnavailableProduct); 
             if (hasUnavailableProduct) throw new ValidationException(productsToRent.GetProductsWithErrorMessage("Trying to rent unavailable products:", IsUnavailableProduct));
+            RentedProductsCount = productsToRent.Count;
 
             Name = "Created: " + DateTime.Now.FormatDate() + " - Start: " + rentPeriod.StartDate.FormatDate() + " - End: " + rentPeriod.EndDate.FormatDate();
             DailyPrice = productsToRent.Sum(p => (p.RentDailyPrice));
-            RentedProductsCount = productsToRent.Count;
             RentPeriod = rentPeriod;
             CreationTime = DateTime.Now;
             DailyLateFee = productsToRent.Sum(p => p.RentDailyLateFee);
