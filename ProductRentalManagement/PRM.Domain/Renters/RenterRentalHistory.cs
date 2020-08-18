@@ -20,11 +20,12 @@ namespace PRM.Domain.Renters
             
         }
         
-        public RenterRentalHistory(Rent rent, Renter renter)
+        public RenterRentalHistory(Rent rent, Renter renter, Guid creatorId)
         {
             Name = renter.Name + " - " + renter.GovernmentRegistrationDocumentCode + " - " + rent.RentPeriod.StartDate.FormatDate() + " - " + rent.RentPeriod.EndDate.FormatDate();
             RentId = rent.Id;
             RenterId = renter.Id;
+            CreatorId = creatorId;
         }
 
         #endregion

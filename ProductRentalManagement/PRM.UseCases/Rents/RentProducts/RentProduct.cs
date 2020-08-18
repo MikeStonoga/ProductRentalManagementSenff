@@ -57,13 +57,13 @@ namespace PRM.UseCases.Rents.RentProducts
         {
             // TODO: UnitOfWork
             var rentCreatedResponse = await _rents.Create(rentProductsResponse.Result);
-            await _renterRentalHistories.Create(new RenterRentalHistory(rentCreatedResponse.Response, validationResponse.Result.Renter));
+            await _renterRentalHistories.Create(new RenterRentalHistory(rentCreatedResponse.Response, validationResponse.Result.Renter, rentCreatedResponse.Response.CreatorId));
             
             foreach (var product in validationResponse.Result.Products)
             {
                 product.MarkAsUnavailable();
                 await _products.Update(product);
-                await _productRentalHistories.Create(new ProductRentalHistory(rentCreatedResponse.Response, product, validationResponse.Result.Renter));
+                await _productRentalHistories.Create(new ProductRentalHistory(rentCreatedResponse.Response, product, validationResponse.Result.Renter, rentCreatedResponse.Response.CreatorId));
             }
 
             return rentCreatedResponse.Response;
