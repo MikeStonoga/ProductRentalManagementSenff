@@ -59,31 +59,31 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
         }
         
         [HttpPost]
-        public new async Task<ApiResponse<UserOutput>> Create([FromBody] UserInput input)
+        public async Task<ApiResponse<UserOutput>> Create([FromBody] UserInput userToCreate)
         {
-            var isPasswordConfirmed = input.Password == input.PasswordConfirmation;
+            var isPasswordConfirmed = userToCreate.Password == userToCreate.PasswordConfirmation;
             if (!isPasswordConfirmed)
             {
                 return ApiResponses.Failure<UserOutput>("Passwords doesnt matches");
             }
             
-            input.Id = Guid.NewGuid();
+            userToCreate.Id = Guid.NewGuid();
             var userId = User.Claims.ToList()[2];
-            input.CreatorId = Guid.Parse(userId.Value);
-            input.Role = UserRoles.NonAdmin;
-            return await base.Create(input);
+            var creatorId = Guid.Parse(userId.Value);
+            userToCreate.Role = UserRoles.NonAdmin;
+            return await base.Create(userToCreate, creatorId);
         }
 
         [HttpPut]
-        public new async Task<ApiResponse<UserOutput>> Update([FromBody] UserInput entityToUpdate)
+        public async Task<ApiResponse<UserOutput>> Update([FromBody] UserInput userToUpdate)
         {
-            var user = await _users.GetById(entityToUpdate.Id);
+            var user = await _users.GetById(userToUpdate.Id);
             if (!user.Success) return ApiResponses.Failure<UserOutput>("User doesnt exists");
 
-            var isUpdatingPassword = entityToUpdate.Password != user.Response.Password;
+            var isUpdatingPassword = userToUpdate.Password != user.Response.Password;
             if (isUpdatingPassword)
             {
-                var isPasswordConfirmed = entityToUpdate.Password == entityToUpdate.PasswordConfirmation;
+                var isPasswordConfirmed = userToUpdate.Password == userToUpdate.PasswordConfirmation;
                 if (!isPasswordConfirmed)
                 {
                     return ApiResponses.Failure<UserOutput>("Passwords doesnt matches");
@@ -91,8 +91,9 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
             }
             
             var userId = User.Claims.ToList()[2];
-            entityToUpdate.LastModifierId = Guid.Parse(userId.Value);
-            return await base.Update(entityToUpdate);
+            var modifierId = Guid.Parse(userId.Value);
+            userToUpdate.Role = UserRoles.NonAdmin;
+            return await base.Update(userToUpdate, modifierId);
         }
 
         [HttpDelete("{id}")]

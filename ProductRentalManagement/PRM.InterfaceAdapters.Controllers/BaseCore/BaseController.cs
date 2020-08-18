@@ -15,10 +15,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity
     {
-        Task<ApiResponse<TEntityOutput>> GetById(Guid id);
-        Task<ApiResponse<List<TEntityOutput>>> GetByIds(List<Guid> ids);
-        Task<ApiResponse<GetAllResponse<TEntity, TEntityOutput>>> GetAll();
-        
+
     }
     
     public class GetAllResponse<TEntity, TEntityOutput> where TEntityOutput : TEntity where TEntity : FullAuditedEntity
@@ -31,9 +28,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
         where TEntity : FullAuditedEntity
         where TEntityOutput : TEntity
     {
-        Task<ApiResponse<TEntityOutput>> Create(TEntityInput input);
-        Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate);
-        Task<ApiResponse<DeletionResponses>> Delete(Guid id);
+
     }
 
     public abstract class BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor> : ControllerBase, IBaseReadOnlyController<TEntity, TEntityOutput> 
@@ -119,14 +114,14 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             ReadOnlyController = readOnlyController;
         }
         
-        public virtual async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input)
+        protected internal virtual async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input, Guid creatorId)
         {
             var entity = input.MapToEntity();
             
             entity.Id = input.Id;
             entity.Code = input.Code;
             entity.Name = input.Name;
-
+            entity.CreatorId = creatorId;
             var useCaseResult = await UseCaseInteractor.Create(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
@@ -136,14 +131,14 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return ApiResponses.Success(entityOutput);
         }
 
-        public virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate)
+        protected internal virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate, Guid modifierId)
         {
             var entity = entityToUpdate.MapToEntity();
             
             entity.Id = entityToUpdate.Id;
             entity.Code = entityToUpdate.Code;
             entity.Name = entityToUpdate.Name;
-
+            entity.CreatorId = modifierId;
             var useCaseResult = await UseCaseInteractor.Update(entity);
             
             var wasSuccessfullyExecuted = useCaseResult.Success;
