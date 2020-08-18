@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PRM.Domain.BaseCore.ValueObjects;
 using PRM.Domain.Rents;
 using PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
@@ -66,6 +67,18 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents()
         {
             return await _rentManipulationController.GetOpenNotLateRents();
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<int>> GetLateDays([FromQuery] Guid rentId)
+        {
+            return await _rentManipulationController.GetLateDays(rentId);
+        }
+        
+        [HttpGet]
+        public async Task<ApiResponse<DateRange>> GetRentPeriod([FromQuery] Guid rentId)
+        {
+            return await _rentManipulationController.GetRentPeriod(rentId);
         }
 
         [HttpGet]

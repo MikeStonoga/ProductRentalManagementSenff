@@ -27,6 +27,8 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetNotLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents();
+        Task<ApiResponse<int>> GetLateDays(Guid rentId);
+        Task<ApiResponse<DateRange>> GetRentPeriod(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicket(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicketWithDiscount(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId);
@@ -87,7 +89,25 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         {
             return await GetAll(r => !r.IsLate && r.IsOpen);
         }
-        
+
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<int>> GetLateDays(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(0, rent.Message)
+                : ApiResponses.Success(rent.Response.LateDays);
+        }
+
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<DateRange>> GetRentPeriod(Guid rentId)
+        {
+            var rent = await GetById(rentId);
+            return !rent.Success 
+                ? ApiResponses.Failure(DateRangeProvider.GetDateRange(DateTime.MinValue, DateTime.MinValue.AddTicks(1)).Result, rent.Message)
+                : ApiResponses.Success(rent.Response.RentPeriod);
+        }
+
         // TODO Migrate to UseCases
         public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFeesWithDiscount(Guid rentId)
         {

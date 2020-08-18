@@ -71,7 +71,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                     DeletionTime = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     RenterId = table.Column<Guid>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
                     RentPeriod_StartDate = table.Column<DateTime>(nullable: true),
                     RentPeriod_EndDate = table.Column<DateTime>(nullable: true),
                     DailyPrice = table.Column<decimal>(nullable: false),
@@ -162,6 +161,12 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                 name: "IX_products_rental_history_RentId",
                 table: "products_rental_history",
                 column: "RentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_renters_GovernmentRegistrationDocumentCode",
+                table: "renters",
+                column: "GovernmentRegistrationDocumentCode",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_renters_rental_history_RentId",

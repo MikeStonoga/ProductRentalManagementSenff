@@ -9,7 +9,7 @@ using PRM.Infrastructure.Persistence.MySQL;
 namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 {
     [DbContext(typeof(PrmDbContext))]
-    [Migration("20200816222339_Entities_Added")]
+    [Migration("20200818075348_Entities_Added")]
     partial class Entities_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,7 +152,7 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<string>("GovernmentRegistrationDocumentCode")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
@@ -175,6 +175,9 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GovernmentRegistrationDocumentCode")
+                        .IsUnique();
 
                     b.ToTable("renters");
                 });
@@ -274,9 +277,6 @@ namespace PRM.Infrastructure.Persistence.MySQL.Migrations
 
                     b.Property<Guid>("RenterId")
                         .HasColumnType("char(36)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<bool>("WasProductDamaged")
                         .HasColumnType("tinyint(1)");
