@@ -14,11 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Products\Domain" />
+      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PRM.Domain\PRM.Domain.csproj" />
+      <Folder Include="Products\Domain\Entities" />
+      <Folder Include="Renters\Domain\Entities" />
     </ItemGroup>
 
 </Project>

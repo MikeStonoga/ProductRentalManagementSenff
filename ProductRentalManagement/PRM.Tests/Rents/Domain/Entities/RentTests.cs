@@ -17,6 +17,10 @@ namespace PRM.Tests.Rents.Domain.Entities
         void ItCreateLateRentSuccessfully();
         void ItFailsToRentWithoutProducts();
         void ItFailsToRentUnavailableProducts();
+        void ItRentProducts();
+        void ItFinishRent();
+        void ItAddDiscount();
+        void ItAddDamageFee();
 
     }
 
@@ -155,6 +159,86 @@ namespace PRM.Tests.Rents.Domain.Entities
 
             // Assert
             Assert.Equal(productsToRent.GetProductsWithErrorMessage("Trying to rent unavailable products:", p => p.IsUnavailable), exception.Message);
+        }
+
+        [Fact]
+        public void ItRentProducts()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1));
+            var productsToRent = new List<Product>
+            {
+                new Product{Status = ProductStatus.Available, RentDailyPrice = 10, RentDailyLateFee = 1}
+            };
+            var renter = new Renter();
+            
+            var rent = new Rent(rentPeriod, productsToRent, renter);
+
+            // Act
+            rent.RentProducts();
+
+            // Assert
+            Assert.True(rent.IsOpen);
+        }
+
+        [Fact]
+        public void ItFinishRent()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1));
+            var productsToRent = new List<Product>
+            {
+                new Product{Status = ProductStatus.Available, RentDailyPrice = 10, RentDailyLateFee = 1}
+            };
+            var renter = new Renter();
+            var rent = new Rent(rentPeriod, productsToRent, renter);
+            
+            // Act
+            rent.FinishRent();
+
+            // Assert
+            Assert.True(rent.IsClosed);
+        }
+
+        [Fact]
+        public void ItAddDiscount()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1));
+            var productsToRent = new List<Product>
+            {
+                new Product{Status = ProductStatus.Available, RentDailyPrice = 10, RentDailyLateFee = 1}
+            };
+            var renter = new Renter();
+            var rent = new Rent(rentPeriod, productsToRent, renter);
+            
+            // Act
+            rent.AddDiscount(5);
+
+            
+            // Assert
+            Assert.Equal(5, rent.Discount);
+        }
+
+        [Fact]
+        public void ItAddDamageFee()
+        {
+            // Arrange
+            var rentPeriod = new DateRange(DateTime.Now.Date, DateTime.Now.Date.AddDays(1));
+            var productsToRent = new List<Product>
+            {
+                new Product{Status = ProductStatus.Available, RentDailyPrice = 10, RentDailyLateFee = 1}
+            };
+            var renter = new Renter();
+            var rent = new Rent(rentPeriod, productsToRent, renter);
+            
+            // Act
+            rent.AddDamageFee(5);
+
+            
+            // Assert
+            Assert.Equal(5, rent.DamageFee);
+            Assert.True(rent.WasProductDamaged);
         }
     }
 }
