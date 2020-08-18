@@ -18,7 +18,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
     
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,NonAdmin")]
     [Route("[controller]/[action]")]
     public abstract class BaseReadOnlyWebController<TEntity, TEntityOutput, TIEntityReadOnlyController, TIEntityUseCaseReadOnlyInteractor> : BaseReadOnlyController<TEntity, TEntityOutput, TIEntityUseCaseReadOnlyInteractor>, IBaseReadOnlyWebController<TEntity, TEntityOutput>
         where TEntity : FullAuditedEntity
@@ -63,7 +63,7 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.BaseCore
     }
 
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,NonAdmin")]
     [Route("[controller]/[action]")]
     public abstract class BaseManipulationWebController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController> : BaseManipulationController<TEntity, TEntityInput, TEntityOutput, TIEntityUseCaseManipulationInteractor, TIEntityManipulationController>, IBaseManipulationWebController<TEntity, TEntityInput, TEntityOutput>
         where TEntity : FullAuditedEntity

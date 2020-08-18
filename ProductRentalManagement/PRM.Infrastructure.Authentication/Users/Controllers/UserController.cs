@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PRM.Domain.BaseCore.Enums;
 using PRM.Infrastructure.Authentication.Users.Dtos;
+using PRM.Infrastructure.Authentication.Users.Enums;
 using PRM.Infrastructure.Authentication.Users.UseCases;
 using PRM.InterfaceAdapters.Controllers.BaseCore;
 using PRM.InterfaceAdapters.Controllers.BaseCore.Extensions;
@@ -69,6 +70,7 @@ namespace PRM.Infrastructure.Authentication.Users.Controllers
             input.Id = Guid.NewGuid();
             var userId = User.Claims.ToList()[2];
             input.CreatorId = Guid.Parse(userId.Value);
+            input.Role = UserRoles.NonAdmin;
             return await base.Create(input);
         }
 
