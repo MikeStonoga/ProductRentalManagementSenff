@@ -27,6 +27,8 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetNotLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenLateRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetOpenNotLateRents();
+        Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedLateRents();
+        Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedNotLateRents();
         Task<ApiResponse<int>> GetLateDays(Guid rentId);
         Task<ApiResponse<DateRange>> GetRentPeriod(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicket(Guid rentId);
