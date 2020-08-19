@@ -114,7 +114,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             ReadOnlyController = readOnlyController;
         }
         
-        protected internal virtual async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input, Guid creatorId)
+        protected internal async Task<ApiResponse<TEntityOutput>> Create(TEntityInput input, Guid creatorId)
         {
             var entity = input.MapToEntity();
             
@@ -131,7 +131,7 @@ namespace PRM.InterfaceAdapters.Controllers.BaseCore
             return ApiResponses.Success(entityOutput);
         }
 
-        protected internal virtual async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate, Guid modifierId)
+        protected internal async Task<ApiResponse<TEntityOutput>> Update(TEntityInput entityToUpdate, Guid modifierId)
         {
             var entity = entityToUpdate.MapToEntity();
             
