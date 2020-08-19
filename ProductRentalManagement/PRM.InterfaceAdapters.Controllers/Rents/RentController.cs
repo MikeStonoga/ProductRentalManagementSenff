@@ -35,6 +35,7 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
         Task<ApiResponse<decimal>> GetRentAverageTicketWithDiscount(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId);
         Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFeesWithDiscount(Guid rentId);
+        Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRents();
         Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRentsFromPeriod(PeriodInput input);
         Task<ApiResponse<GetOpenRentsPaymentForecastOutput>> GetOpenRentsPaymentForecast(GetOpenRentsPaymentForecastInput input);
     }
@@ -119,6 +120,12 @@ namespace PRM.InterfaceAdapters.Controllers.Rents
                 : ApiResponses.Success(rent.Response.AverageTicketWithoutFeesWithDiscount);
         }
         
+        // TODO Migrate to UseCases
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRents()
+        {
+            return await GetAll(r => r.IsClosed);
+        }
+
         // TODO Migrate to UseCases
         public async Task<ApiResponse<decimal>> GetRentAverageTicketWithoutFees(Guid rentId)
         {

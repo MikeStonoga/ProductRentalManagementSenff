@@ -106,6 +106,12 @@ namespace PRM.Infrastructure.ApplicationDelivery.WebApiHost.Rents
         }
 
         [HttpGet]
+        public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedRents()
+        {
+            return await _rentManipulationController.GetClosedRents();
+        }
+
+        [HttpGet]
         public async Task<ApiResponse<GetAllResponse<Rent, RentOutput>>> GetClosedLateRents()
         {
             return await _rentManipulationController.GetClosedLateRents();
