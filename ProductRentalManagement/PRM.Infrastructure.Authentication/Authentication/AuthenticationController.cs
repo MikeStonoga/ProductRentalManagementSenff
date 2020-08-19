@@ -27,14 +27,7 @@ namespace PRM.Infrastructure.Authentication.Authentication
             if (!userRepositoryResponse.Success) return NotFound(new {message = "Invalid Login / Password"});
 
             var token = TokenService.GenerateAuthenticationToken(userRepositoryResponse.Response);
-
-            input.Password = "";
-            
-            return new
-            {
-                user = input,
-                token
-            };
+            return token;
 
         }
     }
